@@ -11,7 +11,7 @@
   },
   "consumes": ["application/json", "multipart/formData"],
   "produces": ["application/json"],
-  "servers": [{ "url": "https://reactoctopus-back.onrender.com" }],
+  "servers": [{ "url": "https://reactoctopus-back.onrender.com" },{ "url": "http://localhost:3000" }],
   "tags": [
     {
       "name": "Auth",
@@ -20,6 +20,10 @@
      {
       "name": "Board",
       "description": "Boards endpoints"
+    },
+    {
+      "name": "Images",
+      "description": "Images endpoints. (тимчасові роути, якщо буде потрібно)"
     }
   ],
 
@@ -154,6 +158,144 @@
         "responses": {
           "301": {
             "description": "Redirect to google auth",
+            "content": {}
+          }
+        }
+      }
+    },
+      "/api/images/desctop": {
+      "get": {
+        "tags": ["Images"],
+        "summary": "Get desctop x1 images",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImagesResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: The requested resource could not be found on the server.",
+            "content": {}
+          }
+        }
+      }
+    },
+         "/api/images/tablet": {
+      "get": {
+        "tags": ["Images"],
+        "summary": "Get tablet x1 images",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImagesResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: The requested resource could not be found on the server.",
+            "content": {}
+          }
+        }
+      }
+    },
+         "/api/images/mobile": {
+      "get": {
+        "tags": ["Images"],
+        "summary": "Get mobile x1 images",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImagesResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: The requested resource could not be found on the server.",
+            "content": {}
+          }
+        }
+      }
+    },
+         "/api/images/desctopx2": {
+      "get": {
+        "tags": ["Images"],
+        "summary": "Get desctop x2 images",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImagesResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: The requested resource could not be found on the server.",
+            "content": {}
+          }
+        }
+      }
+    },
+         "/api/images/tabletx2": {
+      "get": {
+        "tags": ["Images"],
+        "summary": "Get tablet x2 images",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImagesResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: The requested resource could not be found on the server.",
+            "content": {}
+          }
+        }
+      }
+    },
+         "/api/images/mobilex2": {
+      "get": {
+        "tags": ["Images"],
+        "summary": "Get mobile x2 images",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImagesResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: The requested resource could not be found on the server.",
             "content": {}
           }
         }
@@ -306,6 +448,31 @@
               "example": "Logout success" 
             }
         }
+    },
+        "ImagesResponse": {
+        "type": "object",
+          "properties": {
+            "imageUrls": {}
+        },
+        "example": {
+"imageUrls": [
+"http://res.cloudinary.com/dnqperiuu/image/upload/v1714575613/react-octopus/route/e5l6os2xwkgtjmbkfuw6.webp",
+"http://res.cloudinary.com/dnqperiuu/image/upload/v1714575614/react-octopus/route/heujomhkyiaavuoxqmiq.webp",
+"http://res.cloudinary.com/dnqperiuu/image/upload/v1712575673/react-octopus/route/ikztmic75cfgbdhfuc1f.webp",
+"http://res.cloudinary.com/dnqperiuu/image/upload/v17145123676/react-octopus/route/jsufvhlek6tdavzdmzvg.webp",
+"http://res.cloudinary.com/dnqperiuu/image/upload/v1714575672/react-octopus/route/maopjnd6scj7z2wtcdog.webp",
+"http://res.cloudinary.com/dnqperiuu/image/upload/v1714575673/react-octopus/route/muucbrq8v7kvywvio0jp.webp",
+"http://res.cloudinary.com/dnqperiuu/image/upload/v1714575975/react-octopus/route/nrzdwyqz0x3phynrvqmp.webp",
+"http://res.cloudinary.com/dnqperiuu/image/upload/v1711575876/react-octopus/route/pslkjxuhaxworen7rdyj.webp",
+"http://res.cloudinary.com/dnqperiuu/image/upload/v1714571676/react-octopus/route/qgyeiqmm9zhlogcen0mj.webp",
+"http://res.cloudinary.com/dnqperiuu/image/upload/v1711575623/react-octopus/route/t6vngzugp6qjakub1q0g.webp",
+"http://res.cloudinary.com/dnqperiuu/image/upload/v1714575670/react-octopus/route/u9mmiv1ypl7b3yg9ka52.webp",
+"http://res.cloudinary.com/dnqperiuu/image/upload/v1714575671/react-octopus/route/voiztzwnhjrvsdl7shsn.webp",
+"http://res.cloudinary.com/dnqperiuu/image/upload/v1712575672/react-octopus/route/wympusczafztc5bg7kaz.webp",
+"http://res.cloudinary.com/dnqperiuu/image/upload/v1714575673/react-octopus/route/yszsmlifjvpnpcwzxkul.webp",
+"http://res.cloudinary.com/dnqperiuu/image/upload/v1714575674/react-octopus/route/z7z9sfi0e3iuiqlzgjdn.webp"
+]
+}
     },
      "GetAllBoardsResponse": {
         "type": "array",

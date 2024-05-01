@@ -7,6 +7,7 @@ const swaggerDocument = require('./swagger.json');
 const {
   authRouter,
   boardRouter,
+  imagesRouter
 } = require("./routes/api");
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRouter);
 app.use("/api/boards", boardRouter);
+app.use("/api/images", imagesRouter);
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((req, res) => {
