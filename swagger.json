@@ -1,0 +1,456 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "2.0.2",
+    "title": "ReactOctopus",
+    "description": "Showing off swagger-ui-express",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "consumes": ["application/json", "multipart/formData"],
+  "produces": ["application/json"],
+  "servers": [{ "url": "http://localhost:3000" },{ "url": "https://reactoctopus-back.onrender.com" }],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authorization endpoints"
+    },
+     {
+      "name": "Board",
+      "description": "Boards endpoints"
+    }
+  ],
+
+
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The server cannot process the request (invalid request body).",
+            "content": {}
+          },
+          "409": {
+            "description": "Conflict: Email already in use.",
+            "content": {}
+          }
+        }
+      }
+    },
+     "/api/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User login",
+        "parameters": [],
+        "requestBody": {
+          "description": "Login object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The server cannot process the request (invalid request body).",
+            "content": {}
+          }
+        }
+      }
+    },
+         "/api/auth/current": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Get current user",
+        "parameters": [],
+             "security": [{ "Bearer": [] }],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentResponse"
+                }
+              }
+            }
+          },
+                    "401": {
+            "description": "Unauthorized: Access to the requested resource is unauthorized.",
+            "content": {}
+          }
+        }
+      }
+    },
+         "/api/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User logout",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogoutResponse"
+                }
+              }
+            }
+          },
+        
+          "401": {
+            "description": "Unauthorized: Access to the requested resource is unauthorized.",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/auth/google": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "User login with google",
+        "parameters": [],
+        "responses": {
+          "301": {
+            "description": "Redirect to google auth",
+            "content": {}
+          }
+        }
+      }
+    },
+         "/api/boards": {
+      "get": {
+        "tags": ["Board"],
+        "summary": "get all boards",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllBoardsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Access to the requested resource is unauthorized.",
+            "content": {}
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+            "name": {
+            "type": "string",
+            "description": "User's name",
+            "format": "name"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+        "LoginRequest": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+            "name": {
+            "type": "string",
+            "description": "User's name",
+            "format": "name"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "CurrentRequest": {
+        "type": "object",
+        "properties": {}
+      },
+      "RegistrationResponse": {
+        "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "User's name",
+              "example": "Andy Machine"
+            },
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "format": "email"
+            },
+             "token": {
+              "type": "string",
+              "description": "User's token",
+              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzFmMzg0MWMzNjA0OWQ3NmNmMWFjMyIsImlhdCI6MTcxNDU0OTYzNiwiZXhwIjoxNzE0NTUzMjM2fQ._bvC8euAfl_oehYuN8q7Ymtgc3T6Y3VpfYSFrJWgp_k"
+            }
+        }
+      },
+       "LoginResponse": {
+        "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "User's name",
+              "example": "Duke Anderson"
+            },
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "format": "email"
+            },
+            "token": {
+              "type": "string",
+              "description": "User's token",
+              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzFmMzg0MWMzNjA0OWQ3NmNmMWFjMyIsImlhdCI6MTcxNDU0OTYzNiwiZXhwIjoxNzE0NTUzMjM2fQ._bvC8euAfl_oehYuN8q7Ymtgc3T6Y3VpfYSFrJWgp_k"
+            }
+        }
+    },
+     "CurrentResponse": {
+        "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "User's id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },
+            "name": {
+              "type": "string",
+              "description": "User's name",
+              "example": "Andy Machine"
+            },
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "format": "email"
+            },
+            "start": {
+              "type": "date",
+              "description": "User's token",
+              "example": "2024-05-01T07:47:16.688+00:00"
+            }
+        }
+    },
+           "LogoutResponse": {
+        "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "description": "message",
+              "example": "Logout success" 
+            }
+        }
+    },
+     "GetAllBoardsResponse": {
+        "type": "array",
+        "items":{
+        "type": "object",
+        "required": ["title","background", "iconId", "columns", "id"],
+        "properties": {
+            "title": {
+            "type": "string",
+            "description": "User boards",
+            "example": "Neon Light Project"
+          },
+           "background": {
+            "type": "string",
+            "description": "Background image url",
+            "example": "https://example/images/sakura.webp"
+          },
+          "columns": {
+            "type": "array",
+            "description": "Columns in the tab",
+            "example": [{
+                "title":{
+                "type": "string",
+                "description":"Column title",
+                "example": "columnt-1"
+            },
+             "cards": {
+                "type": "array",
+                "description": "Column cards",
+                "example": [{
+                    "title":{
+                        "type": "string",
+                        "description": "Card title",
+                        "example": "Research and Analysis"
+                },
+                    "description": {
+                        "type": "string",
+                        "description": "Card description",
+                        "example":"Conduct in-depth research and analysis on the project's topic, gather relevant data, and identify key insights to inform decision-making and project planning."
+                },
+                    "priority": {
+                        "type": "string",
+                        "description": "Card priority",
+                        "example": "medium"
+                },
+                    "deadline": {
+                        "type": "string",
+                        "description": "Card deadline",
+                        "example":"2024-05-01T07:47:16.688+00:00"
+                },
+                    "_id": {
+                        "type": "string",
+                        "description": "card id",
+                        "example": "6631f3141c36049126cf1ac"
+                }
+            }]
+             }}]
+          },
+          "_id": {
+            "type": "string",
+            "description": "board id",
+             "example": "6631f3841c36049d76cf1ac3"
+          },
+          "owner": {
+            "email": {
+                "type": "string",
+                "description": "Owner email",
+                "format": "email"
+            },
+            "_id": {
+                "type": "string",
+                "description": "owner ID",
+                "example": "6631f3841c36049d76ad2123"
+            }
+          }
+        }
+        },
+        "example": [{"title": "Project Office",
+         "background": "https://example/images/nightSky.webp",
+          "iconId": "1",
+          "columns": [{
+                "title": "Title-1",
+                "description": "description-1",
+                "priority": "medium",
+                "deadline": "2024-05-01T07:47:16.688+00:00",
+                "_id": "6631f3141c36049126cf1ac"
+            },
+        {
+                "title": "Title-2",
+                "description": "description-2",
+                "priority": "low",
+                "deadline": "2024-05-04T07:00:00.688+00:00",
+                "_id": "6631f3141c36049126cfffc"
+            },
+        {
+                "title": "Title-3",
+                "description": "description-2",
+                "priority": "medium",
+                "deadline": "2024-07-02T04:57:26.687+00:00",
+                "_id": "6631f3141c36049126cf34c"
+            }],
+         "_id": "6631f3841c36049d76cf1ac3",
+         "owner": {
+            "email": "www.example@ex.com",
+            "_id": "6631f3841c36049d76ad2123"
+          }},{"title": "Neon Light Project",
+         "background": "https://example/images/sakura.webp",
+          "iconId": "3",
+          "columns": [{
+                "title": "Title-1",
+                "description": "description-1",
+                "priority": "medium",
+                "deadline": "2024-05-01T07:47:16.688+00:00",
+                "_id": "6631f3141c36049126cf1ac"
+            },
+        {
+                "title": "Title-2",
+                "description": "description-2",
+                "priority": "low",
+                "deadline": "2024-05-04T07:00:00.688+00:00",
+                "_id": "6631f3141c36049126cfffc"
+            },
+        {
+                "title": "Title-3",
+                "description": "description-2",
+                "priority": "medium",
+                "deadline": "2024-07-02T04:57:26.687+00:00",
+                "_id": "6631f3141c36049126cf34c"
+            }],
+         "_id": "6631f3841c36049d76cf1ac3",
+         "owner": {
+            "email": "www.example@ex.com",
+            "_id": "6631f3841c36049d76ad2123"
+          }}]
+    }
+    },
+    
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
+
+
