@@ -24,8 +24,8 @@ const registerUser = async (userData) => {
   await User.findByIdAndUpdate(user._id, { token });
 
   return {
-    email: newUser.email,
     name: newUser.name,
+    email: newUser.email,
     token
   };
 };

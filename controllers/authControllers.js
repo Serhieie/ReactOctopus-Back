@@ -10,7 +10,7 @@ const axios = require("axios")
 
 const register = async (req, res) => {
   const newUser = await registerUser(req.body);
-  res.status(201).json({ user: newUser });
+  res.status(201).json(newUser);
 };
 
 const login = async (req, res) => {

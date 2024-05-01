@@ -11,7 +11,7 @@
   },
   "consumes": ["application/json", "multipart/formData"],
   "produces": ["application/json"],
-  "servers": [{ "url": "http://localhost:3000" },{ "url": "https://reactoctopus-back.onrender.com" }],
+  "servers": [{ "url": "https://reactoctopus-back.onrender.com" }],
   "tags": [
     {
       "name": "Auth",
@@ -193,7 +193,7 @@
             "name": {
             "type": "string",
             "description": "User's name",
-            "format": "name"
+            "example": "Andy Machine"
           },
           "email": {
             "type": "string",
@@ -214,7 +214,7 @@
             "name": {
             "type": "string",
             "description": "User's name",
-            "format": "name"
+            "example":  "Andy Machine"
           },
           "email": {
             "type": "string",
