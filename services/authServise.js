@@ -1,8 +1,8 @@
-const bcrypt = require("bcryptjs");
-const { httpError } = require("../helpers");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
-const { User } = require("../models/user");
+import bcrypt from "bcryptjs";
+import { httpError } from "../helpers/index.js";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+import { User } from "../models/user.js";
 
 const { SECRET_KEY } = process.env;
 
@@ -70,9 +70,9 @@ const logoutUser = async (userId) => {
   return { message: "Logout success" };
 };
 
-module.exports = {
+export {
   registerUser,
   loginUser,
   getCurrentUser,
-  logoutUser,
+  logoutUser
 };

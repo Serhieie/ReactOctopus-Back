@@ -1,11 +1,6 @@
-const ctrlWrapper = require("./ctrlWrapper");
-const httpError = require("./httpError");
-const handleMongooseError = require("./handleMongooseError");
-const {getImagesFromFolder} = require("./cloudinaryHelpers");
+import ctrlWrapper from "./ctrlWrapper.js";
+import httpError from "./httpError.js";
+import handleMongooseError from "./handleMongooseError.js";
+import { getImagesFromFolder } from "./cloudinaryHelpers.js";
 
-module.exports = {
-  getImagesFromFolder,
-  httpError,
-  ctrlWrapper,
-  handleMongooseError,
-};
+export { getImagesFromFolder, httpError, ctrlWrapper, handleMongooseError };

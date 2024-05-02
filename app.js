@@ -1,14 +1,13 @@
-const express = require("express");
-const logger = require("morgan");
-const cors = require("cors");
-require("dotenv").config();
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
-const {
-  authRouter,
-  boardRouter,
-  imagesRouter
-} = require("./routes/api");
+import express from "express";
+import logger from "morgan";
+import cors from "cors";
+import dotenv from "dotenv";
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './swagger.json' assert { type: "json" };
+
+import { authRouter, boardRouter, imagesRouter } from "./routes/api/index.js";
+
+dotenv.config();
 
 const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -33,5 +32,5 @@ app.use((err, req, res, next) => {
 });
 
 
+export default app;
 
-module.exports = app;

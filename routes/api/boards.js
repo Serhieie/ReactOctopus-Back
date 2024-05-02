@@ -1,10 +1,11 @@
-const express = require("express");
-const ctrl = require("../../controllers/boardControllers");
+import express from "express";
+import ctrl from "../../controllers/boardControllers.js";
+import { isValidId, autenticate, validateBody, upload } from "../../middlewares/index.js";
+import { schemas } from "../../models/board.js";
+
 
 const router = express.Router();
-const { isValidId, autenticate, validateBody, upload } = require("../../middlewares");
-const { schemas } = require("../../models/board");
-
 router.get("/", autenticate, ctrl.getAll);
 
-module.exports = router;
+export default router;
+

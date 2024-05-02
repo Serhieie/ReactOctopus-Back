@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-const Joi = require("joi");
+import mongoose from "mongoose";
+const { Schema } = mongoose;
+import Joi from "joi";
+
 
 const  boardSchema = new Schema(
   {
@@ -24,4 +25,4 @@ const schemas = {
 
 const Board = mongoose.model("Board", boardSchema);
 
-module.exports = { Board, schemas };
+export { Board, schemas };

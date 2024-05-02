@@ -1,6 +1,7 @@
-const express = require("express");
-const ctrl = require("../../controllers/imagesControllers");
-// const { autenticate } = require("../../middlewares");
+import express from "express";
+import ctrl from "../../controllers/imagesControllers.js";
+// import { autenticate } from "../../middlewares";
+
 
 const router = express.Router();
 
@@ -12,5 +13,6 @@ router.get("/tabletx2", ctrl.getDesctopImages);
 router.get("/mobilex2", ctrl.getDesctopImages);
 
 
-module.exports = router;
+export default router;
+
 

@@ -1,8 +1,8 @@
-const authRouter = require("./auth");
-const boardRouter = require("./boards");
-const imagesRouter = require("./images");
+import authRouter from "./auth.js";
+import boardRouter from "./boards.js";
+import imagesRouter from "./images.js";
 
-module.exports = {
+export {
   authRouter,
   boardRouter,
   imagesRouter

@@ -1,11 +1,12 @@
-const { ctrlWrapper } = require("../helpers");
-const {
+import { ctrlWrapper } from "../helpers/index.js";
+import {
   getAllBoards,
   getBoardById,
   updateBoard,
   deleteBoard,
   createBoard,
-} = require("../services/boardService");
+} from "../services/boardService.js";
+
 
 const getAll = async (req, res) => {
   const { page, limit } = req.query;
@@ -26,10 +27,11 @@ const post = async (req, res) => {
 };
 
 
-module.exports = {
+export default {
   getAll: ctrlWrapper(getAll),
   getById: ctrlWrapper(getById),
   update: ctrlWrapper(update),
   remove: ctrlWrapper(remove),
   post: ctrlWrapper(post),
 };
+

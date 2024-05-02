@@ -1,9 +1,5 @@
-const authControllers = require("./authControllers");
-const boardControllers = require("./boardControllers");
-const imagesControllers = require("./imagesControllers");
+import authControllers from "./authControllers.js";
+import boardControllers from "./boardControllers.js";
+import imagesControllers from "./imagesControllers.js";
 
-module.exports = {
-  authControllers,
-  boardControllers,
-  imagesControllers
-};
+export { authControllers, boardControllers, imagesControllers };

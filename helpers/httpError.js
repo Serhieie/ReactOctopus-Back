@@ -12,4 +12,6 @@ const httpError = (status, message = messageList[status]) => {
   return error;
 };
 
-module.exports = httpError;
+
+export default httpError;
+
