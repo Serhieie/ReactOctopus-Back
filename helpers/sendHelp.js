@@ -1,5 +1,5 @@
-require('dotenv').config();
-const nodemailer = require('nodemailer');
+import 'dotenv/config';
+import nodemailer from 'nodemailer';
 
 const {
   SEND_UKR_NET_USER,
@@ -25,4 +25,4 @@ const sendHelp = data => {
   return transporter.sendMail(email);
 };
 
-module.exports = { sendHelp };
+export default sendHelp;
