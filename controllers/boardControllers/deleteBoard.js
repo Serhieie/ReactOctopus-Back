@@ -1,4 +1,4 @@
-import { httpError } from "../../helpers";
+import httpError from "../../helpers/httpError.js";
 import { removeBoard } from "../../services/boardService.js";
 
 export const deleteBoard = async (req, res) => {

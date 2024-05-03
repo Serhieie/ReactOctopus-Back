@@ -1,4 +1,4 @@
-import { ctrlWrapper } from "../../helpers";
+import ctrlWrapper from "../../helpers/ctrlWrapper.js";
 
 import { getBoards } from "./getBoards.js";
 import { addBoard } from "./addBoard.js";

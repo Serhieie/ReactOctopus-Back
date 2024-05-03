@@ -1,16 +1,16 @@
 import express from "express";
 import boardsCtrl from "../../controllers/boardControllers/index.js";
-import isValidId from "../../middlewares/isValidId.js";
-import autenticate from "../../middlewares/autenticate.js";
-import validateBody from "../../middlewares/validateBody.js";
+import {
+  isValidId,
+  autenticate,
+  validateBody,
+} from "../../middlewares/index.js";
 import {
   createBoardSchema,
   updateBoardSchema,
 } from "../../schemas/boardsSchemas.js";
 
 const boardsRouter = express.Router();
-// const { isValidId, autenticate, validateBody, upload } = require("../../middlewares");
-// const { schemas } = require("../../models/board");
 
 boardsRouter.use(autenticate);
 

@@ -1,6 +1,6 @@
-import { httpError } from "../../helpers";
+import httpError from "../../helpers/httpError.js";
 
-import { updateBoardbyFilter } from "../../services/boardService";
+import { updateBoardbyFilter } from "../../services/boardService.js";
 
 export const updateBoard = async (req, res) => {
   if (Object.keys(req.body).length === 0) {

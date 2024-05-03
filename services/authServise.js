@@ -26,7 +26,7 @@ const registerUser = async (userData) => {
   return {
     name: newUser.name,
     email: newUser.email,
-    token
+    token,
   };
 };
 
@@ -37,13 +37,13 @@ const loginUser = async (email, password) => {
   }
   const passwordCompare = await bcrypt.compare(password, user.password);
   if (!passwordCompare) {
-   throw httpError(401);
+    throw httpError(401);
   }
   const payload = {
     id: user.id,
   };
-    token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
-    await User.findByIdAndUpdate(user._id, { token });
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
+  await User.findByIdAndUpdate(user._id, { token });
   return {
     name: user.name,
     email,
@@ -70,9 +70,4 @@ const logoutUser = async (userId) => {
   return { message: "Logout success" };
 };
 
-export {
-  registerUser,
-  loginUser,
-  getCurrentUser,
-  logoutUser
-};
+export { registerUser, loginUser, getCurrentUser, logoutUser };
