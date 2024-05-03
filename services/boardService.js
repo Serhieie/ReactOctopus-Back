@@ -1,25 +1,26 @@
-const { httpError } = require("../helpers");
-const { Board } = require("../models/board");
+// const { httpError } = require("../helpers");
+// import httpError from "../helpers/httpError.js";
+import Board from "../models/Board.js";
+// const { Board } = require("../models/board");
 
-const getAllBoards = async () => {
-};
+export const getAllBoards = (filter = {}) =>
+  Board.find(filter, "-createdAt -updatedAt").populate("owner", "email");
 
-const getBoardById = async (id) => {
-};
+export const countBoards = (filter) => Board.countDocuments(filter);
 
-const updateBoard = async (id, newData) => {
-};
+export const getBoardById = (filter) => Board.findOne(filter);
 
-const deleteBoard = async (id) => {
-};
+export const updateBoardbyFilter = (filter, data) =>
+  Board.findOneAndUpdate(filter, data);
 
-const createBoard = async (boardData) => {
-};
+export const removeBoard = (filter) => Board.findOneAndDelete(filter);
 
-module.exports = {
-  getAllBoards,
-  getBoardById,
-  updateBoard,
-  deleteBoard,
-  createBoard,
-};
+export const createBoard = (data) => Board.create(data);
+
+// module.exports = {
+//   getAllBoards,
+//   getBoardById,
+//   updateBoard,
+//   deleteBoard,
+//   createBoard,
+// };

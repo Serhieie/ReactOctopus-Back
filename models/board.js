@@ -1,10 +1,26 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-const Joi = require("joi");
+// const mongoose = require("mongoose");
+// import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
+import { handleSaveError, setUpdateSetting } from "./hooks.js";
 
-const  boardSchema = new Schema(
+// const Schema = mongoose.Schema;
+// const Joi = require("joi");
+
+const boardSchema = new Schema(
   {
-      owner: {
+    title: {
+      type: String,
+      required: [true, "Set title for board"],
+    },
+    iconId: {
+      type: String,
+      required: [true, "Set icon for board"],
+    },
+    background: {
+      type: String,
+      required: [true, "Set background for board"],
+    },
+    owner: {
       type: Schema.Types.ObjectId,
       ref: "user",
       require: true,
@@ -13,15 +29,21 @@ const  boardSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-const createBoardSchema = {};
+boardSchema.post("save", handleSaveError);
+boardSchema.pre("findOneAndUpdate", setUpdateSetting);
+boardSchema.post("findOneAndUpdate", handleSaveError);
 
-const updateBoardSchema = {}
+// const createBoardSchema = {};
 
-const schemas = {
-  createBoardSchema,
-  updateBoardSchema,
-};
+// const updateBoardSchema = {};
 
-const Board = mongoose.model("Board", boardSchema);
+// const schemas = {
+//   createBoardSchema,
+//   updateBoardSchema,
+// };
 
-module.exports = { Board, schemas };
+// const Board = mongoose.model("Board", boardSchema);
+
+// module.exports = { Board, schemas };
+const Board = model("board", boardSchema);
+export default Board;
