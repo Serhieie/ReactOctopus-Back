@@ -15,7 +15,7 @@ async function readSwaggerDocument() {
   return swaggerDocument;
 }
 
-import { authRouter, boardRouter, imagesRouter } from "./routes/api/index.js";
+import { authRouter, boardsRouter, imagesRouter } from "./routes/api/index.js";
 
 dotenv.config();
 
@@ -27,7 +27,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/auth", authRouter);
-app.use("/api/boards", boardRouter);
+app.use("/api/boards", boardsRouter);
 app.use("/api/images", imagesRouter);
 app.use(
   "/api/docs",

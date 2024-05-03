@@ -1,27 +1,15 @@
-import { httpError } from "../helpers/index.js";
-import { Board } from "../models/board.js";
+import Board from "../models/Board.js";
 
+export const getAllBoards = (filter = {}) =>
+  Board.find(filter, "-createdAt -updatedAt").populate("owner", "email");
 
-const getAllBoards = async () => {
-};
+export const countBoards = (filter) => Board.countDocuments(filter);
 
-const getBoardById = async (id) => {
-};
+export const getBoardById = (filter) => Board.findOne(filter);
 
-const updateBoard = async (id, newData) => {
-};
+export const updateBoardbyFilter = (filter, data) =>
+  Board.findOneAndUpdate(filter, data);
 
-const deleteBoard = async (id) => {
-};
+export const removeBoard = (filter) => Board.findOneAndDelete(filter);
 
-const createBoard = async (boardData) => {
-};
-
-export {
-  getAllBoards,
-  getBoardById,
-  updateBoard,
-  deleteBoard,
-  createBoard
-};
-
+export const createBoard = (data) => Board.create(data);
