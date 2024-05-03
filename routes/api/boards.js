@@ -1,11 +1,30 @@
 import express from "express";
-import ctrl from "../../controllers/boardControllers.js";
-import { isValidId, autenticate, validateBody, upload } from "../../middlewares/index.js";
-import { schemas } from "../../models/board.js";
+import boardsCtrl from "../../controllers/boardControllers/index.js";
+import {
+  isValidId,
+  autenticate,
+  validateBody,
+} from "../../middlewares/index.js";
+import {
+  createBoardSchema,
+  updateBoardSchema,
+} from "../../schemas/boardsSchemas.js";
 
+const boardsRouter = express.Router();
 
-const router = express.Router();
-router.get("/", autenticate, ctrl.getAll);
+boardsRouter.use(autenticate);
 
-export default router;
+boardsRouter.get("/", boardsCtrl.getBoards);
 
+boardsRouter.post("/", validateBody(createBoardSchema), boardsCtrl.addBoard);
+
+boardsRouter.patch(
+  "/:id",
+  isValidId,
+  validateBody(updateBoardSchema),
+  boardsCtrl.updateBoard
+);
+
+boardsRouter.delete("/:id", isValidId, boardsCtrl.deleteBoard);
+
+export default boardsRouter;

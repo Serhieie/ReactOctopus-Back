@@ -1,11 +1,21 @@
-import mongoose from "mongoose";
-const { Schema } = mongoose;
-import Joi from "joi";
+import { Schema, model } from "mongoose";
+import { handleSaveError, setUpdateSetting } from "./hooks.js";
 
-
-const  boardSchema = new Schema(
+const boardSchema = new Schema(
   {
-      owner: {
+    title: {
+      type: String,
+      required: [true, "Set title for board"],
+    },
+    iconId: {
+      type: String,
+      required: [true, "Set icon for board"],
+    },
+    background: {
+      type: String,
+      required: [true, "Set background for board"],
+    },
+    owner: {
       type: Schema.Types.ObjectId,
       ref: "user",
       require: true,
@@ -14,15 +24,10 @@ const  boardSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-const createBoardSchema = {};
+boardSchema.post("save", handleSaveError);
+boardSchema.pre("findOneAndUpdate", setUpdateSetting);
+boardSchema.post("findOneAndUpdate", handleSaveError);
 
-const updateBoardSchema = {}
+const Board = model("board", boardSchema);
 
-const schemas = {
-  createBoardSchema,
-  updateBoardSchema,
-};
-
-const Board = mongoose.model("Board", boardSchema);
-
-export { Board, schemas };
+export default Board;
