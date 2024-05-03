@@ -1,4 +1,4 @@
-import Board from "../models/Board.js";
+import Board from "../models/board.js";
 
 export const getAllBoards = (filter = {}) =>
   Board.find(filter, "-createdAt -updatedAt").populate("owner", "email");
