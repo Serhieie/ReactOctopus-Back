@@ -1,5 +1,7 @@
-import authRouter from "./auth.js";
-import boardsRouter from "./boards.js";
-import imagesRouter from "./images.js";
 
-export { authRouter, boardsRouter, imagesRouter };
+import authRouter from './auth.js';
+import boardRouter from './boards.js';
+import imagesRouter from './images.js';
+import needHelpRouter from './help.js';
+
+export { authRouter, boardRouter, imagesRouter, needHelpRouter };
