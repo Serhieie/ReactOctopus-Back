@@ -20,6 +20,7 @@ import {
   boardRouter,
   imagesRouter,
   needHelpRouter,
+  columnsRouter,
 } from './routes/api/index.js';
 
 dotenv.config();
