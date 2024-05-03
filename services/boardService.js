@@ -1,7 +1,4 @@
-// const { httpError } = require("../helpers");
-// import httpError from "../helpers/httpError.js";
 import Board from "../models/Board.js";
-// const { Board } = require("../models/board");
 
 export const getAllBoards = (filter = {}) =>
   Board.find(filter, "-createdAt -updatedAt").populate("owner", "email");
@@ -16,11 +13,3 @@ export const updateBoardbyFilter = (filter, data) =>
 export const removeBoard = (filter) => Board.findOneAndDelete(filter);
 
 export const createBoard = (data) => Board.create(data);
-
-// module.exports = {
-//   getAllBoards,
-//   getBoardById,
-//   updateBoard,
-//   deleteBoard,
-//   createBoard,
-// };
