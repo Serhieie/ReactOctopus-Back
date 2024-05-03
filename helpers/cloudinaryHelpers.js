@@ -1,6 +1,7 @@
 
-const cloudinary = require("cloudinary").v2;
-const httpError  = require("./httpError");
+import { v2 as cloudinary } from "cloudinary";
+import httpError from "./httpError.js";
+
 
 
 cloudinary.config({
@@ -25,4 +26,5 @@ const getImagesFromFolder = async (folderName) => {
   }
 }
 
-module.exports = {getImagesFromFolder};
+export { getImagesFromFolder };
+

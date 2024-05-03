@@ -1,12 +1,13 @@
-const { ctrlWrapper } = require("../helpers");
-const {
+import { ctrlWrapper } from "../helpers/index.js";
+import {
   registerUser,
   loginUser,
   getCurrentUser,
   logoutUser,
-} = require("../services/authServise");
-const queryString = require("query-string");
-const axios = require("axios")
+} from "../services/authServise.js";
+import queryString from "query-string";
+import axios from "axios";
+
 
 const register = async (req, res) => {
   const newUser = await registerUser(req.body);
@@ -98,7 +99,7 @@ const googleRedirect = async (req,res) => {
 }
 
 
-module.exports = {
+export default {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   current: ctrlWrapper(current),
