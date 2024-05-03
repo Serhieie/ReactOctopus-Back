@@ -1,6 +1,7 @@
-const isValidId = require("./isValidId");
-const validateBody = require("./validateBody");
-const autenticate = require("./autenticate");
-const upload = require("./multerMd");
+import isValidId from "./isValidId.js";
+import validateBody from "./validateBody.js";
+import autenticate from "./autenticate.js";
+import upload from "./multerMd.js";
 
-module.exports = { isValidId, validateBody, autenticate, upload };
+export { isValidId, validateBody, autenticate, upload };
+

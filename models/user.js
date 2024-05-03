@@ -1,6 +1,7 @@
-const { Schema, model } = require("mongoose");
-const { handleMongooseError } = require("../helpers");
-const Joi = require("joi");
+import { Schema, model } from "mongoose";
+import { handleMongooseError } from "../helpers/index.js";
+import Joi from "joi";
+
 
 const userRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -49,4 +50,5 @@ const schemas = {
   registrationSchema,
 };
 
-module.exports = { User, schemas };
+export { User, schemas };
+

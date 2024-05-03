@@ -1,6 +1,8 @@
-const jwt = require("jsonwebtoken");
-const { httpError } = require("../helpers");
-const { User } = require("../models/user");
+import jwt from "jsonwebtoken";
+import { httpError } from "../helpers/index.js";
+import { User } from "../models/user.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const { SECRET_KEY } = process.env;
 
@@ -18,4 +20,6 @@ const autenticate = async (req, res, next) => {
     next(httpError(401));
   }
 };
-module.exports = autenticate;
+
+export default autenticate;
+

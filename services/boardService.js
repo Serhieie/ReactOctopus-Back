@@ -1,5 +1,6 @@
-const { httpError } = require("../helpers");
-const { Board } = require("../models/board");
+import { httpError } from "../helpers/index.js";
+import { Board } from "../models/board.js";
+
 
 const getAllBoards = async () => {
 };
@@ -16,10 +17,11 @@ const deleteBoard = async (id) => {
 const createBoard = async (boardData) => {
 };
 
-module.exports = {
+export {
   getAllBoards,
   getBoardById,
   updateBoard,
   deleteBoard,
-  createBoard,
+  createBoard
 };
+
