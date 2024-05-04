@@ -68,7 +68,7 @@ export const signin = async (req, res) => {
   }
 
   if (!user.verify) {
-    throw httpError(401, "Email is not verified");
+    throw httpError(600, "Email is not verified");
   }
 
   const token = jwt.sign({ id: user._id }, SECRET_KEY, {
@@ -130,7 +130,7 @@ export const resendVerifyEmail = async (req, res) => {
       subject: "Email confirmation",
       html: `<div style="font-family: inherit; text-align: center"><span style="color: #843adc; font-size: 28px">Please verify your email!</span></div>
     <div style="font-family: inherit; text-align: center">To use our application, you need to verify your email</div>
-    <td align="center" bgcolor="#000000" class="inner-td" style="border-radius:6px; font-size:16px; text-align:center; background-color:inherit;"><a href="${BASE_URL}/users/verify/${token}" style="background-color:#000000; border:1px solid #000000; border-color:#000000; border-radius:0px; border-width:1px; color:#ffffff; display:inline-block; font-size:14px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:12px 40px 12px 40px; text-align:center; text-decoration:none; border-style:solid; font-family:inherit;" target="_blank">Click to verify</a></td>
+    <td align="center" bgcolor="#000000" class="inner-td" style="border-radius:6px; font-size:16px; text-align:center; background-color:inherit;"><a href="${BASE_URL}/api/auth/verify/${token}" style="background-color:#000000; border:1px solid #000000; border-color:#000000; border-radius:0px; border-width:1px; color:#ffffff; display:inline-block; font-size:14px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:12px 40px 12px 40px; text-align:center; text-decoration:none; border-style:solid; font-family:inherit;" target="_blank">Click to verify</a></td>
     <div style="font-family: inherit; text-align: center">If you have not registered, please contact support</div>`,
     };
 
