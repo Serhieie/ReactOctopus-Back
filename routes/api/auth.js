@@ -1,6 +1,7 @@
 import express from "express";
 import {
-  authUserSchema,
+  authUserLoginSchema,
+  authUserRegisterSchema,
   findVerifyTokenUserSchema,
 } from "../../schemas/usersSchema.js";
 import ctrlWrapper from "../../helpers/ctrlWrapper.js";
@@ -17,9 +18,17 @@ import { validateToken } from "../../middlewares/validateToken.js";
 
 const authRouter = express.Router();
 
-authRouter.post("/register", validateBody(authUserSchema), ctrlWrapper(signup));
+authRouter.post(
+  "/register",
+  validateBody(authUserRegisterSchema),
+  ctrlWrapper(signup)
+);
 
-authRouter.post("/login", validateBody(authUserSchema), ctrlWrapper(signin));
+authRouter.post(
+  "/login",
+  validateBody(authUserLoginSchema),
+  ctrlWrapper(signin)
+);
 
 authRouter.post("/logout", validateToken, ctrlWrapper(logout));
 

@@ -2,7 +2,7 @@ import { User } from "../models/user.js";
 
 async function createUser(body) {
   const res = await User.create(body);
-  return { email: res.email, subscription: res.subscription };
+  return { name: res.name, email: res.email };
 }
 
 async function findUser(userEmail) {
@@ -16,7 +16,7 @@ async function findUserById(id) {
 async function updateUser(userId, updateData) {
   return User.findByIdAndUpdate(userId, updateData, {
     returnDocument: "after",
-  }).select("email subscription -_id");
+  }).select("email name -_id");
 }
 
 async function findVerifyToken(verificationToken) {

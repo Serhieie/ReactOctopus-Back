@@ -7,8 +7,9 @@
 
 ```json
 {
+  "name": "Alex",
   "email": "mail@gmail.com",
-  "password": "exa54543534"
+  "password": "qwerty123"
 }
 ```
 
@@ -16,9 +17,10 @@
 
 ```json
 {
-  "user": {
-    "email": "mail@gmail.com"
-  }
+    "user": {
+        "name": "Alex",
+        "email": "mail@gmail.com"
+    }
 }
 ```
 
