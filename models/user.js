@@ -1,54 +1,86 @@
-import { Schema, model } from "mongoose";
-import { handleMongooseError } from "../helpers/index.js";
-import Joi from "joi";
+import mongoose from "mongoose";
 
-
-const userRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const { Schema, model } = mongoose;
 
 const userSchema = new Schema(
   {
-    name: {
+    password: {
       type: String,
-      required: true,
+      required: [true, "Password is required"],
     },
     email: {
       type: String,
-      match: userRegex,
+      required: [true, "Email is required"],
       unique: true,
-      required: true,
-    },
-    password: {
-      type: String,
-      required: true,
-      minlength: 6,
     },
     token: {
       type: String,
-      default: "",
+      default: null,
+    },
+    avatarURL: String,
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      required: [true, "Verify token is required"],
     },
   },
   { versionKey: false, timestamps: true }
 );
 
-userSchema.post("save", handleMongooseError);
+export const User = model("user", userSchema);
 
-const registrationSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().pattern(userRegex).required(),
-  password: Joi.string().min(6).required(),
-});
+// import { Schema, model } from "mongoose";
+// import { handleMongooseError } from "../helpers/index.js";
+// import Joi from "joi";
 
-const loginSchema = Joi.object({
-  email: Joi.string().pattern(userRegex).required(),
-  password: Joi.string().min(6).required(),
-});
+// const userRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-const User = model("user", userSchema);
+// const userSchema = new Schema(
+//   {
+//     name: {
+//       type: String,
+//       required: true,
+//     },
+//     email: {
+//       type: String,
+//       match: userRegex,
+//       unique: true,
+//       required: true,
+//     },
+//     password: {
+//       type: String,
+//       required: true,
+//       minlength: 6,
+//     },
+//     token: {
+//       type: String,
+//       default: "",
+//     },
+//   },
+//   { versionKey: false, timestamps: true }
+// );
 
-const schemas = {
-  loginSchema,
-  registrationSchema,
-};
+// userSchema.post("save", handleMongooseError);
 
-export { User, schemas };
+// const registrationSchema = Joi.object({
+//   name: Joi.string().required(),
+//   email: Joi.string().pattern(userRegex).required(),
+//   password: Joi.string().min(6).required(),
+// });
 
+// const loginSchema = Joi.object({
+//   email: Joi.string().pattern(userRegex).required(),
+//   password: Joi.string().min(6).required(),
+// });
+
+// const User = model("user", userSchema);
+
+// const schemas = {
+//   loginSchema,
+//   registrationSchema,
+// };
+
+// export { User, schemas };
