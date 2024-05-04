@@ -1,73 +1,100 @@
-import bcrypt from "bcryptjs";
-import { httpError } from "../helpers/index.js";
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 import { User } from "../models/user.js";
 
-const { SECRET_KEY } = process.env;
+async function createUser(body) {
+  const res = await User.create(body);
+  return { email: res.email, subscription: res.subscription };
+}
 
-const registerUser = async (userData) => {
-  const { email, password } = userData;
-  const existingUser = await User.findOne({ email });
-  if (existingUser) {
-    throw httpError(409);
-  }
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const newUser = await User.create({ ...userData, password: hashedPassword });
+async function findUser(userEmail) {
+  return User.find({ email: userEmail });
+}
 
-  const user = await User.findOne({ email });
-  const payload = {
-    id: user.id,
-  };
+async function findUserById(id) {
+  return User.findById(id);
+}
 
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
-  await User.findByIdAndUpdate(user._id, { token });
+async function updateUser(userId, updateData) {
+  return User.findByIdAndUpdate(userId, updateData, {
+    returnDocument: "after",
+  }).select("email subscription -_id");
+}
 
-  return {
-    name: newUser.name,
-    email: newUser.email,
-    token,
-  };
-};
+async function findVerifyToken(verificationToken) {
+  return User.find(verificationToken);
+}
 
-const loginUser = async (email, password) => {
-  const user = await User.findOne({ email });
-  if (!user) {
-    throw httpError(401);
-  }
-  const passwordCompare = await bcrypt.compare(password, user.password);
-  if (!passwordCompare) {
-    throw httpError(401);
-  }
-  const payload = {
-    id: user.id,
-  };
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
-  await User.findByIdAndUpdate(user._id, { token });
-  return {
-    name: user.name,
-    email,
-    token,
-  };
-};
+export { createUser, findUser, updateUser, findUserById, findVerifyToken };
 
-const getCurrentUser = async (email) => {
-  const user = await User.findOne({ email });
-  return {
-    id: user._id,
-    name: user.name,
-    email,
-    start: user.createdAt,
-  };
-};
+// import bcrypt from "bcryptjs";
+// import { httpError } from "../helpers/index.js";
+// import jwt from "jsonwebtoken";
+// import dotenv from "dotenv";
+// import { User } from "../models/user.js";
 
-const logoutUser = async (userId) => {
-  await User.findByIdAndUpdate(userId, {
-    token: "",
-    online: false,
-    lastOnline: Date.now(),
-  });
-  return { message: "Logout success" };
-};
+// const { SECRET_KEY } = process.env;
 
-export { registerUser, loginUser, getCurrentUser, logoutUser };
+// const registerUser = async (userData) => {
+//   const { email, password } = userData;
+//   const existingUser = await User.findOne({ email });
+//   if (existingUser) {
+//     throw httpError(409);
+//   }
+//   const hashedPassword = await bcrypt.hash(password, 10);
+//   const newUser = await User.create({ ...userData, password: hashedPassword });
+
+//   const user = await User.findOne({ email });
+//   const payload = {
+//     id: user.id,
+//   };
+
+//   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
+//   await User.findByIdAndUpdate(user._id, { token });
+
+//   return {
+//     name: newUser.name,
+//     email: newUser.email,
+//     token,
+//   };
+// };
+
+// const loginUser = async (email, password) => {
+//   const user = await User.findOne({ email });
+//   if (!user) {
+//     throw httpError(401);
+//   }
+//   const passwordCompare = await bcrypt.compare(password, user.password);
+//   if (!passwordCompare) {
+//     throw httpError(401);
+//   }
+//   const payload = {
+//     id: user.id,
+//   };
+//   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
+//   await User.findByIdAndUpdate(user._id, { token });
+//   return {
+//     name: user.name,
+//     email,
+//     token,
+//   };
+// };
+
+// const getCurrentUser = async (email) => {
+//   const user = await User.findOne({ email });
+//   return {
+//     id: user._id,
+//     name: user.name,
+//     email,
+//     start: user.createdAt,
+//   };
+// };
+
+// const logoutUser = async (userId) => {
+//   await User.findByIdAndUpdate(userId, {
+//     token: "",
+//     online: false,
+//     lastOnline: Date.now(),
+//   });
+//   return { message: "Logout success" };
+// };
+
+// export { registerUser, loginUser, getCurrentUser, logoutUser };
