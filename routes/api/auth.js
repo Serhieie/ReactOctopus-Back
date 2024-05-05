@@ -42,10 +42,10 @@ authRouter.post(
   ctrlWrapper(resendVerifyEmail)
 );
 
-router.patch(
-  '/info',
-  uploadCloudParams.single('avatar')
-);
+// authRouter.patch(
+//   '/info',
+//   uploadCloudParams.single('avatar')
+// );
 
 //Google auth
 /*
