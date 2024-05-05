@@ -42,6 +42,11 @@ authRouter.post(
   ctrlWrapper(resendVerifyEmail)
 );
 
+router.patch(
+  '/info',
+  uploadCloudParams.single('avatar')
+);
+
 //Google auth
 /*
 authRouter.get("/google", ctrl.googleAuth);
