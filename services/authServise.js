@@ -2,7 +2,7 @@ import { User } from "../models/user.js";
 
 async function createUser(body) {
   const res = await User.create(body);
-  return { name: res.name, email: res.email };
+  return res._id;
 }
 
 async function findUser(userEmail) {
@@ -19,11 +19,7 @@ async function updateUser(userId, updateData) {
   }).select("email name -_id");
 }
 
-async function findVerifyToken(verificationToken) {
-  return User.find(verificationToken);
-}
-
-export { createUser, findUser, updateUser, findUserById, findVerifyToken };
+export { createUser, findUser, updateUser, findUserById };
 
 // import bcrypt from "bcryptjs";
 // import { httpError } from "../helpers/index.js";
