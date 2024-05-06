@@ -16,9 +16,3 @@ export const authUserLoginSchema = Joi.object({
   email: Joi.string().pattern(new RegExp(emailRegexp)).required(),
   password: Joi.string().pattern(new RegExp(passwordRegexp)).required(),
 });
-
-export const findVerifyTokenUserSchema = Joi.object({
-  email: Joi.string().pattern(new RegExp(emailRegexp)).required(),
-}).messages({
-  "any.required": "missing required field email",
-});

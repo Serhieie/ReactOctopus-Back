@@ -1,19 +1,12 @@
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 import gravatar from "gravatar";
-import { v4 as uuidv4 } from "uuid";
 
 import { createHash, compareHash } from "../helpers/passwordHash.js";
-import { sendEmail } from "../helpers/sendEmail.js";
 
 import httpError from "../helpers/httpError.js";
 
-import {
-  createUser,
-  findUser,
-  findVerifyToken,
-  updateUser,
-} from "../services/authServise.js";
+import { createUser, findUser, updateUser } from "../services/authServise.js";
 
 const SECRET_KEY = process.env.SECRET_KEY;
 const EXPIRES_TIME = process.env.EXPIRES_TIME;
@@ -30,26 +23,22 @@ export const signup = async (req, res) => {
   req.body.avatarURL = gravatar.url(email);
 
   const hashPwd = await createHash(password);
-  const token = uuidv4();
 
-  const response = await createUser({
+  const id = await createUser({
     ...req.body,
     password: hashPwd,
-    verificationToken: token,
   });
 
-  const msg = {
-    to: email,
-    subject: "Email confirmation",
-    html: `<div style="font-family: inherit; text-align: center"><span style="color: #843adc; font-size: 28px">Please verify your email!</span></div>
-    <div style="font-family: inherit; text-align: center">To use our application, you need to verify your email</div>
-    <td align="center" bgcolor="#000000" class="inner-td" style="border-radius:6px; font-size:16px; text-align:center; background-color:inherit;"><a href="${BASE_URL}/api/auth/verify/${token}" style="background-color:#000000; border:1px solid #000000; border-color:#000000; border-radius:0px; border-width:1px; color:#ffffff; display:inline-block; font-size:14px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:12px 40px 12px 40px; text-align:center; text-decoration:none; border-style:solid; font-family:inherit;" target="_blank">Click to verify</a></td>
-    <div style="font-family: inherit; text-align: center">If you have not registered, please contact support</div>`,
-  };
+  const token = jwt.sign({ id }, SECRET_KEY, {
+    expiresIn: EXPIRES_TIME,
+  });
 
-  await sendEmail(msg);
+  const response = await updateUser(id, { token });
 
-  res.status(201).json({ user: response });
+  res.status(201).json({
+    token,
+    user: response,
+  });
 };
 
 // =======LOGIN======
@@ -67,10 +56,6 @@ export const signin = async (req, res) => {
     throw httpError(401, "Email or password is wrong");
   }
 
-  if (!user.verify) {
-    throw httpError(600, "Email is not verified");
-  }
-
   const token = jwt.sign({ id: user._id }, SECRET_KEY, {
     expiresIn: EXPIRES_TIME,
   });
@@ -78,23 +63,6 @@ export const signin = async (req, res) => {
   const response = await updateUser(user._id, { token });
 
   res.json({ token, user: response });
-};
-
-//====verifyEmail====
-export const verifyEmail = async (req, res) => {
-  const verificationToken = req.params;
-
-  const [user] = await findVerifyToken(verificationToken);
-  if (!user) {
-    throw httpError(404, "User not found");
-  }
-  const updateData = {
-    verificationToken: null,
-    verify: true,
-  };
-  await updateUser(user._id, updateData);
-
-  res.json({ message: "Verification successful" });
 };
 
 // ====LOGOUT====
@@ -113,34 +81,6 @@ export const current = async (req, res, next) => {
   res.json({ email, subscription });
 };
 
-//====repeatVerifyEmail====
-
-export const resendVerifyEmail = async (req, res) => {
-  const email = req.body.email;
-  const [user] = await findUser(email);
-  const token = user.verificationToken;
-
-  if (!user) {
-    throw httpError(404, "User not found");
-  }
-
-  if (!user.verify) {
-    const msg = {
-      to: email,
-      subject: "Email confirmation",
-      html: `<div style="font-family: inherit; text-align: center"><span style="color: #843adc; font-size: 28px">Please verify your email!</span></div>
-    <div style="font-family: inherit; text-align: center">To use our application, you need to verify your email</div>
-    <td align="center" bgcolor="#000000" class="inner-td" style="border-radius:6px; font-size:16px; text-align:center; background-color:inherit;"><a href="${BASE_URL}/api/auth/verify/${token}" style="background-color:#000000; border:1px solid #000000; border-color:#000000; border-radius:0px; border-width:1px; color:#ffffff; display:inline-block; font-size:14px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:12px 40px 12px 40px; text-align:center; text-decoration:none; border-style:solid; font-family:inherit;" target="_blank">Click to verify</a></td>
-    <div style="font-family: inherit; text-align: center">If you have not registered, please contact support</div>`,
-    };
-
-    await sendEmail(msg);
-
-    res.json({ message: "Verification email sent" });
-  } else {
-    res.status(400).json({ message: "Verification has already been passed" });
-  }
-};
 //================================================================
 // import { ctrlWrapper } from "../helpers/index.js";
 // import {
