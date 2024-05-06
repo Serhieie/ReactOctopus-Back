@@ -11,13 +11,16 @@
   },
   "consumes": ["application/json", "multipart/formData"],
   "produces": ["application/json"],
-  "servers": [{ "url": "https://reactoctopus-back.onrender.com" },{ "url": "http://localhost:3000" }],
+  "servers": [
+    { "url": "https://reactoctopus-back.onrender.com" },
+    { "url": "http://localhost:3000" }
+  ],
   "tags": [
     {
       "name": "Auth",
       "description": "Authorization endpoints"
     },
-     {
+    {
       "name": "Board",
       "description": "Boards endpoints"
     },
@@ -38,7 +41,6 @@
       "description": "Images endpoints. (тимчасові роути, якщо буде потрібно)"
     }
   ],
-
 
   "paths": {
     "/api/auth/register": {
@@ -79,7 +81,7 @@
         }
       }
     },
-     "/api/auth/login": {
+    "/api/auth/login": {
       "post": {
         "tags": ["Auth"],
         "summary": "User login",
@@ -113,12 +115,12 @@
         }
       }
     },
-         "/api/auth/current": {
+    "/api/auth/current": {
       "get": {
         "tags": ["Auth"],
         "summary": "Get current user",
         "parameters": [],
-             "security": [{ "Bearer": [] }],
+        "security": [{ "Bearer": [] }],
         "responses": {
           "201": {
             "description": "Successful operation",
@@ -130,14 +132,14 @@
               }
             }
           },
-                    "401": {
+          "401": {
             "description": "Unauthorized: Access to the requested resource is unauthorized.",
             "content": {}
           }
         }
       }
     },
-         "/api/auth/logout": {
+    "/api/auth/logout": {
       "post": {
         "tags": ["Auth"],
         "summary": "User logout",
@@ -154,7 +156,7 @@
               }
             }
           },
-        
+
           "401": {
             "description": "Unauthorized: Access to the requested resource is unauthorized.",
             "content": {}
@@ -162,15 +164,49 @@
         }
       }
     },
-             "/api/auth/update": {
+    "/api/auth/update-profile": {
       "patch": {
         "tags": ["Auth"],
-        "summary": "User information update",
-        "parameters": [],
-        "security": [{ "Bearer": [] }],
+        "summary": "Update user profile,",
+        "description": "Endpoint to update user profile information",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT token obtained upon user authentication",
+            "required": true,
+            "type": "string",
+            "format": "Bearer {token}"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "User profile data to update",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "responses": {
-          "201": {
-            "description": "Successful operation",
+          "200": {
+            "description": "User profile updated successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -179,7 +215,7 @@
               }
             }
           },
-        "400": {
+          "400": {
             "description": "Bad Request: The server cannot process the request (invalid request body).",
             "content": {}
           },
@@ -190,7 +226,6 @@
         }
       }
     },
-
     "/api/auth/google": {
       "get": {
         "tags": ["Auth"],
@@ -204,7 +239,7 @@
         }
       }
     },
-      "/api/images/desctop": {
+    "/api/images/desctop": {
       "get": {
         "tags": ["Images"],
         "summary": "Get desctop x1 images",
@@ -227,7 +262,7 @@
         }
       }
     },
-         "/api/images/tablet": {
+    "/api/images/tablet": {
       "get": {
         "tags": ["Images"],
         "summary": "Get tablet x1 images",
@@ -250,7 +285,7 @@
         }
       }
     },
-         "/api/images/mobile": {
+    "/api/images/mobile": {
       "get": {
         "tags": ["Images"],
         "summary": "Get mobile x1 images",
@@ -273,7 +308,7 @@
         }
       }
     },
-         "/api/images/desctopx2": {
+    "/api/images/desctopx2": {
       "get": {
         "tags": ["Images"],
         "summary": "Get desctop x2 images",
@@ -296,7 +331,7 @@
         }
       }
     },
-         "/api/images/tabletx2": {
+    "/api/images/tabletx2": {
       "get": {
         "tags": ["Images"],
         "summary": "Get tablet x2 images",
@@ -319,7 +354,7 @@
         }
       }
     },
-         "/api/images/mobilex2": {
+    "/api/images/mobilex2": {
       "get": {
         "tags": ["Images"],
         "summary": "Get mobile x2 images",
@@ -342,7 +377,7 @@
         }
       }
     },
-         "/api/boards/get": {
+    "/api/boards/get": {
       "get": {
         "tags": ["Board"],
         "summary": "Get all boards",
@@ -366,13 +401,13 @@
         }
       }
     },
-             "/api/boards/post": {
+    "/api/boards/post": {
       "post": {
         "tags": ["Board"],
         "summary": "Post board",
         "parameters": [],
         "security": [{ "Bearer": [] }],
-                "requestBody": {
+        "requestBody": {
           "description": "Post board object",
           "required": true,
           "content": {
@@ -405,13 +440,13 @@
         }
       }
     },
-                 "/api/boards/patch/:id": {
+    "/api/boards/patch/:id": {
       "patch": {
         "tags": ["Board"],
         "summary": "Update bord on the server",
         "parameters": [],
         "security": [{ "Bearer": [] }],
-                "requestBody": {
+        "requestBody": {
           "description": "Update board object at the server",
           "required": true,
           "content": {
@@ -441,14 +476,14 @@
             "description": "Unauthorized: Access to the requested resource is unauthorized.",
             "content": {}
           },
-          "404":{
+          "404": {
             "description": "Not Found: The requested resource could not be found on the server.",
             "content": {}
           }
         }
       }
     },
-                  "/api/boards/delete/:id": {
+    "/api/boards/delete/:id": {
       "delete": {
         "tags": ["Board"],
         "summary": "Delete board from the server",
@@ -469,14 +504,14 @@
             "description": "Unauthorized: Access to the requested resource is unauthorized.",
             "content": {}
           },
-          "404":{
+          "404": {
             "description": "Not Found: The requested resource could not be found on the server.",
             "content": {}
           }
         }
       }
     },
-        "/api/columns/get": {
+    "/api/columns/get": {
       "get": {
         "tags": ["Column"],
         "summary": "Get all columns",
@@ -500,13 +535,13 @@
         }
       }
     },
-              "/api/columns/post": {
+    "/api/columns/post": {
       "post": {
         "tags": ["Column"],
         "summary": "Post column",
         "parameters": [],
         "security": [{ "Bearer": [] }],
-                "requestBody": {
+        "requestBody": {
           "description": "Post column object",
           "required": true,
           "content": {
@@ -539,13 +574,13 @@
         }
       }
     },
-                 "/api/columns/patch/:id": {
+    "/api/columns/patch/:id": {
       "patch": {
         "tags": ["Column"],
         "summary": "Update column on the server",
         "parameters": [],
         "security": [{ "Bearer": [] }],
-                "requestBody": {
+        "requestBody": {
           "description": "Update column object at the server",
           "required": true,
           "content": {
@@ -575,14 +610,14 @@
             "description": "Unauthorized: Access to the requested resource is unauthorized.",
             "content": {}
           },
-          "404":{
+          "404": {
             "description": "Not Found: The requested resource could not be found on the server.",
             "content": {}
           }
         }
       }
     },
-                  "/api/columns/delete/:id": {
+    "/api/columns/delete/:id": {
       "delete": {
         "tags": ["Column"],
         "summary": "Delete column from the server",
@@ -603,14 +638,14 @@
             "description": "Unauthorized: Access to the requested resource is unauthorized.",
             "content": {}
           },
-          "404":{
+          "404": {
             "description": "Not Found: The requested resource could not be found on the server.",
             "content": {}
           }
         }
       }
     },
-             "/api/cards/get": {
+    "/api/cards/get": {
       "get": {
         "tags": ["Card"],
         "summary": "Get all cards",
@@ -634,13 +669,13 @@
         }
       }
     },
-         "/api/cards/post": {
+    "/api/cards/post": {
       "post": {
         "tags": ["Card"],
         "summary": "Post card on the server",
         "parameters": [],
         "security": [{ "Bearer": [] }],
-                "requestBody": {
+        "requestBody": {
           "description": "Post card object",
           "required": true,
           "content": {
@@ -673,13 +708,13 @@
         }
       }
     },
-                 "/api/cards/patch/:id": {
+    "/api/cards/patch/:id": {
       "patch": {
         "tags": ["Card"],
         "summary": "Update card on the server",
         "parameters": [],
         "security": [{ "Bearer": [] }],
-                "requestBody": {
+        "requestBody": {
           "description": "Update card object at the server",
           "required": true,
           "content": {
@@ -709,14 +744,14 @@
             "description": "Unauthorized: Access to the requested resource is unauthorized.",
             "content": {}
           },
-          "404":{
+          "404": {
             "description": "Not Found: The requested resource could not be found on the server.",
             "content": {}
           }
         }
       }
     },
-                  "/api/cards/delete/:id": {
+    "/api/cards/delete/:id": {
       "delete": {
         "tags": ["Card"],
         "summary": "Delete cards from the server",
@@ -737,19 +772,19 @@
             "description": "Unauthorized: Access to the requested resource is unauthorized.",
             "content": {}
           },
-          "404":{
+          "404": {
             "description": "Not Found: The requested resource could not be found on the server.",
             "content": {}
           }
         }
       }
     },
-      "/api/images/needhelp": {
+    "/api/images/needhelp": {
       "get": {
         "tags": ["NeedHelp"],
         "summary": "Send email and message to our email",
         "parameters": [],
-         "requestBody": {
+        "requestBody": {
           "description": "Need help object",
           "required": true,
           "content": {
@@ -789,7 +824,7 @@
         "type": "object",
         "required": ["name", "email", "password"],
         "properties": {
-            "name": {
+          "name": {
             "type": "string",
             "description": "User's name",
             "example": "Andy Machine"
@@ -806,14 +841,14 @@
           }
         }
       },
-        "LoginRequest": {
+      "LoginRequest": {
         "type": "object",
         "required": ["name", "email", "password"],
         "properties": {
-            "name": {
+          "name": {
             "type": "string",
             "description": "User's name",
-            "example":  "Andy Machine"
+            "example": "Andy Machine"
           },
           "email": {
             "type": "string",
@@ -831,95 +866,91 @@
         "type": "object",
         "properties": {}
       },
-       "PostBoardRequest": {
+      "PostBoardRequest": {
         "type": "object",
         "required": ["title", "iconId", "background"],
         "properties": {
-            "title": {
+          "title": {
             "type": "string",
             "description": "User boards",
             "example": "Neon Light Project"
           },
-           "iconId": {
+          "iconId": {
             "type": "string",
             "description": "Board icon id",
             "example": "2"
           },
-                     "background": {
+          "background": {
             "type": "string",
             "description": "Background image url",
             "example": "https://example/images/sakura.webp"
           }
+        },
+        "example": {
+          "title": "Project Office",
+          "iconId": "1",
+          "background": "https://example/images/sakura.webp"
+        }
       },
-        "example": 
-          {
-            "title": "Project Office",
-            "iconId": "1",
-            "background":  "https://example/images/sakura.webp"
-         }
-    },
-     "PatchBoardRequest": {
+      "PatchBoardRequest": {
         "type": "object",
         "required": [],
         "properties": {
-            "title": {
+          "title": {
             "type": "string",
             "description": "User boards",
             "example": "Neon Light Project"
           },
-           "iconId": {
+          "iconId": {
             "type": "string",
             "description": "Board icon id",
             "example": "2"
           },
-                     "background": {
+          "background": {
             "type": "string",
             "description": "Background image url",
             "example": "https://example/images/sakura.webp"
           }
+        },
+        "example": {
+          "title": "Project Office",
+          "iconId": "1",
+          "background": "https://example/images/sakura.webp"
+        }
       },
-        "example": 
-          {
-            "title": "Project Office",
-            "iconId": "1",
-            "background":  "https://example/images/sakura.webp"
-         }
-    },
-          "PostColumnRequest": {
+      "PostColumnRequest": {
         "type": "object",
         "required": ["title"],
         "properties": {
-            "title": {
+          "title": {
             "type": "string",
             "description": "User boards",
             "example": "Neon Light Project"
           }
+        },
+        "example": {
+          "title": "Project Office"
+        }
       },
-        "example": 
-          {
-            "title": "Project Office"
-         }
-    },
-        "PatchColumnRequest": {
+      "PatchColumnRequest": {
         "type": "object",
         "required": [],
         "properties": {
-            "title": {
+          "title": {
             "type": "string",
             "description": "User boards",
             "example": "Neon Light Project"
           }
+        },
+        "example": {
+          "title": "Project Office"
+        }
       },
-        "example": 
-          {
-            "title": "Project Office"
-         }
-    },
-        "PostCardRequest": {
+      "PostCardRequest": {
         "type": "object",
-        "required": ["title", "description", "priority","deadline" ],
+        "required": ["title", "description", "priority", "deadline"],
         "properties": {
-            "title": {
+          "title": {
             "type": "string",
             "description": "User boards",
             "example": "Neon Light Project"
@@ -939,20 +970,19 @@
             "description": "Task dealine",
             "example": "2024-05-04T17:42:30.636+00:00"
           }
+        },
+        "example": {
+          "title": "The Watch Spot Design",
+          "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
+          "priority": "low",
+          "deadline": "2024-05-04T17:42:30.636+00:00"
+        }
       },
-        "example": 
-              {
-            "title": "The Watch Spot Design",
-            "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
-            "priority": "low",
-            "deadline": "2024-05-04T17:42:30.636+00:00"
-          }
-    },
-    "PatchCardRequest": {
+      "PatchCardRequest": {
         "type": "object",
         "required": [],
         "properties": {
-            "title": {
+          "title": {
             "type": "string",
             "description": "User boards",
             "example": "Neon Light Project"
@@ -972,16 +1002,15 @@
             "description": "Task dealine",
             "example": "2024-05-04T17:42:30.636+00:00"
           }
+        },
+        "example": {
+          "title": "The Watch Spot Design",
+          "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
+          "priority": "low",
+          "deadline": "2024-05-04T17:42:30.636+00:00"
+        }
       },
-        "example": 
-              {
-            "title": "The Watch Spot Design",
-            "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
-            "priority": "low",
-            "deadline": "2024-05-04T17:42:30.636+00:00"
-          }
-    },
-          "NeedHelpRequest": {
+      "NeedHelpRequest": {
         "type": "object",
         "required": ["email", "description"],
         "properties": {
@@ -999,184 +1028,188 @@
       },
       "RegistrationResponse": {
         "type": "object",
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "User's name",
-              "example": "Andy Machine"
-            },
-            "email": {
-              "type": "string",
-              "description": "User's email",
-              "format": "email"
-            },
-             "token": {
-              "type": "string",
-              "description": "User's token",
-              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzFmMzg0MWMzNjA0OWQ3NmNmMWFjMyIsImlhdCI6MTcxNDU0OTYzNiwiZXhwIjoxNzE0NTUzMjM2fQ._bvC8euAfl_oehYuN8q7Ymtgc3T6Y3VpfYSFrJWgp_k"
-            }
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Andy Machine"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "token": {
+            "type": "string",
+            "description": "User's token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzFmMzg0MWMzNjA0OWQ3NmNmMWFjMyIsImlhdCI6MTcxNDU0OTYzNiwiZXhwIjoxNzE0NTUzMjM2fQ._bvC8euAfl_oehYuN8q7Ymtgc3T6Y3VpfYSFrJWgp_k"
+          }
         }
       },
-       "LoginResponse": {
+      "LoginResponse": {
         "type": "object",
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "User's name",
-              "example": "Duke Anderson"
-            },
-            "email": {
-              "type": "string",
-              "description": "User's email",
-              "format": "email"
-            },
-            "token": {
-              "type": "string",
-              "description": "User's token",
-              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzFmMzg0MWMzNjA0OWQ3NmNmMWFjMyIsImlhdCI6MTcxNDU0OTYzNiwiZXhwIjoxNzE0NTUzMjM2fQ._bvC8euAfl_oehYuN8q7Ymtgc3T6Y3VpfYSFrJWgp_k"
-            }
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Duke Anderson"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "token": {
+            "type": "string",
+            "description": "User's token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzFmMzg0MWMzNjA0OWQ3NmNmMWFjMyIsImlhdCI6MTcxNDU0OTYzNiwiZXhwIjoxNzE0NTUzMjM2fQ._bvC8euAfl_oehYuN8q7Ymtgc3T6Y3VpfYSFrJWgp_k"
+          }
         }
-    },
-     "CurrentResponse": {
+      },
+      "CurrentResponse": {
         "type": "object",
-          "properties": {
-            "id": {
-              "type": "string",
-              "description": "User's id",
-              "example": "6631f3841c36049d76cf1ac3"
-            },
-            "name": {
-              "type": "string",
-              "description": "User's name",
-              "example": "Andy Machine"
-            },
-            "email": {
-              "type": "string",
-              "description": "User's email",
-              "format": "email"
-            },
-            "start": {
-              "type": "date",
-              "description": "User's token",
-              "example": "2024-05-01T07:47:16.688+00:00"
-            }
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User's id",
+            "example": "6631f3841c36049d76cf1ac3"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Andy Machine"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "start": {
+            "type": "date",
+            "description": "User's token",
+            "example": "2024-05-01T07:47:16.688+00:00"
+          }
         }
-    },
-           "LogoutResponse": {
+      },
+      "LogoutResponse": {
         "type": "object",
-          "properties": {
-            "message": {
-              "type": "string",
-              "description": "message",
-              "example": "Logout success" 
-            }
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "message",
+            "example": "Logout success"
+          }
         }
-    },
-        "ImagesResponse": {
+      },
+      "ImagesResponse": {
         "type": "object",
-          "properties": {
-            "imageUrls": {}
+        "properties": {
+          "imageUrls": {}
         },
         "example": {
-"imageUrls": [
-"http://res.cloudinary.com/dnqperiuu/image/upload/v1714575613/react-octopus/route/e5l6os2xwkgtjmbkfuw6.webp",
-"http://res.cloudinary.com/dnqperiuu/image/upload/v1714575614/react-octopus/route/heujomhkyiaavuoxqmiq.webp",
-"http://res.cloudinary.com/dnqperiuu/image/upload/v1712575673/react-octopus/route/ikztmic75cfgbdhfuc1f.webp",
-"http://res.cloudinary.com/dnqperiuu/image/upload/v17145123676/react-octopus/route/jsufvhlek6tdavzdmzvg.webp",
-"http://res.cloudinary.com/dnqperiuu/image/upload/v1714575672/react-octopus/route/maopjnd6scj7z2wtcdog.webp",
-"http://res.cloudinary.com/dnqperiuu/image/upload/v1714575673/react-octopus/route/muucbrq8v7kvywvio0jp.webp",
-"http://res.cloudinary.com/dnqperiuu/image/upload/v1714575975/react-octopus/route/nrzdwyqz0x3phynrvqmp.webp",
-"http://res.cloudinary.com/dnqperiuu/image/upload/v1711575876/react-octopus/route/pslkjxuhaxworen7rdyj.webp",
-"http://res.cloudinary.com/dnqperiuu/image/upload/v1714571676/react-octopus/route/qgyeiqmm9zhlogcen0mj.webp",
-"http://res.cloudinary.com/dnqperiuu/image/upload/v1711575623/react-octopus/route/t6vngzugp6qjakub1q0g.webp",
-"http://res.cloudinary.com/dnqperiuu/image/upload/v1714575670/react-octopus/route/u9mmiv1ypl7b3yg9ka52.webp",
-"http://res.cloudinary.com/dnqperiuu/image/upload/v1714575671/react-octopus/route/voiztzwnhjrvsdl7shsn.webp",
-"http://res.cloudinary.com/dnqperiuu/image/upload/v1712575672/react-octopus/route/wympusczafztc5bg7kaz.webp",
-"http://res.cloudinary.com/dnqperiuu/image/upload/v1714575673/react-octopus/route/yszsmlifjvpnpcwzxkul.webp",
-"http://res.cloudinary.com/dnqperiuu/image/upload/v1714575674/react-octopus/route/z7z9sfi0e3iuiqlzgjdn.webp"
-]
-}
-    },
-     "GetAllBoardsResponse": {
-        "type": "array",
-        "items":{
-        "type": "object",
-        "required": ["title","background", "iconId", "owner", "_id"],
-        "properties": {
-            "title": {
-            "type": "string",
-            "description": "User boards",
-            "example": "Neon Light Project"
-          },
-           "background": {
-            "type": "string",
-            "description": "Background image url",
-            "example": "https://example/images/sakura.webp"
-          },
-           "iconId": {
-            "type": "string",
-            "description": "Board icon id",
-            "example": "2"
-          },
-          "owner": {
-            "type": "object",
-            "discription": "owner of board",
-            "example": {
-              "_id": {
-            "type": "string",
-            "description": "owner id",
-            "example": "6631f3841c36049d76cf1ac3"} 
-            }
-          },
-          "_id": {
-            "type": "string",
-            "description": "board id",
-             "example": "6631f3841c36049d76cf1ac3"
-          } 
+          "imageUrls": [
+            "http://res.cloudinary.com/dnqperiuu/image/upload/v1714575613/react-octopus/route/e5l6os2xwkgtjmbkfuw6.webp",
+            "http://res.cloudinary.com/dnqperiuu/image/upload/v1714575614/react-octopus/route/heujomhkyiaavuoxqmiq.webp",
+            "http://res.cloudinary.com/dnqperiuu/image/upload/v1712575673/react-octopus/route/ikztmic75cfgbdhfuc1f.webp",
+            "http://res.cloudinary.com/dnqperiuu/image/upload/v17145123676/react-octopus/route/jsufvhlek6tdavzdmzvg.webp",
+            "http://res.cloudinary.com/dnqperiuu/image/upload/v1714575672/react-octopus/route/maopjnd6scj7z2wtcdog.webp",
+            "http://res.cloudinary.com/dnqperiuu/image/upload/v1714575673/react-octopus/route/muucbrq8v7kvywvio0jp.webp",
+            "http://res.cloudinary.com/dnqperiuu/image/upload/v1714575975/react-octopus/route/nrzdwyqz0x3phynrvqmp.webp",
+            "http://res.cloudinary.com/dnqperiuu/image/upload/v1711575876/react-octopus/route/pslkjxuhaxworen7rdyj.webp",
+            "http://res.cloudinary.com/dnqperiuu/image/upload/v1714571676/react-octopus/route/qgyeiqmm9zhlogcen0mj.webp",
+            "http://res.cloudinary.com/dnqperiuu/image/upload/v1711575623/react-octopus/route/t6vngzugp6qjakub1q0g.webp",
+            "http://res.cloudinary.com/dnqperiuu/image/upload/v1714575670/react-octopus/route/u9mmiv1ypl7b3yg9ka52.webp",
+            "http://res.cloudinary.com/dnqperiuu/image/upload/v1714575671/react-octopus/route/voiztzwnhjrvsdl7shsn.webp",
+            "http://res.cloudinary.com/dnqperiuu/image/upload/v1712575672/react-octopus/route/wympusczafztc5bg7kaz.webp",
+            "http://res.cloudinary.com/dnqperiuu/image/upload/v1714575673/react-octopus/route/yszsmlifjvpnpcwzxkul.webp",
+            "http://res.cloudinary.com/dnqperiuu/image/upload/v1714575674/react-octopus/route/z7z9sfi0e3iuiqlzgjdn.webp"
+          ]
         }
       },
+      "GetAllBoardsResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["title", "background", "iconId", "owner", "_id"],
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "User boards",
+              "example": "Neon Light Project"
+            },
+            "background": {
+              "type": "string",
+              "description": "Background image url",
+              "example": "https://example/images/sakura.webp"
+            },
+            "iconId": {
+              "type": "string",
+              "description": "Board icon id",
+              "example": "2"
+            },
+            "owner": {
+              "type": "object",
+              "discription": "owner of board",
+              "example": {
+                "_id": {
+                  "type": "string",
+                  "description": "owner id",
+                  "example": "6631f3841c36049d76cf1ac3"
+                }
+              }
+            },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
+            }
+          }
+        },
         "example": [
           {
             "title": "Project Office",
-         "background": "https://example/images/nightSky.webp",
-         "_id": "6631f3841c36049d76cf1ac3",
-          "iconId": "1",
-          "owner": {
-                "_id": "6631f3141c36049126cf1ac"
+            "background": "https://example/images/nightSky.webp",
+            "_id": "6631f3841c36049d76cf1ac3",
+            "iconId": "1",
+            "owner": {
+              "_id": "6631f3141c36049126cf1ac"
             }
-         },
-         { "title": "Project Office",
-         "background": "https://example/images/nightSky.webp",
-          "iconId": "1",
-          "_id": "6631f3841c36049d76cf1ac3",
-          "owner": {
-                "_id": "6631f3141c36049126cf1ac"
+          },
+          {
+            "title": "Project Office",
+            "background": "https://example/images/nightSky.webp",
+            "iconId": "1",
+            "_id": "6631f3841c36049d76cf1ac3",
+            "owner": {
+              "_id": "6631f3141c36049126cf1ac"
             }
-        },
-        { "title": "Project Office",
-         "background": "https://example/images/nightSky.webp",
-          "iconId": "1",
-          "_id": "6631f3841c36049d76cf1ac3",
-          "owner": {
-                "_id": "6631f3141c36049126cf1ac"
+          },
+          {
+            "title": "Project Office",
+            "background": "https://example/images/nightSky.webp",
+            "iconId": "1",
+            "_id": "6631f3841c36049d76cf1ac3",
+            "owner": {
+              "_id": "6631f3141c36049126cf1ac"
             }
-        }]
-    },
-         "PostBoardResponse": {
+          }
+        ]
+      },
+      "PostBoardResponse": {
         "type": "object",
-        "required": ["title","background", "iconId", "owner", "_id"],
+        "required": ["title", "background", "iconId", "owner", "_id"],
         "properties": {
-            "title": {
+          "title": {
             "type": "string",
             "description": "User boards",
             "example": "Neon Light Project"
           },
-           "background": {
+          "background": {
             "type": "string",
             "description": "Background image url",
             "example": "https://example/images/sakura.webp"
           },
-           "iconId": {
+          "iconId": {
             "type": "string",
             "description": "Board icon id",
             "example": "2"
@@ -1186,43 +1219,43 @@
             "discription": "owner of board",
             "example": {
               "_id": {
-            "type": "string",
-            "description": "owner id",
-            "example": "6631f3841c36049d76cf1ac3"} 
+                "type": "string",
+                "description": "owner id",
+                "example": "6631f3841c36049d76cf1ac3"
+              }
             }
           },
           "_id": {
             "type": "string",
             "description": "board id",
-             "example": "6631f3841c36049d76cf1ac3"
-          } 
-      },
-        "example": 
-          {
+            "example": "6631f3841c36049d76cf1ac3"
+          }
+        },
+        "example": {
           "title": "Project Office",
-         "background": "https://example/images/nightSky.webp",
-         "_id": "6631f3841c36049d76cf1ac3",
+          "background": "https://example/images/nightSky.webp",
+          "_id": "6631f3841c36049d76cf1ac3",
           "iconId": "1",
           "owner": {
-                "_id": "6631f3141c36049126cf1ac"
-            }
-         }
-    },
-     "PatchBoardResponse": {
+            "_id": "6631f3141c36049126cf1ac"
+          }
+        }
+      },
+      "PatchBoardResponse": {
         "type": "object",
         "required": [],
         "properties": {
-            "title": {
+          "title": {
             "type": "string",
             "description": "User boards",
             "example": "Neon Light Project"
           },
-           "background": {
+          "background": {
             "type": "string",
             "description": "Background image url",
             "example": "https://example/images/sakura.webp"
           },
-           "iconId": {
+          "iconId": {
             "type": "string",
             "description": "Board icon id",
             "example": "2"
@@ -1232,226 +1265,229 @@
             "discription": "owner of board",
             "example": {
               "_id": {
-            "type": "string",
-            "description": "owner id",
-            "example": "6631f3841c36049d76cf1ac3"} 
+                "type": "string",
+                "description": "owner id",
+                "example": "6631f3841c36049d76cf1ac3"
+              }
             }
           },
           "_id": {
             "type": "string",
             "description": "board id",
-             "example": "6631f3841c36049d76cf1ac3"
-          } 
-      },
-        "example": 
-          {
+            "example": "6631f3841c36049d76cf1ac3"
+          }
+        },
+        "example": {
           "title": "Project Office",
-         "background": "https://example/images/nightSky.webp",
-         "_id": "6631f3841c36049d76cf1ac3",
+          "background": "https://example/images/nightSky.webp",
+          "_id": "6631f3841c36049d76cf1ac3",
           "iconId": "1",
           "owner": {
-                "_id": "6631f3141c36049126cf1ac"
-            }
-         }
-    },
+            "_id": "6631f3141c36049126cf1ac"
+          }
+        }
+      },
 
-         "DeleteBoardResponse": {
+      "DeleteBoardResponse": {
         "type": "object",
         "required": [],
         "properties": {
           "id": {
             "type": "string",
             "description": "board id",
-             "example": "6631f3841c36049d76cf1ac3"
-          } 
-      },
-        "example": 
-          {
-         "id": "6631f3841c36049d76cf1ac3"
-         }
-    },
-    
-     "GetAllColumnsResponse": {
-        "type": "array",
-        "items":{
-        "type": "object",
-        "required": ["title", "owner", "_id"],
-        "properties": {
-            "title": {
-            "type": "string",
-            "description": "Board Column Title",
-            "example": "Title-1"
-          },
-          "owner": {
-            "type": "object",
-            "discription": "Board Id",
-            "example": {
-              "_id": {
-            "type": "string",
-            "description": "Board id",
-            "example": "6631f3841c36049d76cf1ac3"} 
-            }
-          },
-          "_id": {
-            "type": "string",
-            "description": "board id",
-             "example": "6631f3841c36049d76cf1ac3"
-          } 
+            "example": "6631f3841c36049d76cf1ac3"
+          }
+        },
+        "example": {
+          "id": "6631f3841c36049d76cf1ac3"
         }
       },
+
+      "GetAllColumnsResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["title", "owner", "_id"],
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Board Column Title",
+              "example": "Title-1"
+            },
+            "owner": {
+              "type": "object",
+              "discription": "Board Id",
+              "example": {
+                "_id": {
+                  "type": "string",
+                  "description": "Board id",
+                  "example": "6631f3841c36049d76cf1ac3"
+                }
+              }
+            },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
+            }
+          }
+        },
         "example": [
           {
             "title": "Project Office",
-         "_id": "6631f3841c36049d76cf1ac3",
-          "owner": {
-                "_id": "6631f3141c36049126cf1ac"
+            "_id": "6631f3841c36049d76cf1ac3",
+            "owner": {
+              "_id": "6631f3141c36049126cf1ac"
             }
-         },
-         { "title": "Project Office",
-          "_id": "6631f3841c36049d76cf1ac3",
-          "owner": {
-                "_id": "6631f3141c36049126cf1ac"
+          },
+          {
+            "title": "Project Office",
+            "_id": "6631f3841c36049d76cf1ac3",
+            "owner": {
+              "_id": "6631f3141c36049126cf1ac"
             }
+          },
+          {
+            "title": "Project Office",
+            "_id": "6631f3841c36049d76cf1ac3",
+            "owner": {
+              "_id": "6631f3141c36049126cf1ac"
+            }
+          }
+        ]
+      },
+      "PostColumnResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["title", "owner", "_id"],
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Board Column Title",
+              "example": "Title-1"
+            },
+            "owner": {
+              "type": "object",
+              "discription": "Board Id",
+              "example": {
+                "_id": {
+                  "type": "string",
+                  "description": "Board id",
+                  "example": "6631f3841c36049d76cf1ac3"
+                }
+              }
+            },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
+            }
+          }
         },
-        { "title": "Project Office",
+        "example": {
+          "title": "Project Office",
           "_id": "6631f3841c36049d76cf1ac3",
           "owner": {
-                "_id": "6631f3141c36049126cf1ac"
-            }
-        }]
-    },
-    "PostColumnResponse": {
-        "type": "array",
-        "items":{
-        "type": "object",
-        "required": ["title", "owner", "_id"],
-        "properties": {
-            "title": {
-            "type": "string",
-            "description": "Board Column Title",
-            "example": "Title-1"
-          },
-          "owner": {
-            "type": "object",
-            "discription": "Board Id",
-            "example": {
-              "_id": {
-            "type": "string",
-            "description": "Board id",
-            "example": "6631f3841c36049d76cf1ac3"} 
-            }
-          },
-          "_id": {
-            "type": "string",
-            "description": "board id",
-             "example": "6631f3841c36049d76cf1ac3"
-          } 
+            "_id": "6631f3141c36049126cf1ac"
+          }
         }
       },
-        "example":
-          {
-            "title": "Project Office",
-         "_id": "6631f3841c36049d76cf1ac3",
-          "owner": {
-                "_id": "6631f3141c36049126cf1ac"
-            }
-         }
-    },
-    "PatchColumnResponse": {
+      "PatchColumnResponse": {
         "type": "array",
-        "items":{
-        "type": "object",
-        "required": ["title", "owner", "_id"],
-        "properties": {
+        "items": {
+          "type": "object",
+          "required": ["title", "owner", "_id"],
+          "properties": {
             "title": {
-            "type": "string",
-            "description": "Board Column Title",
-            "example": "Title-1"
-          },
-          "owner": {
-            "type": "object",
-            "discription": "Board Id",
-            "example": {
-              "_id": {
-            "type": "string",
-            "description": "Board id",
-            "example": "6631f3841c36049d76cf1ac3"} 
+              "type": "string",
+              "description": "Board Column Title",
+              "example": "Title-1"
+            },
+            "owner": {
+              "type": "object",
+              "discription": "Board Id",
+              "example": {
+                "_id": {
+                  "type": "string",
+                  "description": "Board id",
+                  "example": "6631f3841c36049d76cf1ac3"
+                }
+              }
+            },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
             }
-          },
-          "_id": {
-            "type": "string",
-            "description": "board id",
-             "example": "6631f3841c36049d76cf1ac3"
-          } 
+          }
+        },
+        "example": {
+          "title": "Project Office",
+          "_id": "6631f3841c36049d76cf1ac3",
+          "owner": {
+            "_id": "6631f3141c36049126cf1ac"
+          }
         }
       },
-        "example":
-          {
-            "title": "Project Office",
-         "_id": "6631f3841c36049d76cf1ac3",
-          "owner": {
-                "_id": "6631f3141c36049126cf1ac"
-            }
-         }
-    },
-             "DeleteColumnResponse": {
+      "DeleteColumnResponse": {
         "type": "object",
         "required": [],
         "properties": {
           "id": {
             "type": "string",
             "description": "column id",
-             "example": "6631f3841c36049d76cf1ac3"
-          } 
-      },
-        "example": 
-          {
-         "id": "6631f3841c36049d76cf1ac3"
-         }
-    },
-       "GetAllCardsResponse": {
-        "type": "array",
-        "items":{
-        "type": "object",
-        "required": ["title", "owner", "_id"],
-        "properties": {
-            "title": {
-            "type": "string",
-            "description": "Task title",
-            "example": "Title-1"
-          },
-          "description": {
-            "type": "string",
-            "description": "Task description",
-            "example": "Description-1"
-          },
-          "priority": {
-            "type": "string",
-            "description": "Level of priority",
-            "example": "medium"
-          },
-          "deadline": {
-            "type": "string",
-            "description": "Task dealine",
-            "example": "2024-05-04T17:42:30.636+00:00"
-          },
-          "owner": {
-            "type": "object",
-            "discription": "User Id",
-            "example": {
-              "_id": {
-            "type": "string",
-            "description": "Board id",
-            "example": "6631f3841c36049d76cf1ac3"} 
-            }
-          },
-          "_id": {
-            "type": "string",
-            "description": "board id",
-             "example": "6631f3841c36049d76cf1ac3"
-          } 
+            "example": "6631f3841c36049d76cf1ac3"
+          }
+        },
+        "example": {
+          "id": "6631f3841c36049d76cf1ac3"
         }
       },
+      "GetAllCardsResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["title", "owner", "_id"],
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Task title",
+              "example": "Title-1"
+            },
+            "description": {
+              "type": "string",
+              "description": "Task description",
+              "example": "Description-1"
+            },
+            "priority": {
+              "type": "string",
+              "description": "Level of priority",
+              "example": "medium"
+            },
+            "deadline": {
+              "type": "string",
+              "description": "Task dealine",
+              "example": "2024-05-04T17:42:30.636+00:00"
+            },
+            "owner": {
+              "type": "object",
+              "discription": "User Id",
+              "example": {
+                "_id": {
+                  "type": "string",
+                  "description": "Board id",
+                  "example": "6631f3841c36049d76cf1ac3"
+                }
+              }
+            },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
+            }
+          }
+        },
         "example": [
           {
             "title": "The Watch Spot Design",
@@ -1482,134 +1518,134 @@
             "owner": {
               "_id": "6631f13141c316049126cf1ac"
             }
-          }]
-    },
-    "PostCardResponse": {
-        "type": "array",
-        "items":{
-        "type": "object",
-        "required": ["title", "owner", "_id"],
-        "properties": {
-            "title": {
-            "type": "string",
-            "description": "Task title",
-            "example": "Title-1"
-          },
-          "description": {
-            "type": "string",
-            "description": "Task description",
-            "example": "Description-1"
-          },
-          "priority": {
-            "type": "string",
-            "description": "Level of priority",
-            "example": "medium"
-          },
-          "deadline": {
-            "type": "string",
-            "description": "Task dealine",
-            "example": "2024-05-04T17:42:30.636+00:00"
-          },
-          "owner": {
-            "type": "object",
-            "discription": "User Id",
-            "example": {
-              "_id": {
-            "type": "string",
-            "description": "Board id",
-            "example": "6631f3841c36049d76cf1ac3"} 
-            }
-          },
-          "_id": {
-            "type": "string",
-            "description": "board id",
-             "example": "6631f3841c36049d76cf1ac3"
-          } 
-        }
+          }
+        ]
       },
-        "example": 
-          {
-            "title": "The Watch Spot Design",
-            "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
-            "priority": "low",
-            "deadline": "2024-05-04T17:42:30.636+00:00",
-            "_id": "6631f31411c3604119126cf1ac",
+      "PostCardResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["title", "owner", "_id"],
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Task title",
+              "example": "Title-1"
+            },
+            "description": {
+              "type": "string",
+              "description": "Task description",
+              "example": "Description-1"
+            },
+            "priority": {
+              "type": "string",
+              "description": "Level of priority",
+              "example": "medium"
+            },
+            "deadline": {
+              "type": "string",
+              "description": "Task dealine",
+              "example": "2024-05-04T17:42:30.636+00:00"
+            },
             "owner": {
-              "_id": "6631f13141c316049126cf1ac"
+              "type": "object",
+              "discription": "User Id",
+              "example": {
+                "_id": {
+                  "type": "string",
+                  "description": "Board id",
+                  "example": "6631f3841c36049d76cf1ac3"
+                }
+              }
+            },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
             }
           }
-    },
-     "PatchCardResponse": {
-        "type": "array",
-        "items":{
-        "type": "object",
-        "required": ["title", "owner", "_id"],
-        "properties": {
-            "title": {
-            "type": "string",
-            "description": "Task title",
-            "example": "Title-1"
-          },
-          "description": {
-            "type": "string",
-            "description": "Task description",
-            "example": "Description-1"
-          },
-          "priority": {
-            "type": "string",
-            "description": "Level of priority",
-            "example": "medium"
-          },
-          "deadline": {
-            "type": "string",
-            "description": "Task dealine",
-            "example": "2024-05-04T17:42:30.636+00:00"
-          },
+        },
+        "example": {
+          "title": "The Watch Spot Design",
+          "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
+          "priority": "low",
+          "deadline": "2024-05-04T17:42:30.636+00:00",
+          "_id": "6631f31411c3604119126cf1ac",
           "owner": {
-            "type": "object",
-            "discription": "User Id",
-            "example": {
-              "_id": {
-            "type": "string",
-            "description": "Board id",
-            "example": "6631f3841c36049d76cf1ac3"} 
-            }
-          },
-          "_id": {
-            "type": "string",
-            "description": "board id",
-             "example": "6631f3841c36049d76cf1ac3"
-          } 
+            "_id": "6631f13141c316049126cf1ac"
+          }
         }
       },
-        "example": 
-          {
-            "title": "The Watch Spot Design",
-            "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
-            "priority": "low",
-            "deadline": "2024-05-04T17:42:30.636+00:00",
-            "_id": "6631f31411c3604119126cf1ac",
+      "PatchCardResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["title", "owner", "_id"],
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Task title",
+              "example": "Title-1"
+            },
+            "description": {
+              "type": "string",
+              "description": "Task description",
+              "example": "Description-1"
+            },
+            "priority": {
+              "type": "string",
+              "description": "Level of priority",
+              "example": "medium"
+            },
+            "deadline": {
+              "type": "string",
+              "description": "Task dealine",
+              "example": "2024-05-04T17:42:30.636+00:00"
+            },
             "owner": {
-              "_id": "6631f13141c316049126cf1ac"
+              "type": "object",
+              "discription": "User Id",
+              "example": {
+                "_id": {
+                  "type": "string",
+                  "description": "Board id",
+                  "example": "6631f3841c36049d76cf1ac3"
+                }
+              }
+            },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
             }
           }
-    },
-             "DeleteCardResponse": {
+        },
+        "example": {
+          "title": "The Watch Spot Design",
+          "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
+          "priority": "low",
+          "deadline": "2024-05-04T17:42:30.636+00:00",
+          "_id": "6631f31411c3604119126cf1ac",
+          "owner": {
+            "_id": "6631f13141c316049126cf1ac"
+          }
+        }
+      },
+      "DeleteCardResponse": {
         "type": "object",
         "required": [],
         "properties": {
           "id": {
             "type": "string",
             "description": "card id",
-             "example": "6631f3841c36049d76cf1ac3"
-          } 
+            "example": "6631f3841c36049d76cf1ac3"
+          }
+        },
+        "example": {
+          "id": "6631f3841c36049d76cf1ac3"
+        }
       },
-        "example": 
-          {
-         "id": "6631f3841c36049d76cf1ac3"
-         }
-    },
-        "NeedHelpResponse": {
+      "NeedHelpResponse": {
         "type": "object",
         "required": ["message"],
         "properties": {
@@ -1630,5 +1666,3 @@
     }
   }
 }
-
-

@@ -12,6 +12,12 @@ export const authUserRegisterSchema = Joi.object({
   password: Joi.string().pattern(new RegExp(passwordRegexp)).required(),
 });
 
+export const authUserUpdateSchema = Joi.object({
+  name: Joi.string().pattern(new RegExp(nameRegexp)),
+  email: Joi.string().pattern(new RegExp(emailRegexp)),
+  password: Joi.string().pattern(new RegExp(passwordRegexp)),
+}).or("name", "email", "password");
+
 export const authUserLoginSchema = Joi.object({
   email: Joi.string().pattern(new RegExp(emailRegexp)).required(),
   password: Joi.string().pattern(new RegExp(passwordRegexp)).required(),
