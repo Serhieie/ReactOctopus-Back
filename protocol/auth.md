@@ -1,9 +1,10 @@
-#Auth protocol
+# Auth protocol
 
-##register
+## register
 
-###request
-**\*POST**
+### request
+
+**POST**
 
 ```json
 {
@@ -13,54 +14,44 @@
 }
 ```
 
-###response
+### response
 
 ```json
 {
-    "user": {
-        "name": "Alex",
-        "email": "mail@gmail.com"
-    }
-}
-```
-
-###DB structure
-
-```json
-{
-  "_id": {
-    "$oid": "6635f294baf30fecf080c2c6"
-  },
-  "password": "$2a$10$UGPGpzzo/sZH3uMlBehIvuTbPIo/l7ZV2NQM894I4TgZeWbeOzraa",
-  "email": "mail@gmail.com",
-  "token": null,
-  "avatarURL": "//www.gravatar.com/avatar/26ad22e7a24a12bfda4591678d2d8d92",
-  "verify": false,
-  "verificationToken": "cc2a448e-01dc-4d1e-bb8e-ada36eca6496",
-  "createdAt": {
-    "$date": "2024-05-04T08:32:20.238Z"
-  },
-  "updatedAt": {
-    "$date": "2024-05-04T08:32:20.238Z"
+  "token": "string",
+  "user": {
+    "name": "Anton",
+    "email": "mail@gmail.com"
   }
 }
 ```
 
-##Verify
-**\*GET**
-
-###response
+### DB structure
 
 ```json
 {
-  "message": "Verification successful"
+  "_id": {
+    "$oid": "663895705184d496ef6ef4ab"
+  },
+  "name": "Anton",
+  "password": "$2a$10$xjc321ehH4n33sqHT36IluKfdcpC417CWQk4nl822JKYZmG6ZPGSe",
+  "email": "mail@gmail.com",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Mzg5NTcwNTE4NGQ0OTZlZjZlZjRhYiIsImlhdCI6MTcxNDk4NDMzNSwiZXhwIjoxNzE1MDY3MTM1fQ.bgV2f9MTgbHwxYrCAYaBh7tX3vBHXMIjbFU1bDdVnac",
+  "avatarURL": "//www.gravatar.com/avatar/26ad22e7a24a12bfda4591678d2d8d92",
+  "createdAt": {
+    "$date": "2024-05-06T08:31:44.495Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-06T08:32:15.574Z"
+  }
 }
 ```
 
-##LogIn
+## LogIn
 
-###request
-**\*POST**
+### request
+
+**POST**
 
 ```json
 {
@@ -69,7 +60,7 @@
 }
 ```
 
-###response
+### response
 
 ```json
 {
@@ -80,25 +71,27 @@
 }
 ```
 
-##LogOut
+## LogOut
 
-###request
-**\*POST**
+### request
 
-"Authorization: Bearer <token>"
-
-###response
-
-\*\*\*Status: 205, "No content"
-
-##Current
-
-###request
-**\*GET**
+**POST**
 
 "Authorization: Bearer <token>"
 
-###response
+### response
+
+Status: 205, "No content"
+
+## Current
+
+### request
+
+**GET**
+
+"Authorization: Bearer <token>"
+
+### response
 
 ```json
 {
@@ -106,10 +99,11 @@
 }
 ```
 
-##repeatVerify
+## repeatVerify
 
-###request
-**\*POST**
+### request
+
+**POST**
 
 ```json
 {
@@ -117,7 +111,7 @@
 }
 ```
 
-###response
+### response
 
 ```json
 {

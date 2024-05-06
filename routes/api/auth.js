@@ -2,16 +2,13 @@ import express from "express";
 import {
   authUserLoginSchema,
   authUserRegisterSchema,
-  findVerifyTokenUserSchema,
 } from "../../schemas/usersSchema.js";
 import ctrlWrapper from "../../helpers/ctrlWrapper.js";
 import {
   current,
   logout,
-  resendVerifyEmail,
   signin,
   signup,
-  verifyEmail,
 } from "../../controllers/authControllers.js";
 import validateBody from "../../middlewares/validateBody.js";
 import { validateToken } from "../../middlewares/validateToken.js";
@@ -33,14 +30,6 @@ authRouter.post(
 authRouter.post("/logout", validateToken, ctrlWrapper(logout));
 
 authRouter.get("/current", validateToken, ctrlWrapper(current));
-
-authRouter.get("/verify/:verificationToken", ctrlWrapper(verifyEmail));
-
-authRouter.post(
-  "/verify",
-  validateBody(findVerifyTokenUserSchema),
-  ctrlWrapper(resendVerifyEmail)
-);
 
 // authRouter.patch(
 //   '/info',
