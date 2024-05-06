@@ -34,6 +34,7 @@ app.use(express.json());
 app.use('/api/auth', authRouter);
 app.use('/api/boards', boardRouter);
 app.use('/api/images', imagesRouter);
+
 app.use('/api', needHelpRouter);
 
 app.use(

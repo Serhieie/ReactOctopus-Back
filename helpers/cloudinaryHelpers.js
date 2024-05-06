@@ -16,7 +16,7 @@ const getImagesFromFolder = async (folderName) => {
     const { resources } = await cloudinary.api.resources({
       type: "upload",
         prefix: folderName,
-        max_results: 15,
+        max_results: 16,
         context: true,
     });
     const imageUrls = resources.map(resource => resource.url);

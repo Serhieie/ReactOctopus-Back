@@ -22,6 +22,18 @@
       "description": "Boards endpoints"
     },
     {
+      "name": "Column",
+      "description": "Column endpoints"
+    },
+    {
+      "name": "Card",
+      "description": "Card endpoints"
+    },
+    {
+      "name": "NeedHelp",
+      "description": "Need help endpoint(можливо треба перенести в auth)"
+    },
+    {
       "name": "Images",
       "description": "Images endpoints. (тимчасові роути, якщо буде потрібно)"
     }
@@ -150,6 +162,35 @@
         }
       }
     },
+             "/api/auth/update": {
+      "patch": {
+        "tags": ["Auth"],
+        "summary": "User information update",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateInfoResponse"
+                }
+              }
+            }
+          },
+        "400": {
+            "description": "Bad Request: The server cannot process the request (invalid request body).",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized: Access to the requested resource is unauthorized.",
+            "content": {}
+          }
+        }
+      }
+    },
+
     "/api/auth/google": {
       "get": {
         "tags": ["Auth"],
@@ -301,10 +342,10 @@
         }
       }
     },
-         "/api/boards": {
+         "/api/boards/get": {
       "get": {
         "tags": ["Board"],
-        "summary": "get all boards",
+        "summary": "Get all boards",
         "parameters": [],
         "security": [{ "Bearer": [] }],
         "responses": {
@@ -317,6 +358,422 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized: Access to the requested resource is unauthorized.",
+            "content": {}
+          }
+        }
+      }
+    },
+             "/api/boards/post": {
+      "post": {
+        "tags": ["Board"],
+        "summary": "Post board",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+                "requestBody": {
+          "description": "Post board object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostBoardRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostBoardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The server cannot process the request (invalid request body).",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized: Access to the requested resource is unauthorized.",
+            "content": {}
+          }
+        }
+      }
+    },
+                 "/api/boards/patch/:id": {
+      "patch": {
+        "tags": ["Board"],
+        "summary": "Update bord on the server",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+                "requestBody": {
+          "description": "Update board object at the server",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchBoardRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatchBoardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The server cannot process the request (invalid request body).",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized: Access to the requested resource is unauthorized.",
+            "content": {}
+          },
+          "404":{
+            "description": "Not Found: The requested resource could not be found on the server.",
+            "content": {}
+          }
+        }
+      }
+    },
+                  "/api/boards/delete/:id": {
+      "delete": {
+        "tags": ["Board"],
+        "summary": "Delete board from the server",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteBoardResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Access to the requested resource is unauthorized.",
+            "content": {}
+          },
+          "404":{
+            "description": "Not Found: The requested resource could not be found on the server.",
+            "content": {}
+          }
+        }
+      }
+    },
+        "/api/columns/get": {
+      "get": {
+        "tags": ["Column"],
+        "summary": "Get all columns",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllColumnsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Access to the requested resource is unauthorized.",
+            "content": {}
+          }
+        }
+      }
+    },
+              "/api/columns/post": {
+      "post": {
+        "tags": ["Column"],
+        "summary": "Post column",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+                "requestBody": {
+          "description": "Post column object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostColumnRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostColumnResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The server cannot process the request (invalid request body).",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized: Access to the requested resource is unauthorized.",
+            "content": {}
+          }
+        }
+      }
+    },
+                 "/api/columns/patch/:id": {
+      "patch": {
+        "tags": ["Column"],
+        "summary": "Update column on the server",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+                "requestBody": {
+          "description": "Update column object at the server",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchColumnRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatchColumnResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The server cannot process the request (invalid request body).",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized: Access to the requested resource is unauthorized.",
+            "content": {}
+          },
+          "404":{
+            "description": "Not Found: The requested resource could not be found on the server.",
+            "content": {}
+          }
+        }
+      }
+    },
+                  "/api/columns/delete/:id": {
+      "delete": {
+        "tags": ["Column"],
+        "summary": "Delete column from the server",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteColumnResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Access to the requested resource is unauthorized.",
+            "content": {}
+          },
+          "404":{
+            "description": "Not Found: The requested resource could not be found on the server.",
+            "content": {}
+          }
+        }
+      }
+    },
+             "/api/cards/get": {
+      "get": {
+        "tags": ["Card"],
+        "summary": "Get all cards",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllCardsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Access to the requested resource is unauthorized.",
+            "content": {}
+          }
+        }
+      }
+    },
+         "/api/cards/post": {
+      "post": {
+        "tags": ["Card"],
+        "summary": "Post card on the server",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+                "requestBody": {
+          "description": "Post card object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostCardRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostCardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The server cannot process the request (invalid request body).",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized: Access to the requested resource is unauthorized.",
+            "content": {}
+          }
+        }
+      }
+    },
+                 "/api/cards/patch/:id": {
+      "patch": {
+        "tags": ["Card"],
+        "summary": "Update card on the server",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+                "requestBody": {
+          "description": "Update card object at the server",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchCardRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatchCardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The server cannot process the request (invalid request body).",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized: Access to the requested resource is unauthorized.",
+            "content": {}
+          },
+          "404":{
+            "description": "Not Found: The requested resource could not be found on the server.",
+            "content": {}
+          }
+        }
+      }
+    },
+                  "/api/cards/delete/:id": {
+      "delete": {
+        "tags": ["Card"],
+        "summary": "Delete cards from the server",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteCardResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Access to the requested resource is unauthorized.",
+            "content": {}
+          },
+          "404":{
+            "description": "Not Found: The requested resource could not be found on the server.",
+            "content": {}
+          }
+        }
+      }
+    },
+      "/api/images/needhelp": {
+      "get": {
+        "tags": ["NeedHelp"],
+        "summary": "Send email and message to our email",
+        "parameters": [],
+         "requestBody": {
+          "description": "Need help object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NeedHelpRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NeedHelpResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The server cannot process the request (invalid request body).",
+            "content": {}
           },
           "401": {
             "description": "Unauthorized: Access to the requested resource is unauthorized.",
@@ -373,6 +830,172 @@
       "CurrentRequest": {
         "type": "object",
         "properties": {}
+      },
+       "PostBoardRequest": {
+        "type": "object",
+        "required": ["title", "iconId", "background"],
+        "properties": {
+            "title": {
+            "type": "string",
+            "description": "User boards",
+            "example": "Neon Light Project"
+          },
+           "iconId": {
+            "type": "string",
+            "description": "Board icon id",
+            "example": "2"
+          },
+                     "background": {
+            "type": "string",
+            "description": "Background image url",
+            "example": "https://example/images/sakura.webp"
+          }
+      },
+        "example": 
+          {
+            "title": "Project Office",
+            "iconId": "1",
+            "background":  "https://example/images/sakura.webp"
+         }
+    },
+     "PatchBoardRequest": {
+        "type": "object",
+        "required": [],
+        "properties": {
+            "title": {
+            "type": "string",
+            "description": "User boards",
+            "example": "Neon Light Project"
+          },
+           "iconId": {
+            "type": "string",
+            "description": "Board icon id",
+            "example": "2"
+          },
+                     "background": {
+            "type": "string",
+            "description": "Background image url",
+            "example": "https://example/images/sakura.webp"
+          }
+      },
+        "example": 
+          {
+            "title": "Project Office",
+            "iconId": "1",
+            "background":  "https://example/images/sakura.webp"
+         }
+    },
+          "PostColumnRequest": {
+        "type": "object",
+        "required": ["title"],
+        "properties": {
+            "title": {
+            "type": "string",
+            "description": "User boards",
+            "example": "Neon Light Project"
+          }
+      },
+        "example": 
+          {
+            "title": "Project Office"
+         }
+    },
+        "PatchColumnRequest": {
+        "type": "object",
+        "required": [],
+        "properties": {
+            "title": {
+            "type": "string",
+            "description": "User boards",
+            "example": "Neon Light Project"
+          }
+      },
+        "example": 
+          {
+            "title": "Project Office"
+         }
+    },
+        "PostCardRequest": {
+        "type": "object",
+        "required": ["title", "description", "priority","deadline" ],
+        "properties": {
+            "title": {
+            "type": "string",
+            "description": "User boards",
+            "example": "Neon Light Project"
+          },
+          "description": {
+            "type": "string",
+            "description": "Task description",
+            "example": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design."
+          },
+          "priority": {
+            "type": "string",
+            "description": "Level of priority",
+            "example": "medium"
+          },
+          "deadline": {
+            "type": "string",
+            "description": "Task dealine",
+            "example": "2024-05-04T17:42:30.636+00:00"
+          }
+      },
+        "example": 
+              {
+            "title": "The Watch Spot Design",
+            "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
+            "priority": "low",
+            "deadline": "2024-05-04T17:42:30.636+00:00"
+          }
+    },
+    "PatchCardRequest": {
+        "type": "object",
+        "required": [],
+        "properties": {
+            "title": {
+            "type": "string",
+            "description": "User boards",
+            "example": "Neon Light Project"
+          },
+          "description": {
+            "type": "string",
+            "description": "Task description",
+            "example": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design."
+          },
+          "priority": {
+            "type": "string",
+            "description": "Level of priority",
+            "example": "medium"
+          },
+          "deadline": {
+            "type": "string",
+            "description": "Task dealine",
+            "example": "2024-05-04T17:42:30.636+00:00"
+          }
+      },
+        "example": 
+              {
+            "title": "The Watch Spot Design",
+            "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
+            "priority": "low",
+            "deadline": "2024-05-04T17:42:30.636+00:00"
+          }
+    },
+          "NeedHelpRequest": {
+        "type": "object",
+        "required": ["email", "description"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "message": {
+            "type": "string",
+            "description": "User message",
+            "example": "Some text im message"
+          }
+        }
       },
       "RegistrationResponse": {
         "type": "object",
@@ -478,7 +1101,7 @@
         "type": "array",
         "items":{
         "type": "object",
-        "required": ["title","background", "iconId", "columns", "id"],
+        "required": ["title","background", "iconId", "owner", "_id"],
         "properties": {
             "title": {
             "type": "string",
@@ -490,126 +1113,514 @@
             "description": "Background image url",
             "example": "https://example/images/sakura.webp"
           },
-          "columns": {
-            "type": "array",
-            "description": "Columns in the tab",
-            "example": [{
-                "title":{
-                "type": "string",
-                "description":"Column title",
-                "example": "columnt-1"
-            },
-             "cards": {
-                "type": "array",
-                "description": "Column cards",
-                "example": [{
-                    "title":{
-                        "type": "string",
-                        "description": "Card title",
-                        "example": "Research and Analysis"
-                },
-                    "description": {
-                        "type": "string",
-                        "description": "Card description",
-                        "example":"Conduct in-depth research and analysis on the project's topic, gather relevant data, and identify key insights to inform decision-making and project planning."
-                },
-                    "priority": {
-                        "type": "string",
-                        "description": "Card priority",
-                        "example": "medium"
-                },
-                    "deadline": {
-                        "type": "string",
-                        "description": "Card deadline",
-                        "example":"2024-05-01T07:47:16.688+00:00"
-                },
-                    "_id": {
-                        "type": "string",
-                        "description": "card id",
-                        "example": "6631f3141c36049126cf1ac"
-                }
-            }]
-             }}]
+           "iconId": {
+            "type": "string",
+            "description": "Board icon id",
+            "example": "2"
+          },
+          "owner": {
+            "type": "object",
+            "discription": "owner of board",
+            "example": {
+              "_id": {
+            "type": "string",
+            "description": "owner id",
+            "example": "6631f3841c36049d76cf1ac3"} 
+            }
           },
           "_id": {
             "type": "string",
             "description": "board id",
              "example": "6631f3841c36049d76cf1ac3"
-          },
-          "owner": {
-            "email": {
-                "type": "string",
-                "description": "Owner email",
-                "format": "email"
-            },
-            "_id": {
-                "type": "string",
-                "description": "owner ID",
-                "example": "6631f3841c36049d76ad2123"
-            }
-          }
+          } 
         }
-        },
-        "example": [{"title": "Project Office",
+      },
+        "example": [
+          {
+            "title": "Project Office",
+         "background": "https://example/images/nightSky.webp",
+         "_id": "6631f3841c36049d76cf1ac3",
+          "iconId": "1",
+          "owner": {
+                "_id": "6631f3141c36049126cf1ac"
+            }
+         },
+         { "title": "Project Office",
          "background": "https://example/images/nightSky.webp",
           "iconId": "1",
-          "columns": [{
-                "title": "Title-1",
-                "description": "description-1",
-                "priority": "medium",
-                "deadline": "2024-05-01T07:47:16.688+00:00",
+          "_id": "6631f3841c36049d76cf1ac3",
+          "owner": {
                 "_id": "6631f3141c36049126cf1ac"
-            },
-        {
-                "title": "Title-2",
-                "description": "description-2",
-                "priority": "low",
-                "deadline": "2024-05-04T07:00:00.688+00:00",
-                "_id": "6631f3141c36049126cfffc"
-            },
-        {
-                "title": "Title-3",
-                "description": "description-2",
-                "priority": "medium",
-                "deadline": "2024-07-02T04:57:26.687+00:00",
-                "_id": "6631f3141c36049126cf34c"
-            }],
-         "_id": "6631f3841c36049d76cf1ac3",
-         "owner": {
-            "email": "www.example@ex.com",
-            "_id": "6631f3841c36049d76ad2123"
-          }},{"title": "Neon Light Project",
-         "background": "https://example/images/sakura.webp",
-          "iconId": "3",
-          "columns": [{
-                "title": "Title-1",
-                "description": "description-1",
-                "priority": "medium",
-                "deadline": "2024-05-01T07:47:16.688+00:00",
+            }
+        },
+        { "title": "Project Office",
+         "background": "https://example/images/nightSky.webp",
+          "iconId": "1",
+          "_id": "6631f3841c36049d76cf1ac3",
+          "owner": {
                 "_id": "6631f3141c36049126cf1ac"
-            },
-        {
-                "title": "Title-2",
-                "description": "description-2",
-                "priority": "low",
-                "deadline": "2024-05-04T07:00:00.688+00:00",
-                "_id": "6631f3141c36049126cfffc"
-            },
-        {
-                "title": "Title-3",
-                "description": "description-2",
-                "priority": "medium",
-                "deadline": "2024-07-02T04:57:26.687+00:00",
-                "_id": "6631f3141c36049126cf34c"
-            }],
+            }
+        }]
+    },
+         "PostBoardResponse": {
+        "type": "object",
+        "required": ["title","background", "iconId", "owner", "_id"],
+        "properties": {
+            "title": {
+            "type": "string",
+            "description": "User boards",
+            "example": "Neon Light Project"
+          },
+           "background": {
+            "type": "string",
+            "description": "Background image url",
+            "example": "https://example/images/sakura.webp"
+          },
+           "iconId": {
+            "type": "string",
+            "description": "Board icon id",
+            "example": "2"
+          },
+          "owner": {
+            "type": "object",
+            "discription": "owner of board",
+            "example": {
+              "_id": {
+            "type": "string",
+            "description": "owner id",
+            "example": "6631f3841c36049d76cf1ac3"} 
+            }
+          },
+          "_id": {
+            "type": "string",
+            "description": "board id",
+             "example": "6631f3841c36049d76cf1ac3"
+          } 
+      },
+        "example": 
+          {
+          "title": "Project Office",
+         "background": "https://example/images/nightSky.webp",
          "_id": "6631f3841c36049d76cf1ac3",
-         "owner": {
-            "email": "www.example@ex.com",
-            "_id": "6631f3841c36049d76ad2123"
-          }}]
-    }
+          "iconId": "1",
+          "owner": {
+                "_id": "6631f3141c36049126cf1ac"
+            }
+         }
+    },
+     "PatchBoardResponse": {
+        "type": "object",
+        "required": [],
+        "properties": {
+            "title": {
+            "type": "string",
+            "description": "User boards",
+            "example": "Neon Light Project"
+          },
+           "background": {
+            "type": "string",
+            "description": "Background image url",
+            "example": "https://example/images/sakura.webp"
+          },
+           "iconId": {
+            "type": "string",
+            "description": "Board icon id",
+            "example": "2"
+          },
+          "owner": {
+            "type": "object",
+            "discription": "owner of board",
+            "example": {
+              "_id": {
+            "type": "string",
+            "description": "owner id",
+            "example": "6631f3841c36049d76cf1ac3"} 
+            }
+          },
+          "_id": {
+            "type": "string",
+            "description": "board id",
+             "example": "6631f3841c36049d76cf1ac3"
+          } 
+      },
+        "example": 
+          {
+          "title": "Project Office",
+         "background": "https://example/images/nightSky.webp",
+         "_id": "6631f3841c36049d76cf1ac3",
+          "iconId": "1",
+          "owner": {
+                "_id": "6631f3141c36049126cf1ac"
+            }
+         }
+    },
+
+         "DeleteBoardResponse": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "board id",
+             "example": "6631f3841c36049d76cf1ac3"
+          } 
+      },
+        "example": 
+          {
+         "id": "6631f3841c36049d76cf1ac3"
+         }
     },
     
+     "GetAllColumnsResponse": {
+        "type": "array",
+        "items":{
+        "type": "object",
+        "required": ["title", "owner", "_id"],
+        "properties": {
+            "title": {
+            "type": "string",
+            "description": "Board Column Title",
+            "example": "Title-1"
+          },
+          "owner": {
+            "type": "object",
+            "discription": "Board Id",
+            "example": {
+              "_id": {
+            "type": "string",
+            "description": "Board id",
+            "example": "6631f3841c36049d76cf1ac3"} 
+            }
+          },
+          "_id": {
+            "type": "string",
+            "description": "board id",
+             "example": "6631f3841c36049d76cf1ac3"
+          } 
+        }
+      },
+        "example": [
+          {
+            "title": "Project Office",
+         "_id": "6631f3841c36049d76cf1ac3",
+          "owner": {
+                "_id": "6631f3141c36049126cf1ac"
+            }
+         },
+         { "title": "Project Office",
+          "_id": "6631f3841c36049d76cf1ac3",
+          "owner": {
+                "_id": "6631f3141c36049126cf1ac"
+            }
+        },
+        { "title": "Project Office",
+          "_id": "6631f3841c36049d76cf1ac3",
+          "owner": {
+                "_id": "6631f3141c36049126cf1ac"
+            }
+        }]
+    },
+    "PostColumnResponse": {
+        "type": "array",
+        "items":{
+        "type": "object",
+        "required": ["title", "owner", "_id"],
+        "properties": {
+            "title": {
+            "type": "string",
+            "description": "Board Column Title",
+            "example": "Title-1"
+          },
+          "owner": {
+            "type": "object",
+            "discription": "Board Id",
+            "example": {
+              "_id": {
+            "type": "string",
+            "description": "Board id",
+            "example": "6631f3841c36049d76cf1ac3"} 
+            }
+          },
+          "_id": {
+            "type": "string",
+            "description": "board id",
+             "example": "6631f3841c36049d76cf1ac3"
+          } 
+        }
+      },
+        "example":
+          {
+            "title": "Project Office",
+         "_id": "6631f3841c36049d76cf1ac3",
+          "owner": {
+                "_id": "6631f3141c36049126cf1ac"
+            }
+         }
+    },
+    "PatchColumnResponse": {
+        "type": "array",
+        "items":{
+        "type": "object",
+        "required": ["title", "owner", "_id"],
+        "properties": {
+            "title": {
+            "type": "string",
+            "description": "Board Column Title",
+            "example": "Title-1"
+          },
+          "owner": {
+            "type": "object",
+            "discription": "Board Id",
+            "example": {
+              "_id": {
+            "type": "string",
+            "description": "Board id",
+            "example": "6631f3841c36049d76cf1ac3"} 
+            }
+          },
+          "_id": {
+            "type": "string",
+            "description": "board id",
+             "example": "6631f3841c36049d76cf1ac3"
+          } 
+        }
+      },
+        "example":
+          {
+            "title": "Project Office",
+         "_id": "6631f3841c36049d76cf1ac3",
+          "owner": {
+                "_id": "6631f3141c36049126cf1ac"
+            }
+         }
+    },
+             "DeleteColumnResponse": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "column id",
+             "example": "6631f3841c36049d76cf1ac3"
+          } 
+      },
+        "example": 
+          {
+         "id": "6631f3841c36049d76cf1ac3"
+         }
+    },
+       "GetAllCardsResponse": {
+        "type": "array",
+        "items":{
+        "type": "object",
+        "required": ["title", "owner", "_id"],
+        "properties": {
+            "title": {
+            "type": "string",
+            "description": "Task title",
+            "example": "Title-1"
+          },
+          "description": {
+            "type": "string",
+            "description": "Task description",
+            "example": "Description-1"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Level of priority",
+            "example": "medium"
+          },
+          "deadline": {
+            "type": "string",
+            "description": "Task dealine",
+            "example": "2024-05-04T17:42:30.636+00:00"
+          },
+          "owner": {
+            "type": "object",
+            "discription": "User Id",
+            "example": {
+              "_id": {
+            "type": "string",
+            "description": "Board id",
+            "example": "6631f3841c36049d76cf1ac3"} 
+            }
+          },
+          "_id": {
+            "type": "string",
+            "description": "board id",
+             "example": "6631f3841c36049d76cf1ac3"
+          } 
+        }
+      },
+        "example": [
+          {
+            "title": "The Watch Spot Design",
+            "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
+            "priority": "low",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "_id": "6631f31411c3604119126cf1ac",
+            "owner": {
+              "_id": "6631f13141c316049126cf1ac"
+            }
+          },
+          {
+            "title": "Research and Analysis",
+            "description": "Conduct in-depth research and analysis on the project's topic, gather relevant data, and identify key insights to inform decision-making and project planning.",
+            "priority": "medium",
+            "deadline": "2024-05-05T17:42:30.636+00:00",
+            "_id": "66311f3141c31316049126cfffc",
+            "owner": {
+              "_id": "6631f13141c316049126cf1ac"
+            }
+          },
+          {
+            "title": "Concept Development",
+            "description": "Brainstorm and develop creative concepts and ideas that align with the project's objectives, considering factors such as target audience, messaging, and visual representation.",
+            "priority": "without",
+            "deadline": "2024-05-06T17:42:30.636+00:00",
+            "_id": "6631f3141c31312316049126cf34c",
+            "owner": {
+              "_id": "6631f13141c316049126cf1ac"
+            }
+          }]
+    },
+    "PostCardResponse": {
+        "type": "array",
+        "items":{
+        "type": "object",
+        "required": ["title", "owner", "_id"],
+        "properties": {
+            "title": {
+            "type": "string",
+            "description": "Task title",
+            "example": "Title-1"
+          },
+          "description": {
+            "type": "string",
+            "description": "Task description",
+            "example": "Description-1"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Level of priority",
+            "example": "medium"
+          },
+          "deadline": {
+            "type": "string",
+            "description": "Task dealine",
+            "example": "2024-05-04T17:42:30.636+00:00"
+          },
+          "owner": {
+            "type": "object",
+            "discription": "User Id",
+            "example": {
+              "_id": {
+            "type": "string",
+            "description": "Board id",
+            "example": "6631f3841c36049d76cf1ac3"} 
+            }
+          },
+          "_id": {
+            "type": "string",
+            "description": "board id",
+             "example": "6631f3841c36049d76cf1ac3"
+          } 
+        }
+      },
+        "example": 
+          {
+            "title": "The Watch Spot Design",
+            "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
+            "priority": "low",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "_id": "6631f31411c3604119126cf1ac",
+            "owner": {
+              "_id": "6631f13141c316049126cf1ac"
+            }
+          }
+    },
+     "PatchCardResponse": {
+        "type": "array",
+        "items":{
+        "type": "object",
+        "required": ["title", "owner", "_id"],
+        "properties": {
+            "title": {
+            "type": "string",
+            "description": "Task title",
+            "example": "Title-1"
+          },
+          "description": {
+            "type": "string",
+            "description": "Task description",
+            "example": "Description-1"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Level of priority",
+            "example": "medium"
+          },
+          "deadline": {
+            "type": "string",
+            "description": "Task dealine",
+            "example": "2024-05-04T17:42:30.636+00:00"
+          },
+          "owner": {
+            "type": "object",
+            "discription": "User Id",
+            "example": {
+              "_id": {
+            "type": "string",
+            "description": "Board id",
+            "example": "6631f3841c36049d76cf1ac3"} 
+            }
+          },
+          "_id": {
+            "type": "string",
+            "description": "board id",
+             "example": "6631f3841c36049d76cf1ac3"
+          } 
+        }
+      },
+        "example": 
+          {
+            "title": "The Watch Spot Design",
+            "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
+            "priority": "low",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "_id": "6631f31411c3604119126cf1ac",
+            "owner": {
+              "_id": "6631f13141c316049126cf1ac"
+            }
+          }
+    },
+             "DeleteCardResponse": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "card id",
+             "example": "6631f3841c36049d76cf1ac3"
+          } 
+      },
+        "example": 
+          {
+         "id": "6631f3841c36049d76cf1ac3"
+         }
+    },
+        "NeedHelpResponse": {
+        "type": "object",
+        "required": ["message"],
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Message from server",
+            "example": "Help message send"
+          }
+        }
+      }
+    },
     "securitySchemes": {
       "Bearer": {
         "type": "http",
