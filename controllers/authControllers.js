@@ -120,6 +120,12 @@ export const updateProfile = async (req, res) => {
   res.json(response);
 };
 
+//====wakeUp====
+
+export const wakeUp = async (req, res) => {
+  res.json({ message: "I wake up" });
+};
+
 //================================================================
 // import { ctrlWrapper } from "../helpers/index.js";
 // import {

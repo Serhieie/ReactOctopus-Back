@@ -12,6 +12,7 @@ import {
   signin,
   signup,
   updateProfile,
+  wakeUp,
 } from "../../controllers/authControllers.js";
 import validateBody from "../../middlewares/validateBody.js";
 import { validateToken } from "../../middlewares/validateToken.js";
@@ -43,6 +44,8 @@ authRouter.patch(
   validateBody(authUserUpdateSchema),
   ctrlWrapper(updateProfile)
 );
+
+authRouter.get("/ping", ctrlWrapper(wakeUp));
 
 // authRouter.patch(
 //   '/info',
