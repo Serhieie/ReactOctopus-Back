@@ -1,25 +1,29 @@
 import { User } from "../models/user.js";
 
-async function createUser(body) {
+export const createUser = async (body) => {
   const res = await User.create(body);
   return res._id;
-}
+};
 
-async function findUser(userEmail) {
+export const findUser = async (userEmail) => {
   return User.find({ email: userEmail });
-}
+};
 
-async function findUserById(id) {
+export const findUserById = async (id) => {
   return User.findById(id);
-}
+};
 
-async function updateUser(userId, updateData) {
+export const updateUser = async (userId, updateData) => {
   return User.findByIdAndUpdate(userId, updateData, {
     returnDocument: "after",
   }).select("email name -_id");
-}
+};
 
-export { createUser, findUser, updateUser, findUserById };
+export const updateAvatar = async (userId, updateData) => {
+  return User.findByIdAndUpdate(userId, updateData, {
+    returnDocument: "after",
+  }).select("avatarURL -_id");
+};
 
 // import bcrypt from "bcryptjs";
 // import { httpError } from "../helpers/index.js";

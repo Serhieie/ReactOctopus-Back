@@ -2,16 +2,20 @@ import express from "express";
 import {
   authUserLoginSchema,
   authUserRegisterSchema,
+  authUserUpdateSchema,
 } from "../../schemas/usersSchema.js";
 import ctrlWrapper from "../../helpers/ctrlWrapper.js";
 import {
+  avatars,
   current,
   logout,
   signin,
   signup,
+  updateProfile,
 } from "../../controllers/authControllers.js";
 import validateBody from "../../middlewares/validateBody.js";
 import { validateToken } from "../../middlewares/validateToken.js";
+import upload from "../../middlewares/multerMd.js";
 
 const authRouter = express.Router();
 
@@ -30,6 +34,15 @@ authRouter.post(
 authRouter.post("/logout", validateToken, ctrlWrapper(logout));
 
 authRouter.get("/current", validateToken, ctrlWrapper(current));
+
+authRouter.patch("/avatars", validateToken, upload.single("avatar"), avatars);
+
+authRouter.patch(
+  "/update-profile",
+  validateToken,
+  validateBody(authUserUpdateSchema),
+  ctrlWrapper(updateProfile)
+);
 
 // authRouter.patch(
 //   '/info',

@@ -6,7 +6,12 @@ import { createHash, compareHash } from "../helpers/passwordHash.js";
 
 import httpError from "../helpers/httpError.js";
 
-import { createUser, findUser, updateUser } from "../services/authServise.js";
+import {
+  createUser,
+  findUser,
+  updateUser,
+  updateAvatar,
+} from "../services/authServise.js";
 
 const SECRET_KEY = process.env.SECRET_KEY;
 const EXPIRES_TIME = process.env.EXPIRES_TIME;
@@ -79,6 +84,40 @@ export const current = async (req, res, next) => {
   const { email, subscription } = req.user;
 
   res.json({ email, subscription });
+};
+
+// ====AVATAR====
+export const avatars = async (req, res) => {
+  const img = req.file;
+
+  if (!img) {
+    throw httpError(400, "File not found");
+  }
+
+  if (!img.path) {
+    throw httpError(400, "Upload filed try again");
+  }
+
+  try {
+    const response = await updateAvatar(req.user._id, { avatarURL: img.path });
+    res.json(response);
+  } catch (error) {
+    throw httpError(error.status, error.message);
+  }
+};
+
+//====UPDATE-PROFILE====
+
+export const updateProfile = async (req, res) => {
+  const { name, email, password, _id } = req.user;
+
+  if (req.body.password) {
+    req.body.password = await createHash(password);
+  }
+  const newProfile = { name, email, password, ...req.body };
+  const response = await updateUser(_id, newProfile);
+
+  res.json(response);
 };
 
 //================================================================

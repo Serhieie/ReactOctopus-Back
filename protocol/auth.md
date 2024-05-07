@@ -1,6 +1,6 @@
 # Auth protocol
 
-## register
+## Register
 
 ### request
 
@@ -81,7 +81,7 @@
 
 ### response
 
-Status: 205, "No content"
+Status: 204, "No content"
 
 ## Current
 
@@ -99,15 +99,17 @@ Status: 205, "No content"
 }
 ```
 
-## repeatVerify
+## upploadAvatar
 
 ### request
 
-**POST**
+#### Content-type: multipart/form-data
+
+**PATCH**
 
 ```json
 {
-  "email": "mail@gmail.com"
+  "avatar": "img"
 }
 ```
 
@@ -115,6 +117,6 @@ Status: 205, "No content"
 
 ```json
 {
-  "message": "Verification email sent"
+  "avatarURL": "https://res.cloudinary.com/dusgli7bh/image/upload/v1715005724/avatars/dxkxfwla8snf9ydw8j2a.png"
 }
 ```
