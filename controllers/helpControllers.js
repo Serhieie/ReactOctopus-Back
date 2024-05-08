@@ -5,7 +5,7 @@ import 'dotenv/config';
 const { SEND_HELP_MAIL } = process.env;
 
 const sendNeedHelp = async (req, res) => {
-  const { email, message } = req.body;
+  const { email, comment } = req.body;
 
   const helpBody = {
     to: SEND_HELP_MAIL,
@@ -15,7 +15,7 @@ const sendNeedHelp = async (req, res) => {
         <div>
           <p style="margin: 15px 0; color: #333;"><strong style="color: #666;">Від:</strong> <a href="mailto:${email}" style="color: #666; text-decoration: underline;">${email}</a></p>
           <p style="margin: 15px 0; color: #333;"><strong style="color: #666;">Повідомлення:</strong></p>
-          <p style="margin: 15px 0; color: #333;">${message}</p>
+          <p style="margin: 15px 0; color: #333;">${comment}</p>
         </div>
       </div>
 `,

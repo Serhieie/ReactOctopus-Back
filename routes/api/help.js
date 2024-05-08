@@ -9,7 +9,7 @@ const router = express.Router();
 router.post(
   '/needhelp',
   validateBody(needHelpSchema),
-  autenticate,
+  // autenticate,
   helpControllers.sendNeedHelp
 );
 
