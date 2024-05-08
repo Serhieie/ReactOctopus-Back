@@ -6,3 +6,5 @@ export const emailRegexp =
 
 export const nameRegexp =
   "^[a-zA-Zа-яА-Я0-9\\s!@#$%^&*()_+\\-=`~[\\]{}|\\\\:;\"'<>,.?/]{2,32}$";
+
+  export const themeOptions = ['dark', 'light', 'violet'];

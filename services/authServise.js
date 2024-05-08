@@ -16,7 +16,7 @@ export const findUserById = async (id) => {
 export const updateUser = async (userId, updateData) => {
   return User.findByIdAndUpdate(userId, updateData, {
     returnDocument: "after",
-  }).select("email name -_id");
+  }).select("email name theme -_id");
 };
 
 export const updateAvatar = async (userId, updateData) => {

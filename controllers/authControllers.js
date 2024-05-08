@@ -109,12 +109,12 @@ export const avatars = async (req, res) => {
 //====UPDATE-PROFILE====
 
 export const updateProfile = async (req, res) => {
-  const { name, email, password, _id } = req.user;
+  const { theme, name, email, password, _id } = req.user;
 
   if (req.body.password) {
     req.body.password = await createHash(password);
   }
-  const newProfile = { name, email, password, ...req.body };
+  const newProfile = { theme, name, email, password, ...req.body };
   const response = await updateUser(_id, newProfile);
 
   res.json(response);

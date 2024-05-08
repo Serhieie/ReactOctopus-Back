@@ -1,9 +1,17 @@
 import mongoose from "mongoose";
+import {
+  themeOptions
+} from "../constants/userConstants.js";
 
 const { Schema, model } = mongoose;
 
 const userSchema = new Schema(
   {
+    theme: {
+      type: String,
+      enum: themeOptions,
+      default: "dark"
+    },
     name: {
       type: String,
       required: [true, "Name is required"],
