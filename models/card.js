@@ -11,11 +11,11 @@ const cardSchema = new Schema(
       type: String,
       required: [true, "Set description for card"],
     },
-    label: {
+    priority: {
       type: String,
       required: [true, "Set label for card"],
-      enum: ["green", "pink", "purple", "grey"],
-      default: "grey",
+      enum: ["low", "medium", "high", "without"],
+      default: "without",
     },
     deadline: {
       type: String,
