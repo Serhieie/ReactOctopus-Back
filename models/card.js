@@ -16,14 +16,19 @@ const cardSchema = new Schema(
       required: [true, "Set label for card"],
       enum: ["low", "medium", "high", "without"],
       default: "without",
+
     },
     deadline: {
       type: String,
       required: [true, "Set deadline for card"],
     },
+    columnId: {
+      type: String,
+      required: [true, "Set column id"],
+    },
     owner: {
       type: Schema.Types.ObjectId,
-      ref: "column",
+      ref: "user",
       required: true,
     },
   },

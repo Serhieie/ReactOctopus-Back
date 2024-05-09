@@ -1,7 +1,7 @@
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 import gravatar from "gravatar";
-
+import queryString from "query-string"
 import { createHash, compareHash } from "../helpers/passwordHash.js";
 
 import httpError from "../helpers/httpError.js";
@@ -161,7 +161,7 @@ export const wakeUp = async (req, res) => {
 // };
 
 //google
-const googleAuth = (req, res) => {
+export const googleAuth = (req, res) => {
   const stringifiedParams = queryString.stringify({
     client_id: process.env.GOOGLE_CLIENT_ID,
     redirect_uri: `${process.env.BASE_URL}/api/auth/google-redirect`,
@@ -179,7 +179,7 @@ const googleAuth = (req, res) => {
   );
 };
 
-const googleRedirect = async (req, res) => {
+export const googleRedirect = async (req, res) => {
   const fullUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
   const urlObj = new URL(fullUrl);
   const urlParams = queryString.parse(urlObj.search);
@@ -205,6 +205,8 @@ const googleRedirect = async (req, res) => {
       Authorization: `Bearer ${tokenData.data.access_token}`,
     },
   });
+
+  
 
   //userData.data.email
   // логіка додавання юзера на бек реестрація або логінізація

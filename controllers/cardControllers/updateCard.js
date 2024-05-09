@@ -6,9 +6,9 @@ export const updateCard = async (req, res) => {
     throw httpError(400, "Body must have at least one field");
   }
 
-  const { columnid: owner, cardid: id } = req.params;
-
-  const result = await updateCardbyFilter({ owner, _id: id }, req.body);
+  const { _id: owner } = req.user;
+  const { id } = req.params;
+  const result = await updateCardbyFilter({ owner, id }, req.body);
 
   if (!result) {
     throw httpError(404, `Card with id: ${id} not found`);

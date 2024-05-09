@@ -20,6 +20,8 @@ import {
   boardRouter,
   imagesRouter,
   needHelpRouter,
+  columnRouter,
+  cardRouter
 } from './routes/api/index.js';
 
 dotenv.config();
@@ -33,6 +35,8 @@ app.use(express.json());
 
 app.use('/api/auth', authRouter);
 app.use('/api/boards', boardRouter);
+app.use('/api/columns', columnRouter);
+app.use('/api/cards', cardRouter);
 app.use('/api/images', imagesRouter);
 
 app.use('/api', needHelpRouter);

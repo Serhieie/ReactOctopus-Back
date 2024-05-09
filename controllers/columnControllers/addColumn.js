@@ -1,11 +1,7 @@
 import { createColumn } from "../../services/columnService.js";
 
-export const addColumn = async (req, res) => {
-  const { id: owner } = req.params;
+export const addColumn =  async (req, res) => {
+  const column =  await createColumn(req);
 
-  const result = await createColumn({ ...req.body, owner });
-
-  res.json({
-    result,
-  });
+  res.json(column);
 };

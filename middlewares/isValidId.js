@@ -1,12 +1,26 @@
 import { isValidObjectId } from "mongoose";
 import { httpError } from "../helpers/index.js";
 
-
 const isValidId = (req, res, next) => {
-  const { id } = req.params;
-  if (!isValidObjectId(id)) {
-    next(httpError(400, `${id} is not valid id`));
+  const { boardId, cardId, columnId, id } = req.params;
+  let idToCheck;
+  if (boardId) {
+    idToCheck = boardId;
+  } else if (cardId) {
+    idToCheck = cardId;
+  } else if (columnId) {
+    idToCheck = columnId;
+  } else if (id) {
+    idToCheck = id;
   }
+  else {
+    return next(httpError(400, 'No id provided'));
+  }
+
+  if (!isValidObjectId(idToCheck)) {
+    return next(httpError(400, `${idToCheck} is not a valid id`));
+  }
+  
   next();
 };
 

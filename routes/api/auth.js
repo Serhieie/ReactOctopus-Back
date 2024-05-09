@@ -13,6 +13,7 @@ import {
   signup,
   updateProfile,
   wakeUp,
+  googleAuth, googleRedirect
 } from "../../controllers/authControllers.js";
 import validateBody from "../../middlewares/validateBody.js";
 import { validateToken } from "../../middlewares/validateToken.js";
@@ -47,17 +48,11 @@ authRouter.patch(
 
 authRouter.get("/ping", ctrlWrapper(wakeUp));
 
-// authRouter.patch(
-//   '/info',
-//   uploadCloudParams.single('avatar')
-// );
-
 //Google auth
-/*
-authRouter.get("/google", ctrl.googleAuth);
-authRouter.get("/google-redirect", ctrl.googleRedirect);
+
+authRouter.get("/google", ctrlWrapper(googleAuth));
+authRouter.get("/google-redirect", ctrlWrapper(googleRedirect));
 
 //FrontEnd
 //<a href="http://localhost:3000/api/auth/google">Authorize with Google</a>
-*/
 export default authRouter;
