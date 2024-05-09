@@ -1,1 +1,3 @@
-export const labelsList = ["high", "medium", "low", "without"];
+
+export const priorityList = ["low", "medium", "high", "without"];
+
