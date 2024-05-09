@@ -7,13 +7,19 @@ const columnSchema = new Schema(
       type: String,
       required: [true, "Set title for column"],
     },
+   boardId: {
+      type: String,
+      required: [true, "Set board id"],
+    },
     owner: {
       type: Schema.Types.ObjectId,
-      ref: "board",
+      ref: "user",
       required: true,
     },
+     cards: [{ type: Schema.Types.ObjectId, ref: "card" }]
   },
-  { versionKey: false, timestamps: true }
+  { versionKey: false, timestamps: true },
+     
 );
 
 columnSchema.post("save", handleSaveError);

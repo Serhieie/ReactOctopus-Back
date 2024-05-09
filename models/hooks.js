@@ -9,3 +9,22 @@ export const setUpdateSetting = function (next) {
   this.options.runValidators = true;
   next();
 };
+
+export const deleteAllColumns = async function (next) {
+  try {
+     await mongoose.model('column').deleteMany({ boardId: this._id });
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+
+export const deleteAllCards = async function (next) {
+  try {
+     await mongoose.model('card').deleteMany({ columnId: this._id });
+    next();
+  } catch (error) {
+    next(error);
+  }
+}

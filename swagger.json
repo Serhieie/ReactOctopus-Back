@@ -377,7 +377,7 @@
         }
       }
     },
-    "/api/boards/get": {
+    "/api/boards": {
       "get": {
         "tags": ["Board"],
         "summary": "Get all boards",
@@ -440,7 +440,7 @@
         }
       }
     },
-    "/api/boards/patch/:id": {
+    "/api/boards/patch/{id}": {
       "patch": {
         "tags": ["Board"],
         "summary": "Update bord on the server",
@@ -483,7 +483,7 @@
         }
       }
     },
-    "/api/boards/delete/:id": {
+    "/api/boards/delete/{id}": {
       "delete": {
         "tags": ["Board"],
         "summary": "Delete board from the server",
@@ -511,7 +511,7 @@
         }
       }
     },
-    "/api/columns/get": {
+    "/api/columns/{boardId}": {
       "get": {
         "tags": ["Column"],
         "summary": "Get all columns",
@@ -574,7 +574,7 @@
         }
       }
     },
-    "/api/columns/patch/:id": {
+    "/api/columns/patch/{id}": {
       "patch": {
         "tags": ["Column"],
         "summary": "Update column on the server",
@@ -617,7 +617,7 @@
         }
       }
     },
-    "/api/columns/delete/:id": {
+    "/api/columns/delete/{id}": {
       "delete": {
         "tags": ["Column"],
         "summary": "Delete column from the server",
@@ -645,7 +645,7 @@
         }
       }
     },
-    "/api/cards/get": {
+    "/api/cards/{columnId}": {
       "get": {
         "tags": ["Card"],
         "summary": "Get all cards",
@@ -708,7 +708,7 @@
         }
       }
     },
-    "/api/cards/patch/:id": {
+    "/api/cards/patch/{id}": {
       "patch": {
         "tags": ["Card"],
         "summary": "Update card on the server",
@@ -751,7 +751,7 @@
         }
       }
     },
-    "/api/cards/delete/:id": {
+    "/api/cards/delete/{id}": {
       "delete": {
         "tags": ["Card"],
         "summary": "Delete cards from the server",
@@ -926,6 +926,11 @@
             "type": "string",
             "description": "User boards",
             "example": "Neon Light Project"
+          },
+           "boardId": {
+            "type": "string",
+            "description": "Parent board Id",
+            "example": "6631f3841c36049d76cf1ac3"
           }
         },
         "example": {
@@ -969,6 +974,11 @@
             "type": "string",
             "description": "Task dealine",
             "example": "2024-05-04T17:42:30.636+00:00"
+          },
+           "columnId": {
+            "type": "string",
+            "description": "Parent column Id",
+            "example": "6631f3841c36049d76cf1ac3"
           }
         },
         "example": {
@@ -1130,7 +1140,7 @@
         "type": "array",
         "items": {
           "type": "object",
-          "required": ["title", "background", "iconId", "owner", "_id"],
+          "required": ["title", "background", "iconId", "owner", "_id", "columns"],
           "properties": {
             "title": {
               "type": "string",
@@ -1157,6 +1167,18 @@
                   "example": "6631f3841c36049d76cf1ac3"
                 }
               }
+            },
+            "columns": {
+              "type": "array",
+              "description": "Array of columns Id",
+               "items": {
+                "id": {
+                  "type" : "string",
+                  "description": "Column Id",
+                "example": "6631f3841c36049d76cf1ac3"
+                },
+                 "example": ["6631f3841c36049d76cf1ac1","6631f3841c36049d76cf1ac2","6631f3841c36049d76cf1ac3"]
+               }
             },
             "_id": {
               "type": "string",
@@ -1214,6 +1236,7 @@
             "description": "Board icon id",
             "example": "2"
           },
+          "columns": [],
           "owner": {
             "type": "object",
             "discription": "owner of board",
@@ -1307,12 +1330,16 @@
         "type": "array",
         "items": {
           "type": "object",
-          "required": ["title", "owner", "_id"],
+          "required": ["title", "owner", "_id", "boardId"],
           "properties": {
             "title": {
               "type": "string",
               "description": "Board Column Title",
               "example": "Title-1"
+            },"boardId": {
+              "type": "string",
+              "description": "Parent board Id",
+              "example": "6631f3841c36049d76cf1ac3"
             },
             "owner": {
               "type": "object",
@@ -1324,6 +1351,19 @@
                   "example": "6631f3841c36049d76cf1ac3"
                 }
               }
+            },
+            
+             "cards": {
+              "type": "array",
+              "description": "Array of cards Id",
+               "items": {
+                "id": {
+                  "type" : "string",
+                  "description": "Cards Id",
+                  "example": "6631f3841c36049d76cf1ac3"
+                },
+                 "example": ["6631f3841c36049d76cf1ac1","6631f3841c36049d76cf1ac2","6631f3841c36049d76cf1ac3"]
+               }
             },
             "_id": {
               "type": "string",
@@ -1336,6 +1376,7 @@
           {
             "title": "Project Office",
             "_id": "6631f3841c36049d76cf1ac3",
+            "boardId": "6631f3841c36049d76cf1ac3",
             "owner": {
               "_id": "6631f3141c36049126cf1ac"
             }
@@ -1343,6 +1384,7 @@
           {
             "title": "Project Office",
             "_id": "6631f3841c36049d76cf1ac3",
+            "boardId": "6631f3841c36049d76cf1ac3",
             "owner": {
               "_id": "6631f3141c36049126cf1ac"
             }
@@ -1350,6 +1392,7 @@
           {
             "title": "Project Office",
             "_id": "6631f3841c36049d76cf1ac3",
+            "boardId": "6631f3841c36049d76cf1ac3",
             "owner": {
               "_id": "6631f3141c36049126cf1ac"
             }
@@ -1360,7 +1403,7 @@
         "type": "array",
         "items": {
           "type": "object",
-          "required": ["title", "owner", "_id"],
+          "required": ["title", "owner", "_id", "boardId"],
           "properties": {
             "title": {
               "type": "string",
@@ -1377,6 +1420,11 @@
                   "example": "6631f3841c36049d76cf1ac3"
                 }
               }
+            },
+            "boardId": {
+              "type": "string",
+              "description": "Parent board Id",
+              "example": "6631f3841c36049d76cf1ac3"
             },
             "_id": {
               "type": "string",
@@ -1397,12 +1445,17 @@
         "type": "array",
         "items": {
           "type": "object",
-          "required": ["title", "owner", "_id"],
+          "required": ["title", "owner", "_id", "boardId"],
           "properties": {
             "title": {
               "type": "string",
               "description": "Board Column Title",
               "example": "Title-1"
+            },
+            "boardId": {
+              "type": "string",
+              "description": "Parent board Id",
+              "example": "6631f3841c36049d76cf1ac3"
             },
             "owner": {
               "type": "object",
@@ -1440,15 +1493,13 @@
             "example": "6631f3841c36049d76cf1ac3"
           }
         },
-        "example": {
-          "id": "6631f3841c36049d76cf1ac3"
-        }
+        "example": "6631f3841c36049d76cf1ac3"
       },
       "GetAllCardsResponse": {
         "type": "array",
         "items": {
           "type": "object",
-          "required": ["title", "owner", "_id"],
+          "required": ["title", "owner", "_id", "columnId"],
           "properties": {
             "title": {
               "type": "string",
@@ -1469,6 +1520,11 @@
               "type": "string",
               "description": "Task dealine",
               "example": "2024-05-04T17:42:30.636+00:00"
+            },
+            "columnId": {
+              "type": "string",
+              "description": "Parent column Id",
+              "example": "6631f3841c36049d76cf1ac3"
             },
             "owner": {
               "type": "object",
@@ -1494,6 +1550,7 @@
             "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
             "priority": "low",
             "deadline": "2024-05-04T17:42:30.636+00:00",
+             "columnId":  "6631f3841c36049d76cf1ac3",
             "_id": "6631f31411c3604119126cf1ac",
             "owner": {
               "_id": "6631f13141c316049126cf1ac"
@@ -1504,6 +1561,7 @@
             "description": "Conduct in-depth research and analysis on the project's topic, gather relevant data, and identify key insights to inform decision-making and project planning.",
             "priority": "medium",
             "deadline": "2024-05-05T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
             "_id": "66311f3141c31316049126cfffc",
             "owner": {
               "_id": "6631f13141c316049126cf1ac"
@@ -1514,6 +1572,7 @@
             "description": "Brainstorm and develop creative concepts and ideas that align with the project's objectives, considering factors such as target audience, messaging, and visual representation.",
             "priority": "without",
             "deadline": "2024-05-06T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
             "_id": "6631f3141c31312316049126cf34c",
             "owner": {
               "_id": "6631f13141c316049126cf1ac"
@@ -1525,7 +1584,7 @@
         "type": "array",
         "items": {
           "type": "object",
-          "required": ["title", "owner", "_id"],
+          "required": ["title", "owner", "_id", "columnId"],
           "properties": {
             "title": {
               "type": "string",
@@ -1557,6 +1616,10 @@
                   "example": "6631f3841c36049d76cf1ac3"
                 }
               }
+            },"columnId": {
+              "type": "string",
+              "description": "Parent column Id",
+              "example": "6631f3841c36049d76cf1ac3"
             },
             "_id": {
               "type": "string",
@@ -1570,6 +1633,7 @@
           "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
           "priority": "low",
           "deadline": "2024-05-04T17:42:30.636+00:00",
+                      "columnId":  "6631f3841c36049d76cf1ac3",
           "_id": "6631f31411c3604119126cf1ac",
           "owner": {
             "_id": "6631f13141c316049126cf1ac"
@@ -1580,7 +1644,7 @@
         "type": "array",
         "items": {
           "type": "object",
-          "required": ["title", "owner", "_id"],
+          "required": ["title", "owner", "_id", "columnId"],
           "properties": {
             "title": {
               "type": "string",
@@ -1601,6 +1665,11 @@
               "type": "string",
               "description": "Task dealine",
               "example": "2024-05-04T17:42:30.636+00:00"
+            },
+                "columnId": {
+              "type": "string",
+              "description": "Parent column Id",
+              "example": "6631f3841c36049d76cf1ac3"
             },
             "owner": {
               "type": "object",
@@ -1625,6 +1694,7 @@
           "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
           "priority": "low",
           "deadline": "2024-05-04T17:42:30.636+00:00",
+             "columnId":  "6631f3841c36049d76cf1ac3",
           "_id": "6631f31411c3604119126cf1ac",
           "owner": {
             "_id": "6631f13141c316049126cf1ac"
@@ -1641,8 +1711,7 @@
             "example": "6631f3841c36049d76cf1ac3"
           }
         },
-        "example": {
-          "id": "6631f3841c36049d76cf1ac3"
+        "example":  "6631f3841c36049d76cf1ac3"
         }
       },
       "NeedHelpResponse": {
@@ -1665,4 +1734,4 @@
       }
     }
   }
-}
+

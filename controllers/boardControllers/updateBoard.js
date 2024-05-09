@@ -6,7 +6,6 @@ export const updateBoard = async (req, res) => {
   if (Object.keys(req.body).length === 0) {
     throw httpError(400, "Body must have at least one field");
   }
-
   const { _id: owner } = req.user;
   const { id } = req.params;
 

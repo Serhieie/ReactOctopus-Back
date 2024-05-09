@@ -1,1 +1,1 @@
-export const labelsList = ["green", "pink", "purple", "grey"];
+export const labelsList = ["high", "medium", "low", "without"];

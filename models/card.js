@@ -11,19 +11,23 @@ const cardSchema = new Schema(
       type: String,
       required: [true, "Set description for card"],
     },
-    label: {
+    priority: {
       type: String,
-      required: [true, "Set label for card"],
-      enum: ["green", "pink", "purple", "grey"],
+      required: [true, "Set priority for card"],
+      enum: ["high", "medium", "low", "without"],
       default: "grey",
     },
     deadline: {
       type: String,
       required: [true, "Set deadline for card"],
     },
+    columnId: {
+      type: String,
+      required: [true, "Set column id"],
+    },
     owner: {
       type: Schema.Types.ObjectId,
-      ref: "column",
+      ref: "user",
       required: true,
     },
   },
