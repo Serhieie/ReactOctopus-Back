@@ -8,7 +8,7 @@ export const createCardSchema = Joi.object({
     .valid(...labelsList)
     .required(),
   deadline: Joi.string().required(),
-  columnId:Joi.string().required(),
+  columnId: Joi.string().required(),
 });
 
 export const updateCardSchema = Joi.object({
@@ -16,5 +16,6 @@ export const updateCardSchema = Joi.object({
   description: Joi.string(),
   priority: Joi.string().valid(...labelsList),
   deadline: Joi.string(),
-  columnId:Joi.string(),
+  columnId: Joi.string(),
+  destinationColumnId: Joi.string(),
 });

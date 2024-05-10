@@ -35,6 +35,13 @@ cardsRouter.patch(
   cardsCtrl.updateCard
 );
 
+cardsRouter.patch(
+  "/move/:id",
+  isValidId,
+  validateBody(updateCardSchema),
+  cardsCtrl.moveCardController
+);
+
 cardsRouter.delete(
   "/delete/:id",
   isValidId,
