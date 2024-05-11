@@ -4,7 +4,7 @@ import {
   emailRegexp,
   nameRegexp,
   passwordRegexp,
-  themeOptions
+  themeOptions,
 } from "../constants/userConstants.js";
 
 export const authUserRegisterSchema = Joi.object({
@@ -27,7 +27,10 @@ export const authUserRegisterSchema = Joi.object({
 });
 
 export const authUserUpdateSchema = Joi.object({
-  theme: Joi.string().valid(...themeOptions).default('dark'),
+  avatar: Joi.binary(),
+  theme: Joi.string()
+    .valid(...themeOptions)
+    .default("dark"),
   name: Joi.string()
     .pattern(new RegExp(nameRegexp))
     .message(

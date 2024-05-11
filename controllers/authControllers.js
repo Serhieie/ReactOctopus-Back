@@ -1,7 +1,6 @@
 import "dotenv/config";
 import jwt from "jsonwebtoken";
-import gravatar from "gravatar";
-import queryString from "query-string"
+import queryString from "query-string";
 import { createHash, compareHash } from "../helpers/passwordHash.js";
 
 import httpError from "../helpers/httpError.js";
@@ -25,7 +24,7 @@ export const signup = async (req, res) => {
     throw httpError(409, "Email in use");
   }
 
-  req.body.avatarURL = gravatar.url(email);
+  req.body.avatarURL = "";
 
   const hashPwd = await createHash(password);
 
@@ -109,12 +108,15 @@ export const avatars = async (req, res) => {
 //====UPDATE-PROFILE====
 
 export const updateProfile = async (req, res) => {
-  const { theme, name, email, password, _id } = req.user;
+  const img = req.file;
 
-  if (req.body.password) {
-    req.body.password = await createHash(password);
-  }
-  const newProfile = { theme, name, email, password, ...req.body };
+  const { theme, name, email, _id } = req.user;
+
+  const newPass = req.body.password;
+
+  req.body.password = await createHash(newPass);
+
+  const newProfile = { theme, name, email, ...req.body, avatarURL: img.path };
   const response = await updateUser(_id, newProfile);
 
   res.json(response);
@@ -205,8 +207,6 @@ export const googleRedirect = async (req, res) => {
       Authorization: `Bearer ${tokenData.data.access_token}`,
     },
   });
-
-  
 
   //userData.data.email
   // логіка додавання юзера на бек реестрація або логінізація

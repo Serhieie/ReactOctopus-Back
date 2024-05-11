@@ -13,7 +13,8 @@ import {
   signup,
   updateProfile,
   wakeUp,
-  googleAuth, googleRedirect
+  googleAuth,
+  googleRedirect,
 } from "../../controllers/authControllers.js";
 import validateBody from "../../middlewares/validateBody.js";
 import { validateToken } from "../../middlewares/validateToken.js";
@@ -42,6 +43,7 @@ authRouter.patch("/avatars", validateToken, upload.single("avatar"), avatars);
 authRouter.patch(
   "/update-profile",
   validateToken,
+  upload.single("avatar"),
   validateBody(authUserUpdateSchema),
   ctrlWrapper(updateProfile)
 );
