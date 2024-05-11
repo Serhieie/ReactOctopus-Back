@@ -19,12 +19,6 @@ export const updateUser = async (userId, updateData) => {
   }).select("email name  theme avatarURL -_id");
 };
 
-export const updateAvatar = async (userId, updateData) => {
-  return User.findByIdAndUpdate(userId, updateData, {
-    returnDocument: "after",
-  }).select("avatarURL -_id");
-};
-
 // import bcrypt from "bcryptjs";
 // import { httpError } from "../helpers/index.js";
 // import jwt from "jsonwebtoken";

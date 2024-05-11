@@ -6,7 +6,6 @@ import {
 } from "../../schemas/usersSchema.js";
 import ctrlWrapper from "../../helpers/ctrlWrapper.js";
 import {
-  avatars,
   current,
   logout,
   signin,
@@ -37,8 +36,6 @@ authRouter.post(
 authRouter.post("/logout", validateToken, ctrlWrapper(logout));
 
 authRouter.get("/current", validateToken, ctrlWrapper(current));
-
-authRouter.patch("/avatars", validateToken, upload.single("avatar"), avatars);
 
 authRouter.patch(
   "/update-profile",
