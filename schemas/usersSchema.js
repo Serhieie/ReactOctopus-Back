@@ -44,7 +44,7 @@ export const authUserUpdateSchema = Joi.object({
     .message(
       "Password must be between 3 and 30 characters (letters or numbers) without special characters"
     ),
-}).or("theme", "name", "email", "password");
+}).or("theme", "name", "email", "password", "avatar");
 
 export const authUserLoginSchema = Joi.object({
   email: Joi.string().pattern(new RegExp(emailRegexp)).required(),
