@@ -24,3 +24,26 @@ export const createCard = async (req) => {
   await column.save(cardId);
   return card
 };
+
+export const moveCard = async (req) => {
+  const { destinationColumnId } = req.body;
+  const { id } = req.params;
+  const { _id } = req.user;
+
+  const card = await Card.findOne({ owner: _id, _id: id });
+  const column = await Column.findById(card.columnId);
+  const destinationColumn = await Column.findById(destinationColumnId);
+
+  const cardIndex = column.cards.indexOf(card._id);
+  if (cardIndex !== -1) {
+  column.cards.splice(cardIndex, 1);
+  }
+  card.columnId = destinationColumnId;
+  destinationColumn.cards.unshift(card._id);
+ 
+  await card.save();
+  await column.save();
+  await destinationColumn.save();
+
+  return destinationColumn;
+}
