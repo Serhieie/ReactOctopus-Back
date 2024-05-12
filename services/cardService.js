@@ -34,10 +34,16 @@ export const moveCard = async (req) => {
   const column = await Column.findById(card.columnId);
   const destinationColumn = await Column.findById(destinationColumnId);
 
+  if (column._id === destinationColumnId) {
+    
+  }
+
   const cardIndex = column.cards.indexOf(card._id);
+
   if (cardIndex !== -1) {
   column.cards.splice(cardIndex, 1);
   }
+
   card.columnId = destinationColumnId;
   destinationColumn.cards.unshift(card._id);
  
@@ -45,5 +51,5 @@ export const moveCard = async (req) => {
   await column.save();
   await destinationColumn.save();
 
-  return destinationColumn;
+  return {destinationColumn, sourceColumn: column};
 }

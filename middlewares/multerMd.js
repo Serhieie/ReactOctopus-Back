@@ -9,6 +9,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
+
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (req, file) => {
@@ -26,6 +27,7 @@ const storage = new CloudinaryStorage({
     }
   }
 });
+
 
 const upload = multer({ storage });
 
