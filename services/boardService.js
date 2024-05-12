@@ -1,7 +1,14 @@
 import Board from "../models/board.js";
 
 export const getAllBoards = (filter = {}) =>
-  Board.find(filter, "-createdAt -updatedAt").populate("owner", "email");
+  Board.find(filter, "-createdAt -updatedAt") .populate({
+        path: "columns", 
+        model: "column",
+        populate: {
+          path: "cards", 
+          model: "card",
+        },
+      }).populate("owner", "email");
 
 export const getBoardbyId = (filter) =>
    Board.findById(filter)
