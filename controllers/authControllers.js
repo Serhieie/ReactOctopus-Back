@@ -84,14 +84,28 @@ export const current = async (req, res, next) => {
 
 export const updateProfile = async (req, res) => {
   const img = req.file;
+  const {password} = req.body
+  const { theme, name, email, _id,avatarURL } = req.user;
+  let newPass;
+  console.log(1)
+  if (password) {
+    newPass = req.body.password;
+    req.body.password = await createHash(newPass)
+  }
+  console.log(2)
+  
+  const newProfile = {
+    theme,
+    name,
+    email,
+    ...req.body,
+    avatarURL: img ? img.path : avatarURL,
+  };
 
-  const { theme, name, email, _id } = req.user;
 
-  const newPass = req.body.password;
+  console.log(3)
+  
 
-  req.body.password = await createHash(newPass);
-
-  const newProfile = { theme, name, email, ...req.body, avatarURL: img.path };
   const response = await updateUser(_id, newProfile);
 
   res.json(response);
