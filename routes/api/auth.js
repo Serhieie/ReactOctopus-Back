@@ -6,14 +6,14 @@ import {
 } from "../../schemas/usersSchema.js";
 import ctrlWrapper from "../../helpers/ctrlWrapper.js";
 import {
-  avatars,
   current,
   logout,
   signin,
   signup,
   updateProfile,
   wakeUp,
-  googleAuth, googleRedirect
+  googleAuth,
+  googleRedirect,
 } from "../../controllers/authControllers.js";
 import validateBody from "../../middlewares/validateBody.js";
 import { validateToken } from "../../middlewares/validateToken.js";
@@ -37,11 +37,10 @@ authRouter.post("/logout", validateToken, ctrlWrapper(logout));
 
 authRouter.get("/current", validateToken, ctrlWrapper(current));
 
-authRouter.patch("/avatars", validateToken, upload.single("avatar"), avatars);
-
 authRouter.patch(
   "/update-profile",
   validateToken,
+  upload.single("avatar"),
   validateBody(authUserUpdateSchema),
   ctrlWrapper(updateProfile)
 );

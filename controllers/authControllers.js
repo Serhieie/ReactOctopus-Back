@@ -1,17 +1,11 @@
 import "dotenv/config";
 import jwt from "jsonwebtoken";
-import gravatar from "gravatar";
-import queryString from "query-string"
+import queryString from "query-string";
 import { createHash, compareHash } from "../helpers/passwordHash.js";
 
 import httpError from "../helpers/httpError.js";
 
-import {
-  createUser,
-  findUser,
-  updateUser,
-  updateAvatar,
-} from "../services/authServise.js";
+import { createUser, findUser, updateUser } from "../services/authServise.js";
 
 const SECRET_KEY = process.env.SECRET_KEY;
 const EXPIRES_TIME = process.env.EXPIRES_TIME;
@@ -25,7 +19,7 @@ export const signup = async (req, res) => {
     throw httpError(409, "Email in use");
   }
 
-  req.body.avatarURL = gravatar.url(email);
+  req.body.avatarURL = "";
 
   const hashPwd = await createHash(password);
 
@@ -86,35 +80,32 @@ export const current = async (req, res, next) => {
   res.json({ email, subscription });
 };
 
-// ====AVATAR====
-export const avatars = async (req, res) => {
-  const img = req.file;
-
-  if (!img) {
-    throw httpError(400, "File not found");
-  }
-
-  if (!img.path) {
-    throw httpError(400, "Upload filed try again");
-  }
-
-  try {
-    const response = await updateAvatar(req.user._id, { avatarURL: img.path });
-    res.json(response);
-  } catch (error) {
-    throw httpError(error.status, error.message);
-  }
-};
-
 //====UPDATE-PROFILE====
 
 export const updateProfile = async (req, res) => {
-  const { theme, name, email, password, _id } = req.user;
-
-  if (req.body.password) {
-    req.body.password = await createHash(password);
+  const img = req.file;
+  const {password} = req.body
+  const { theme, name, email, _id,avatarURL } = req.user;
+  let newPass;
+  console.log(1)
+  if (password) {
+    newPass = req.body.password;
+    req.body.password = await createHash(newPass)
   }
-  const newProfile = { theme, name, email, password, ...req.body };
+  console.log(2)
+  
+  const newProfile = {
+    theme,
+    name,
+    email,
+    ...req.body,
+    avatarURL: img ? img.path : avatarURL,
+  };
+
+
+  console.log(3)
+  
+
   const response = await updateUser(_id, newProfile);
 
   res.json(response);
@@ -205,8 +196,6 @@ export const googleRedirect = async (req, res) => {
       Authorization: `Bearer ${tokenData.data.access_token}`,
     },
   });
-
-  
 
   //userData.data.email
   // логіка додавання юзера на бек реестрація або логінізація

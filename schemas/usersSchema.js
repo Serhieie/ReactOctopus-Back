@@ -4,7 +4,7 @@ import {
   emailRegexp,
   nameRegexp,
   passwordRegexp,
-  themeOptions
+  themeOptions,
 } from "../constants/userConstants.js";
 
 export const authUserRegisterSchema = Joi.object({
@@ -27,7 +27,10 @@ export const authUserRegisterSchema = Joi.object({
 });
 
 export const authUserUpdateSchema = Joi.object({
-  theme: Joi.string().valid(...themeOptions).default('dark'),
+  avatar: Joi.binary(),
+  theme: Joi.string()
+    .valid(...themeOptions)
+    .default("dark"),
   name: Joi.string()
     .pattern(new RegExp(nameRegexp))
     .message(
@@ -41,7 +44,7 @@ export const authUserUpdateSchema = Joi.object({
     .message(
       "Password must be between 3 and 30 characters (letters or numbers) without special characters"
     ),
-}).or("theme", "name", "email", "password");
+}).or("theme", "name", "email", "password", "avatar");
 
 export const authUserLoginSchema = Joi.object({
   email: Joi.string().pattern(new RegExp(emailRegexp)).required(),
