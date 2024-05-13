@@ -34,7 +34,7 @@
     },
     {
       "name": "NeedHelp",
-      "description": "Need help endpoint(можливо треба перенести в auth)"
+      "description": "Need help endpoint"
     },
     {
       "name": "Images",
@@ -120,14 +120,6 @@
         "tags": ["Auth"],
         "summary": "Get current user",
         "parameters": [
-           {
-            "name": "Authorization",
-            "in": "header",
-            "description": "JWT token obtained upon user authentication",
-            "required": true,
-            "type": "string",
-            "format": "Bearer {token}"
-          }
         ],
         "security": [{ "Bearer": [] }],
         "responses": {
@@ -152,27 +144,14 @@
       "post": {
         "tags": ["Auth"],
         "summary": "User logout",
-        "parameters": [ {
-            "name": "Authorization",
-            "in": "header",
-            "description": "JWT token obtained upon user authentication",
-            "required": true,
-            "type": "string",
-            "format": "Bearer {token}"
-          }],
+        "parameters": [ ],
         "security": [{ "Bearer": [] }],
+        "requestBody": {},
         "responses": {
-          "201": {
+          "204": {
             "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LogoutResponse"
-                }
-              }
-            }
+            "content": {}
           },
-
           "401": {
             "description": "Unauthorized: Access to the requested resource is unauthorized.",
             "content": {}
@@ -186,14 +165,6 @@
         "summary": "Update user profile,",
         "description": "Endpoint to update user profile information",
         "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "JWT token obtained upon user authentication",
-            "required": true,
-            "type": "string",
-            "format": "Bearer {token}"
-          },
           {
             "name": "body",
             "in": "body",
@@ -393,19 +364,13 @@
         }
       }
     },
+
     "/api/boards": {
       "get": {
         "tags": ["Board"],
         "summary": "Get all boards",
         "parameters": [
-           {
-            "name": "Authorization",
-            "in": "header",
-            "description": "JWT token obtained upon user authentication",
-            "required": true,
-            "type": "string",
-            "format": "Bearer {token}"
-          }
+   
         ],
         "security": [{ "Bearer": [] }],
         "responses": {
@@ -426,19 +391,48 @@
         }
       }
     },
+        "/api/boards/{boardId}": {
+      "get": {
+        "tags": ["Board"],
+        "summary": "Get board",
+        "parameters": [       {
+           "in": "path",
+          "name": "boardId",
+          "schema": {
+                 "type": "string",
+          "required": true,
+          "description": "Id of the Item"
+          }
+        }],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBoardByIdResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Access to the requested resource is unauthorized.",
+            "content": {}
+          },
+            "404": {
+            "description": "Not Found: The requested resource could not be found on the server.",
+            "content": {}
+          }
+        }
+      }
+    },
     "/api/boards/post": {
       "post": {
         "tags": ["Board"],
         "summary": "Post board",
         "parameters": [
-           {
-            "name": "Authorization",
-            "in": "header",
-            "description": "JWT token obtained upon user authentication",
-            "required": true,
-            "type": "string",
-            "format": "Bearer {token}"
-          }
+        
         ],
         "security": [{ "Bearer": [] }],
         "requestBody": {
@@ -474,19 +468,20 @@
         }
       }
     },
-    "/api/boards/patch/{id}": {
+    "/api/boards/patch/{boardId}": {
       "patch": {
         "tags": ["Board"],
         "summary": "Update bord on the server",
         "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "JWT token obtained upon user authentication",
-            "required": true,
-            "type": "string",
-            "format": "Bearer {token}"
+             {
+           "in": "path",
+          "name": "boardId",
+          "schema": {
+                 "type": "string",
+          "required": true,
+          "description": "Id of the Item"
           }
+        }
         ],
         "security": [{ "Bearer": [] }],
         "requestBody": {
@@ -526,19 +521,20 @@
         }
       }
     },
-    "/api/boards/delete/{id}": {
+    "/api/boards/delete/{boardId}": {
       "delete": {
         "tags": ["Board"],
         "summary": "Delete board from the server",
         "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "JWT token obtained upon user authentication",
-            "required": true,
-            "type": "string",
-            "format": "Bearer {token}"
+   {
+           "in": "path",
+          "name": "boardId",
+          "schema": {
+                 "type": "string",
+          "required": true,
+          "description": "Id of the Item"
           }
+        }
         ],
         "security": [{ "Bearer": [] }],
         "responses": {
@@ -568,14 +564,7 @@
         "tags": ["Column"],
         "summary": "Get all columns",
         "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "JWT token obtained upon user authentication",
-            "required": true,
-            "type": "string",
-            "format": "Bearer {token}"
-          }
+
         ],
         "security": [{ "Bearer": [] }],
         "responses": {
@@ -601,14 +590,6 @@
         "tags": ["Column"],
         "summary": "Post column",
         "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "JWT token obtained upon user authentication",
-            "required": true,
-            "type": "string",
-            "format": "Bearer {token}"
-          }
         ],
         "security": [{ "Bearer": [] }],
         "requestBody": {
@@ -644,19 +625,20 @@
         }
       }
     },
-    "/api/columns/patch/{id}": {
+    "/api/columns/patch/{columnId}": {
       "patch": {
         "tags": ["Column"],
         "summary": "Update column on the server",
         "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "JWT token obtained upon user authentication",
-            "required": true,
-            "type": "string",
-            "format": "Bearer {token}"
+{
+           "in": "path",
+          "name": "columnId",
+          "schema": {
+                 "type": "string",
+          "required": true,
+          "description": "Id of the Item"
           }
+        }
         ],
         "security": [{ "Bearer": [] }],
         "requestBody": {
@@ -696,18 +678,19 @@
         }
       }
     },
-    "/api/columns/delete/{id}": {
+    "/api/columns/delete/{columnId}": {
       "delete": {
         "tags": ["Column"],
         "summary": "Delete column from the server",
         "parameters": [{
-            "name": "Authorization",
-            "in": "header",
-            "description": "JWT token obtained upon user authentication",
-            "required": true,
-            "type": "string",
-            "format": "Bearer {token}"
-          }],
+           "in": "path",
+          "name": "columnId",
+          "schema": {
+                 "type": "string",
+          "required": true,
+          "description": "Id of the Item"
+          }
+        }],
         "security": [{ "Bearer": [] }],
         "responses": {
           "201": {
@@ -735,14 +718,17 @@
       "get": {
         "tags": ["Card"],
         "summary": "Get all cards",
-        "parameters": [{
-            "name": "Authorization",
-            "in": "header",
-            "description": "JWT token obtained upon user authentication",
-            "required": true,
-            "type": "string",
-            "format": "Bearer {token}"
-          }],
+        "parameters": [
+          {
+           "in": "path",
+          "name": "columnId",
+          "schema": {
+                 "type": "string",
+          "required": true,
+          "description": "Id of the Item"
+          }
+        }
+        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "201": {
@@ -766,14 +752,7 @@
       "post": {
         "tags": ["Card"],
         "summary": "Post card on the server",
-        "parameters": [{
-            "name": "Authorization",
-            "in": "header",
-            "description": "JWT token obtained upon user authentication",
-            "required": true,
-            "type": "string",
-            "format": "Bearer {token}"
-          }],
+        "parameters": [],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Post card object",
@@ -808,18 +787,21 @@
         }
       }
     },
-    "/api/cards/patch/{id}": {
+    "/api/cards/patch/{cardId}": {
       "patch": {
         "tags": ["Card"],
         "summary": "Update card on the server",
-        "parameters": [{
-            "name": "Authorization",
-            "in": "header",
-            "description": "JWT token obtained upon user authentication",
-            "required": true,
-            "type": "string",
-            "format": "Bearer {token}"
-          }],
+        "parameters": [
+          {
+           "in": "path",
+          "name": "cardId",
+          "schema": {
+                 "type": "string",
+          "required": true,
+          "description": "Id of the Item"
+          }
+        }
+        ],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Update card object at the server",
@@ -858,18 +840,19 @@
         }
       }
     },
-    "/api/cards/delete/{id}": {
+    "/api/cards/delete/{cardId}": {
       "delete": {
         "tags": ["Card"],
         "summary": "Delete cards from the server",
-        "parameters": [{
-            "name": "Authorization",
-            "in": "header",
-            "description": "JWT token obtained upon user authentication",
-            "required": true,
-            "type": "string",
-            "format": "Bearer {token}"
-          }],
+        "parameters": [     {
+           "in": "path",
+          "name": "cardId",
+          "schema": {
+                 "type": "string",
+          "required": true,
+          "description": "Id of the Item"
+          }
+        }],
         "security": [{ "Bearer": [] }],
         "responses": {
           "201": {
@@ -893,18 +876,11 @@
         }
       }
     },
-    "/api/images/needhelp": {
+    "/api/needhelp": {
       "get": {
         "tags": ["NeedHelp"],
         "summary": "Send email and message to our email",
-        "parameters": [{
-            "name": "Authorization",
-            "in": "header",
-            "description": "JWT token obtained upon user authentication",
-            "required": true,
-            "type": "string",
-            "format": "Bearer {token}"
-          }],
+        "parameters": [],
         "requestBody": {
           "description": "Need help object",
           "required": true,
@@ -961,6 +937,21 @@
             "example": "qwerty123"
           }
         }
+      }, 
+      "NeedHelpResponse": {
+        "type": "object",
+      "required": [],
+       "properties": {
+          "message": {
+            "type": "string",
+            "description": "User message",
+            "example": "Help message send"
+          }
+        },
+        "example": 
+         {
+              "message":"Help message send"
+            }
       },
       "LoginRequest": {
         "type": "object",
@@ -1050,7 +1041,8 @@
           }
         },
         "example": {
-          "title": "Project Office"
+          "title": "Project Office",
+          "boardId":"6631f3841c36049d76cf1ac3"
         }
       },
       "PatchColumnRequest": {
@@ -1101,6 +1093,7 @@
           "title": "The Watch Spot Design",
           "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
           "priority": "low",
+          "columnId": "6631f3841c36049d76cf1ac3",
           "deadline": "2024-05-04T17:42:30.636+00:00"
         }
       },
@@ -1123,6 +1116,11 @@
             "description": "Level of priority",
             "example": "medium"
           },
+           "columnId": {
+            "type": "string",
+            "description": "Id of pearent column",
+            "example":  "6631f3841c36049d76cf1ac3"
+          },
           "deadline": {
             "type": "string",
             "description": "Task dealine",
@@ -1133,12 +1131,13 @@
           "title": "The Watch Spot Design",
           "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
           "priority": "low",
+          "columnId": "6631f3841c36049d76cf1ac3",
           "deadline": "2024-05-04T17:42:30.636+00:00"
         }
       },
       "NeedHelpRequest": {
         "type": "object",
-        "required": ["email", "description"],
+        "required": ["email", "message"],
         "properties": {
           "email": {
             "type": "string",
@@ -1259,16 +1258,6 @@
           }
         }
       },
-      "LogoutResponse": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string",
-            "description": "message",
-            "example": "Logout success"
-          }
-        }
-      },
       "ImagesResponse": {
         "type": "object",
         "properties": {
@@ -1323,21 +1312,112 @@
                   "type": "string",
                   "description": "owner id",
                   "example": "6631f3841c36049d76cf1ac3"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "owner id",
+                  "format": "email"
                 }
               }
             },
             "columns": {
-              "type": "array",
-              "description": "Array of columns Id",
-               "items": {
-                "id": {
-                  "type" : "string",
-                  "description": "Column Id",
-                "example": "6631f3841c36049d76cf1ac3"
-                },
-                 "example": ["6631f3841c36049d76cf1ac1","6631f3841c36049d76cf1ac2","6631f3841c36049d76cf1ac3"]
-               }
+            "type": "array",
+            "required": ["title", "background", "iconId", "owner", "_id", "cards"],
+            "items": {
+                 "type": "object",
+                 "properties":{
+                  "title": {
+              "type": "string",
+              "description": "Board Column Title",
+              "example": "Column-1"
+            },"boardId": {
+              "type": "string",
+              "description": "Parent board Id",
+              "example": "6631f3841c36049d76cf1ac3"
             },
+            "owner": {
+              "type": "object",
+              "discription": "Board Id",
+              "example": {
+                "_id": {
+                  "type": "string",
+                  "description": "Board id",
+                  "example": "6631f3841c36049d76cf1ac3"
+                }
+              }
+            },
+            
+             "cards": {
+              "type": "array",
+              "description": "Array of cards",
+               "items": {
+                  "type" : "object",
+                  "description": "card",
+                  "items" : {
+            "title": {
+              "type": "string",
+              "description": "Task title",
+              "example": "Title-1"
+            },
+            "description": {
+              "type": "string",
+              "description": "Task description",
+              "example": "Description-1"
+            },
+            "priority": {
+              "type": "string",
+              "description": "Level of priority",
+              "example": "medium"
+            },
+            "deadline": {
+              "type": "string",
+              "description": "Task dealine",
+              "example": "2024-05-04T17:42:30.636+00:00"
+            },
+            "columnId": {
+              "type": "string",
+              "description": "Parent column Id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },
+            "owner": {
+              "type": "object",
+              "discription": "User Id",
+              "example": {
+                "_id": {
+                  "type": "string",
+                  "description": "Board id",
+                  "example": "6631f3841c36049d76cf1ac3"
+                }
+              }
+            },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
+            }
+
+                  }
+               },
+               "example": [{
+            "title": "Column-1",
+            "description": "Description-1",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId": "6631f3841c36049d76cf1ac3",
+            "owner":  {
+                "_id": "6631f3841c36049d76cf1ac3"
+              }
+          }]
+            },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
+            }
+            }
+            }
+            
+          },
             "_id": {
               "type": "string",
               "description": "board id",
@@ -1351,29 +1431,325 @@
             "background": "https://example/images/nightSky.webp",
             "_id": "6631f3841c36049d76cf1ac3",
             "iconId": "1",
+            "columns": [
+              {
+           "title":  "Column-1",
+           "boardId": "6631f3841c36049d76cf1ac3",
             "owner": {
-              "_id": "6631f3141c36049126cf1ac"
-            }
-          },
-          {
-            "title": "Project Office",
-            "background": "https://example/images/nightSky.webp",
-            "iconId": "1",
-            "_id": "6631f3841c36049d76cf1ac3",
+               "_id": "6631f3841c36049d76cf1ac3",
+               "email": "example@ex.com"
+            },
+            
+             "cards": [{
+            "title": "Title-1",
+            "description": "Description-1",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
             "owner": {
-              "_id": "6631f3141c36049126cf1ac"
-            }
-          },
-          {
-            "title": "Project Office",
-            "background": "https://example/images/nightSky.webp",
-            "iconId": "1",
-            "_id": "6631f3841c36049d76cf1ac3",
+                "_id": "6631f3841c36049d76cf1ac3"
+            },
+            "_id": "6631f3841c36049d76cf1ac3"
+            },{
+            "title": "Title-2",
+            "description": "Description-2",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+                "_id": "6631f3841c36049d76cf1ac3"
+            },
+            "_id": "6631f3841c36049d76cf1ac3"
+            },{
+            "title": "Title-3",
+            "description": "Description-3",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+                "_id": "6631f3841c36049d76cf1ac3"
+            },
+            "_id": "6631f3841c36049d76cf1ac3"
+            }]
+             },
+              {
+           "title":  "Column-2",
+           "boardId": "6631f3841c36049d76cf1ac3",
+            "owner": {
+               "_id": "6631f3841c36049d76cf1ac3"
+            },
+            
+             "cards": [{
+            "title": "Title-4",
+            "description": "Description-4",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+                "_id": "6631f3841c36049d76cf1ac3"
+            },
+            "_id": "6631f3841c36049d76cf1ac3"
+            },{
+            "title": "Title-5",
+            "description": "Description-5",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+                "_id": "6631f3841c36049d76cf1ac3"
+            },
+            "_id": "6631f3841c36049d76cf1ac3"
+            },{
+            "title": "Title-6",
+            "description": "Description-6",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+                "_id": "6631f3841c36049d76cf1ac3"
+            },
+            "_id": "6631f3841c36049d76cf1ac3"
+            }]
+             }
+            ],
             "owner": {
               "_id": "6631f3141c36049126cf1ac"
             }
           }
         ]
+      },
+       "GetBoardByIdResponse": {
+        "type": "object",
+        "required": ["title", "background", "iconId", "owner", "_id", "columns"],
+        "properties": {
+            "title": {
+              "type": "string",
+              "description": "User boards",
+              "example": "Neon Light Project"
+            },
+            "background": {
+              "type": "string",
+              "description": "Background image url",
+              "example": "https://example/images/sakura.webp"
+            },
+            "iconId": {
+              "type": "string",
+              "description": "Board icon id",
+              "example": "2"
+            },
+            "owner": {
+              "type": "object",
+              "discription": "owner of board",
+              "example": {
+                "_id": {
+                  "type": "string",
+                  "description": "owner id",
+                  "example": "6631f3841c36049d76cf1ac3"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "owner id",
+                  "format": "email"
+                }
+              }
+            },
+            "columns": {
+            "type": "array",
+            "required": ["title", "background", "iconId", "owner", "_id", "cards"],
+            "items": {
+                 "type": "object",
+                 "properties":{
+                  "title": {
+              "type": "string",
+              "description": "Board Column Title",
+              "example": "Column-1"
+            },"boardId": {
+              "type": "string",
+              "description": "Parent board Id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },
+            "owner": {
+              "type": "object",
+              "discription": "Board Id",
+              "example": {
+                "_id": {
+                  "type": "string",
+                  "description": "Board id",
+                  "example": "6631f3841c36049d76cf1ac3"
+                }
+              }
+            },
+            
+             "cards": {
+              "type": "array",
+              "description": "Array of cards",
+               "items": {
+                  "type" : "object",
+                  "description": "card",
+                  "items" : {
+            "title": {
+              "type": "string",
+              "description": "Task title",
+              "example": "Title-1"
+            },
+            "description": {
+              "type": "string",
+              "description": "Task description",
+              "example": "Description-1"
+            },
+            "priority": {
+              "type": "string",
+              "description": "Level of priority",
+              "example": "medium"
+            },
+            "deadline": {
+              "type": "string",
+              "description": "Task dealine",
+              "example": "2024-05-04T17:42:30.636+00:00"
+            },
+            "columnId": {
+              "type": "string",
+              "description": "Parent column Id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },
+            "owner": {
+              "type": "object",
+              "discription": "User Id",
+              "example": {
+                "_id": {
+                  "type": "string",
+                  "description": "Board id",
+                  "example": "6631f3841c36049d76cf1ac3"
+                }
+              }
+            },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
+            }
+
+                  }
+               },
+               "example": [{
+            "title": "Column-1",
+            "description": "Description-1",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId": "6631f3841c36049d76cf1ac3",
+            "owner":  {
+                "_id": "6631f3841c36049d76cf1ac3"
+              }
+          }]
+            },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
+            }
+            }
+            }
+            
+          },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
+            }
+          
+        },
+        "example": {
+            "title": "Project Office",
+            "background": "https://example/images/nightSky.webp",
+            "_id": "6631f3841c36049d76cf1ac3",
+            "iconId": "1",
+            "columns": [
+              {
+           "title":  "Column-1",
+           "boardId": "6631f3841c36049d76cf1ac3",
+            "owner": {
+               "_id": "6631f3841c36049d76cf1ac3",
+               "email": "example@ex.com"
+            },
+            
+             "cards": [{
+            "title": "Title-1",
+            "description": "Description-1",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+                "_id": "6631f3841c36049d76cf1ac3"
+            },
+            "_id": "6631f3841c36049d76cf1ac3"
+            },{
+            "title": "Title-2",
+            "description": "Description-2",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+                "_id": "6631f3841c36049d76cf1ac3"
+            },
+            "_id": "6631f3841c36049d76cf1ac3"
+            },{
+            "title": "Title-3",
+            "description": "Description-3",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+                "_id": "6631f3841c36049d76cf1ac3"
+            },
+            "_id": "6631f3841c36049d76cf1ac3"
+            }]
+             },
+              {
+           "title":  "Column-2",
+           "boardId": "6631f3841c36049d76cf1ac3",
+            "owner": {
+               "_id": "6631f3841c36049d76cf1ac3"
+            },
+            
+             "cards": [{
+            "title": "Title-4",
+            "description": "Description-4",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+                "_id": "6631f3841c36049d76cf1ac3"
+            },
+            "_id": "6631f3841c36049d76cf1ac3"
+            },{
+            "title": "Title-5",
+            "description": "Description-5",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+                "_id": "6631f3841c36049d76cf1ac3"
+            },
+            "_id": "6631f3841c36049d76cf1ac3"
+            },{
+            "title": "Title-6",
+            "description": "Description-6",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+                "_id": "6631f3841c36049d76cf1ac3"
+            },
+            "_id": "6631f3841c36049d76cf1ac3"
+            }]
+             }
+            ],
+            "owner": {
+              "_id": "6631f3141c36049126cf1ac",
+              "email": "example@ex.com"
+            }
+          }
+        
       },
       "PostBoardResponse": {
         "type": "object",
@@ -1403,6 +1779,11 @@
                 "type": "string",
                 "description": "owner id",
                 "example": "6631f3841c36049d76cf1ac3"
+              },
+              "email": {
+                "type": "string",
+                "description": "owner email",
+                "format": "email"
               }
             }
           },
@@ -1417,8 +1798,10 @@
           "background": "https://example/images/nightSky.webp",
           "_id": "6631f3841c36049d76cf1ac3",
           "iconId": "1",
+          "columns": [],
           "owner": {
-            "_id": "6631f3141c36049126cf1ac"
+            "_id": "6631f3141c36049126cf1ac",
+            "email": "example@ex.com"
           }
         }
       },
@@ -1449,6 +1832,10 @@
                 "type": "string",
                 "description": "owner id",
                 "example": "6631f3841c36049d76cf1ac3"
+              },  "email": {
+                "type": "string",
+                "description": "owner email",
+                "format": "email"
               }
             }
           },
@@ -1463,8 +1850,10 @@
           "background": "https://example/images/nightSky.webp",
           "_id": "6631f3841c36049d76cf1ac3",
           "iconId": "1",
+          "columns": ["..."],
           "owner": {
-            "_id": "6631f3141c36049126cf1ac"
+            "_id": "6631f3141c36049126cf1ac",
+            "email": "example@ex.com"
           }
         }
       },
@@ -1479,9 +1868,7 @@
             "example": "6631f3841c36049d76cf1ac3"
           }
         },
-        "example": {
-          "id": "6631f3841c36049d76cf1ac3"
-        }
+        "example": "6631f3841c36049d76cf1ac3"
       },
 
       "GetAllColumnsResponse": {
@@ -1513,15 +1900,65 @@
             
              "cards": {
               "type": "array",
-              "description": "Array of cards Id",
+              "description": "Array of cards",
                "items": {
-                "id": {
-                  "type" : "string",
-                  "description": "Cards Id",
+                  "type" : "object",
+                  "description": "card",
+                  "properties" : {
+                    "title": {
+              "type": "string",
+              "description": "Task title",
+              "example": "Title-1"
+            },
+            "description": {
+              "type": "string",
+              "description": "Task description",
+              "example": "Description-1"
+            },
+            "priority": {
+              "type": "string",
+              "description": "Level of priority",
+              "example": "medium"
+            },
+            "deadline": {
+              "type": "string",
+              "description": "Task dealine",
+              "example": "2024-05-04T17:42:30.636+00:00"
+            },
+            "columnId": {
+              "type": "string",
+              "description": "Parent column Id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },
+            "owner": {
+              "type": "object",
+              "discription": "User Id",
+              "example": {
+                "_id": {
+                  "type": "string",
+                  "description": "Board id",
                   "example": "6631f3841c36049d76cf1ac3"
-                },
-                 "example": ["6631f3841c36049d76cf1ac1","6631f3841c36049d76cf1ac2","6631f3841c36049d76cf1ac3"]
-               }
+                }
+              }
+            },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
+            }
+
+                  }
+               },
+               "example": [{
+            "title": "Title-1",
+            "description": "Description-1",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId": "6631f3841c36049d76cf1ac3",
+            "owner":  {
+                "_id": "6631f3841c36049d76cf1ac3"
+              }
+          }]
             },
             "_id": {
               "type": "string",
@@ -1535,6 +1972,7 @@
             "title": "Project Office",
             "_id": "6631f3841c36049d76cf1ac3",
             "boardId": "6631f3841c36049d76cf1ac3",
+            "cards": ["..."],
             "owner": {
               "_id": "6631f3141c36049126cf1ac"
             }
@@ -1543,6 +1981,7 @@
             "title": "Project Office",
             "_id": "6631f3841c36049d76cf1ac3",
             "boardId": "6631f3841c36049d76cf1ac3",
+                "cards": ["..."],
             "owner": {
               "_id": "6631f3141c36049126cf1ac"
             }
@@ -1551,6 +1990,7 @@
             "title": "Project Office",
             "_id": "6631f3841c36049d76cf1ac3",
             "boardId": "6631f3841c36049d76cf1ac3",
+                "cards": ["..."],
             "owner": {
               "_id": "6631f3141c36049126cf1ac"
             }
@@ -1594,6 +2034,7 @@
         "example": {
           "title": "Project Office",
           "_id": "6631f3841c36049d76cf1ac3",
+          "cards": [],
           "owner": {
             "_id": "6631f3141c36049126cf1ac"
           }
@@ -1636,6 +2077,7 @@
         "example": {
           "title": "Project Office",
           "_id": "6631f3841c36049d76cf1ac3",
+          "cards": ["..."],
           "owner": {
             "_id": "6631f3141c36049126cf1ac"
           }
@@ -1872,24 +2314,13 @@
         "example":  "6631f3841c36049d76cf1ac3"
         }
       },
-      "NeedHelpResponse": {
-        "type": "object",
-        "required": ["message"],
-        "properties": {
-          "message": {
-            "type": "string",
-            "description": "Message from server",
-            "example": "Help message send"
-          }
-        }
-      }
-    },
-    "securitySchemes": {
+          "securitySchemes": {
       "Bearer": {
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT"
       }
+    }
     }
   }
 
