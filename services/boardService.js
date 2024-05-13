@@ -1,7 +1,7 @@
 import Board from "../models/board.js";
 
 export const getAllBoards = (filter = {}) =>
-  Board.find(filter, "-createdAt -updatedAt") .populate({
+  Board.find(filter, "-createdAt -updatedAt").populate({
         path: "columns", 
         model: "column",
         populate: {
@@ -28,7 +28,14 @@ export const countBoards = (filter) => Board.countDocuments(filter);
 // export const getBoardById = (filter) => Board.findOne(filter);
 
 export const updateBoardbyFilter = (filter, data) =>
-  Board.findOneAndUpdate(filter, data);
+  Board.findOneAndUpdate(filter, data).populate({
+        path: "columns", 
+        model: "column",
+        populate: {
+          path: "cards", 
+          model: "card",
+        },
+      }).populate("owner", "email");;
 
 export const removeBoard = (filter) => Board.findOneAndDelete(filter);
 
