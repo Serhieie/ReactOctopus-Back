@@ -12,8 +12,8 @@
   "consumes": ["application/json", "multipart/formData"],
   "produces": ["application/json"],
   "servers": [
-    { "url": "https://reactoctopus-back.onrender.com" },
-    { "url": "http://localhost:3000" }
+    { "url": "http://localhost:3000" },
+     { "url": "https://reactoctopus-back.onrender.com" }
   ],
   "tags": [
     {
@@ -119,7 +119,16 @@
       "get": {
         "tags": ["Auth"],
         "summary": "Get current user",
-        "parameters": [],
+        "parameters": [
+           {
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT token obtained upon user authentication",
+            "required": true,
+            "type": "string",
+            "format": "Bearer {token}"
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "201": {
@@ -143,7 +152,14 @@
       "post": {
         "tags": ["Auth"],
         "summary": "User logout",
-        "parameters": [],
+        "parameters": [ {
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT token obtained upon user authentication",
+            "required": true,
+            "type": "string",
+            "format": "Bearer {token}"
+          }],
         "security": [{ "Bearer": [] }],
         "responses": {
           "201": {
@@ -381,7 +397,16 @@
       "get": {
         "tags": ["Board"],
         "summary": "Get all boards",
-        "parameters": [],
+        "parameters": [
+           {
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT token obtained upon user authentication",
+            "required": true,
+            "type": "string",
+            "format": "Bearer {token}"
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "201": {
@@ -405,7 +430,16 @@
       "post": {
         "tags": ["Board"],
         "summary": "Post board",
-        "parameters": [],
+        "parameters": [
+           {
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT token obtained upon user authentication",
+            "required": true,
+            "type": "string",
+            "format": "Bearer {token}"
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Post board object",
@@ -444,7 +478,16 @@
       "patch": {
         "tags": ["Board"],
         "summary": "Update bord on the server",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT token obtained upon user authentication",
+            "required": true,
+            "type": "string",
+            "format": "Bearer {token}"
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Update board object at the server",
@@ -487,7 +530,16 @@
       "delete": {
         "tags": ["Board"],
         "summary": "Delete board from the server",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT token obtained upon user authentication",
+            "required": true,
+            "type": "string",
+            "format": "Bearer {token}"
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "201": {
@@ -515,7 +567,16 @@
       "get": {
         "tags": ["Column"],
         "summary": "Get all columns",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT token obtained upon user authentication",
+            "required": true,
+            "type": "string",
+            "format": "Bearer {token}"
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "201": {
@@ -539,7 +600,16 @@
       "post": {
         "tags": ["Column"],
         "summary": "Post column",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT token obtained upon user authentication",
+            "required": true,
+            "type": "string",
+            "format": "Bearer {token}"
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Post column object",
@@ -578,7 +648,16 @@
       "patch": {
         "tags": ["Column"],
         "summary": "Update column on the server",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT token obtained upon user authentication",
+            "required": true,
+            "type": "string",
+            "format": "Bearer {token}"
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Update column object at the server",
@@ -621,7 +700,14 @@
       "delete": {
         "tags": ["Column"],
         "summary": "Delete column from the server",
-        "parameters": [],
+        "parameters": [{
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT token obtained upon user authentication",
+            "required": true,
+            "type": "string",
+            "format": "Bearer {token}"
+          }],
         "security": [{ "Bearer": [] }],
         "responses": {
           "201": {
@@ -649,7 +735,14 @@
       "get": {
         "tags": ["Card"],
         "summary": "Get all cards",
-        "parameters": [],
+        "parameters": [{
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT token obtained upon user authentication",
+            "required": true,
+            "type": "string",
+            "format": "Bearer {token}"
+          }],
         "security": [{ "Bearer": [] }],
         "responses": {
           "201": {
@@ -673,7 +766,14 @@
       "post": {
         "tags": ["Card"],
         "summary": "Post card on the server",
-        "parameters": [],
+        "parameters": [{
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT token obtained upon user authentication",
+            "required": true,
+            "type": "string",
+            "format": "Bearer {token}"
+          }],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Post card object",
@@ -712,7 +812,14 @@
       "patch": {
         "tags": ["Card"],
         "summary": "Update card on the server",
-        "parameters": [],
+        "parameters": [{
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT token obtained upon user authentication",
+            "required": true,
+            "type": "string",
+            "format": "Bearer {token}"
+          }],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Update card object at the server",
@@ -755,7 +862,14 @@
       "delete": {
         "tags": ["Card"],
         "summary": "Delete cards from the server",
-        "parameters": [],
+        "parameters": [{
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT token obtained upon user authentication",
+            "required": true,
+            "type": "string",
+            "format": "Bearer {token}"
+          }],
         "security": [{ "Bearer": [] }],
         "responses": {
           "201": {
@@ -783,7 +897,14 @@
       "get": {
         "tags": ["NeedHelp"],
         "summary": "Send email and message to our email",
-        "parameters": [],
+        "parameters": [{
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT token obtained upon user authentication",
+            "required": true,
+            "type": "string",
+            "format": "Bearer {token}"
+          }],
         "requestBody": {
           "description": "Need help object",
           "required": true,
@@ -845,11 +966,6 @@
         "type": "object",
         "required": ["name", "email", "password"],
         "properties": {
-          "name": {
-            "type": "string",
-            "description": "User's name",
-            "example": "Andy Machine"
-          },
           "email": {
             "type": "string",
             "description": "User's email",
@@ -1039,41 +1155,83 @@
       "RegistrationResponse": {
         "type": "object",
         "properties": {
-          "name": {
+           "user": {
+     "theme": {
+            "type": "string",
+            "description": "User's theme",
+            "example": "dark"
+          },
+   "name": {
             "type": "string",
             "description": "User's name",
             "example": "Andy Machine"
           },
-          "email": {
+     "email": {
             "type": "string",
             "description": "User's email",
             "format": "email"
           },
+    "avatarURL": {
+            "type": "string",
+            "description": "User's avatar",
+            "example": ""
+          }
+        },
           "token": {
             "type": "string",
             "description": "User's token",
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzFmMzg0MWMzNjA0OWQ3NmNmMWFjMyIsImlhdCI6MTcxNDU0OTYzNiwiZXhwIjoxNzE0NTUzMjM2fQ._bvC8euAfl_oehYuN8q7Ymtgc3T6Y3VpfYSFrJWgp_k"
           }
-        }
+        },
+       "example": {
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDFkMzFlMmExM2Y3OTg4ZTA5MTllNSIsImlhdCI6MTcxNTU4OTkxOCwiZXhwIjoxNzE1NjcyNzE4fQ.h_Y2CEPt7mQkTRDEdMmb9K5tL5u8vWoaKIfAPCmHM58",
+  "user": {
+    "theme": "dark",
+    "name": "An Machine",
+    "email": "ur@example.com",
+    "avatarURL": ""
+  }
+}
       },
       "LoginResponse": {
         "type": "object",
         "properties": {
-          "name": {
+                "user": {
+     "theme": {
+            "type": "string",
+            "description": "User's theme",
+            "example": "dark"
+          },
+   "name": {
             "type": "string",
             "description": "User's name",
-            "example": "Duke Anderson"
+            "example": "Andy Machine"
           },
-          "email": {
+     "email": {
             "type": "string",
             "description": "User's email",
             "format": "email"
           },
+    "avatarURL": {
+            "type": "string",
+            "description": "User's avatar",
+            "example": ""
+          }
+        },
           "token": {
             "type": "string",
             "description": "User's token",
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzFmMzg0MWMzNjA0OWQ3NmNmMWFjMyIsImlhdCI6MTcxNDU0OTYzNiwiZXhwIjoxNzE0NTUzMjM2fQ._bvC8euAfl_oehYuN8q7Ymtgc3T6Y3VpfYSFrJWgp_k"
           }
+        },
+       "example": {
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDFkMzFlMmExM2Y3OTg4ZTA5MTllNSIsImlhdCI6MTcxNTU4OTkxOCwiZXhwIjoxNzE1NjcyNzE4fQ.h_Y2CEPt7mQkTRDEdMmb9K5tL5u8vWoaKIfAPCmHM58",
+  "user": {
+    "theme": "dark",
+    "name": "An Machine",
+    "email": "ur@example.com",
+    "avatarURL": ""
+  }
         }
       },
       "CurrentResponse": {
