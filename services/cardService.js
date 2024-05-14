@@ -13,7 +13,6 @@ export const updateCardbyFilter = (filter, data) =>
 
 export const removeCard = (filter) => Card.findOneAndDelete(filter);
 
-// export const createCard = (data) => Card.create(data);
 
 export const createCard = async (req) => {
   const card = await Card.create({ ...req.body, owner: req.user._id });

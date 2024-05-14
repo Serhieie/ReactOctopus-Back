@@ -30,16 +30,6 @@ boardSchema.pre("findOneAndUpdate", setUpdateSetting);
 boardSchema.post("save", handleSaveError);
 boardSchema.post("findOneAndUpdate", handleSaveError);
 
-// import mongoose from "mongoose";
-// boardSchema.post('remove', async function(next) {
-//   try {
-//     await mongoose.model('column').deleteMany({ boardId: this._id });
-//     console.log("ID АЙДІ ЦЬОГО ОБ'ЄКТУ", this._id)
-//     next();
-//   } catch (error) {
-//     next(error);
-//   }
-// });
 
 const Board = model("board", boardSchema);
 
