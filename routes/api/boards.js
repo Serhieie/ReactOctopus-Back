@@ -1,11 +1,7 @@
 import express from "express";
 import boardsCtrl from "../../controllers/boardControllers/index.js";
-// import columnsCtrl from "../../controllers/columnControllers/index.js";
-// import cardsCtrl from "../../controllers/cardControllers/index.js";
 import {
   isValidId,
-  // isValidId2,
-  // isValidId3,
   autenticate,
   validateBody,
 } from "../../middlewares/index.js";
@@ -13,14 +9,6 @@ import {
   createBoardSchema,
   updateBoardSchema,
 } from "../../schemas/boardsSchemas.js";
-// import {
-//   createColumnSchema,
-//   updateColumnSchema,
-// } from "../../schemas/columnSchemas.js";
-// import {
-//   createCardSchema,
-//   updateCardSchema,
-// } from "../../schemas/cardsSchemas.js";
 
 const boardsRouter = express.Router();
 

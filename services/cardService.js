@@ -13,26 +13,26 @@ export const updateCardbyFilter = (filter, data) =>
 
 export const removeCard = (filter) => Card.findOneAndDelete(filter);
 
-// export const createCard = (data) => Card.create(data);
-
 export const createCard = async (req) => {
   const card = await Card.create({ ...req.body, owner: req.user._id });
   const { columnId } = req.body;
-  const column = await Column.findById(columnId);
-  const cardId = card._id;
-  column.cards.push(cardId);
-  await column.save(cardId);
+
+  await Column.findOneAndUpdate(
+    { _id: columnId },
+    { $push: { cards: card._id } },
+    { new: true }
+  );
   return card
 };
 
 export const moveCard = async (req) => {
   const { destinationColumnId } = req.body;
-  const { id } = req.params;
-  const { _id } = req.user;
+  const { id: cardId } = req.params;
+  const { _id: userId } = req.user;
 
-  const card = await Card.findOne({ owner: _id, _id: id });
+  const card = await Card.findOne({ owner: userId, _id: cardId });
   if (!card) {
-    throw new Error(`Card with id ${id} not found`);
+    throw new Error(`Card with id ${cardId} not found`);
   }
 
   const sourceColumn = await Column.findOneAndUpdate(
