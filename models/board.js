@@ -13,8 +13,7 @@ const boardSchema = new Schema(
     },
     background: {
       type: String,
-      required: [true, "Set background for board"],
-      default: ""
+      required: [false, "Set background for board"], 
     },
     owner: {
       type: Schema.Types.ObjectId,
