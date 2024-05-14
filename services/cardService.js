@@ -31,25 +31,28 @@ export const moveCard = async (req) => {
   const { _id } = req.user;
 
   const card = await Card.findOne({ owner: _id, _id: id });
-  const column = await Column.findById(card.columnId);
-  const destinationColumn = await Column.findById(destinationColumnId);
-
-  if (column._id === destinationColumnId) {
-    
+  if (!card) {
+    throw new Error(`Card with id ${id} not found`);
   }
 
-  const cardIndex = column.cards.indexOf(card._id);
-
-  if (cardIndex !== -1) {
-  column.cards.splice(cardIndex, 1);
-  }
+  const sourceColumn = await Column.findOneAndUpdate(
+    { _id: card.columnId },
+    { $pull: { cards: card._id } }, 
+    { new: true }
+  ).populate("cards");
 
   card.columnId = destinationColumnId;
-  destinationColumn.cards.unshift(card._id);
- 
   await card.save();
-  await column.save();
-  await destinationColumn.save();
 
-  return {destinationColumn, sourceColumn: column};
-}
+  const destinationColumn = await Column.findOneAndUpdate(
+    { _id: destinationColumnId },
+    { $push: { cards: card._id } }, 
+    { new: true }
+  ).populate("cards");
+
+
+  
+
+  return { sourceColumn, destinationColumn };
+};
+

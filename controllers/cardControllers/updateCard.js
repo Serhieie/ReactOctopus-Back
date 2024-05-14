@@ -8,8 +8,8 @@ export const updateCard = async (req, res) => {
 
   const { _id: owner } = req.user;
   const { id } = req.params;
-  const result = await updateCardbyFilter({ owner, id }, req.body);
 
+  const result = await updateCardbyFilter({ owner, _id: id }, req.body);
   if (!result) {
     throw httpError(404, `Card with id: ${id} not found`);
   }
