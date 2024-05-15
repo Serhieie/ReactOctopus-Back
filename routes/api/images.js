@@ -1,6 +1,5 @@
 import express from "express";
 import ctrl from "../../controllers/imagesControllers.js";
-// import { autenticate } from "../../middlewares";
 
 
 const router = express.Router();
