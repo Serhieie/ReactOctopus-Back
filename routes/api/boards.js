@@ -8,6 +8,7 @@ import {
 import {
   createBoardSchema,
   updateBoardSchema,
+  setActiveBoardSchema
 } from "../../schemas/boardsSchemas.js";
 
 const boardsRouter = express.Router();
@@ -15,7 +16,7 @@ const boardsRouter = express.Router();
 boardsRouter.use(autenticate);
 
 boardsRouter.get("/", boardsCtrl.getBoards);
-boardsRouter.get("/:id", boardsCtrl.getBoardById);
+boardsRouter.patch("/:id",validateBody(setActiveBoardSchema), boardsCtrl.getBoardById);
 
 
 boardsRouter.post("/post", validateBody(createBoardSchema), boardsCtrl.addBoard);

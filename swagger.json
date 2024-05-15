@@ -287,7 +287,7 @@
       }
     },
         "/api/boards/{boardId}": {
-      "get": {
+      "patch": {
         "tags": ["Board"],
         "summary": "Get board",
         "parameters": [       {
@@ -959,12 +959,19 @@
             "type": "string",
             "description": "Background image url",
             "example": "https://example/images/sakura.webp"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "active board",
+            "example": false
           }
+
         },
         "example": {
           "title": "Project Office",
           "iconId": "1",
-          "background": "https://example/images/sakura.webp"
+          "background": "https://example/images/sakura.webp",
+          "active": true
         }
       },
       "PatchBoardRequest": {
@@ -985,12 +992,18 @@
             "type": "string",
             "description": "Background image url",
             "example": "https://example/images/sakura.webp"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "active board",
+            "example": false
           }
         },
         "example": {
           "title": "Project Office",
           "iconId": "1",
-          "background": "https://example/images/sakura.webp"
+          "background": "https://example/images/sakura.webp",
+          "active": false
         }
       },
       "PostColumnRequest": {
@@ -1523,6 +1536,11 @@
               "description": "Board icon id",
               "example": "2"
             },
+            "active": {
+            "type": "boolean",
+            "description": "active board",
+            "example": true
+          },
             "owner": {
               "type": "object",
               "discription": "owner of board",
@@ -1647,12 +1665,13 @@
         "example": {
           "_id": "6631f3841c36049d76cf1ac3",
             "title": "Project Office",
-               "iconId": "1",
+              "iconId": "1",
             "background": "https://example/images/nightSky.webp",
             "owner": {
               "_id": "6631f3141c36049126cf1ac",
               "email": "example@ex.com"
             },
+             "active": true,
             "columns": [
               {
            "title":  "Column-1",
@@ -1661,7 +1680,6 @@
                "_id": "6631f3841c36049d76cf1ac3",
                "email": "example@ex.com"
             },
-            
              "cards": [{
             "title": "Title-1",
             "description": "Description-1",
@@ -1767,6 +1785,11 @@
             "description": "board id",
             "example": "6631f3841c36049d76cf1ac3"
           },
+          "active": {
+            "type": "boolean",
+            "description": "active board",
+            "example": false
+          },
             "createdAt": {
               "type": "string",
               "description": "Time created at",
@@ -1785,6 +1808,7 @@
           "owner":  "6631f3141c36049126cf1ac",
           "columns": [],
           "_id": "6631f3841c36049d76cf1ac3",
+          "active": true,
           "createdAt": "2024-05-14T20:33:07.268Z",
           "updatedAt": "2024-05-14T20:33:07.268Z"
           }
@@ -1823,6 +1847,11 @@
               }
             }
           },
+          "active": {
+            "type": "boolean",
+            "description": "active board",
+            "example": false
+          },
               "createdAt": {
               "type": "string",
               "description": "Time created at",
@@ -1849,6 +1878,7 @@
             "email": "example@ex.com"
           },
           "columns": ["..."],
+          "active": false,
           "createdAt": "2024-05-14T20:23:24.388Z",
           "updatedAt": "2024-05-14T21:06:15.288Z"
         }

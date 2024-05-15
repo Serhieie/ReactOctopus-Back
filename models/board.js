@@ -15,6 +15,11 @@ const boardSchema = new Schema(
       type: String,
       required: [false, "Set background for board"], 
     },
+     active: {
+      type: Boolean,
+       required: [false, "Set active"], 
+      default: true
+    },
     owner: {
       type: Schema.Types.ObjectId,
       ref: "user",
