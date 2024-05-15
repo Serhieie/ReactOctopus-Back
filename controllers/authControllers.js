@@ -9,7 +9,6 @@ import { createUser, findUser, updateUser } from "../services/authServise.js";
 
 const SECRET_KEY = process.env.SECRET_KEY;
 const EXPIRES_TIME = process.env.EXPIRES_TIME;
-const BASE_URL = process.env.BASE_URL;
 
 // ======REGISTRATION======
 export const signup = async (req, res) => {
@@ -169,3 +168,4 @@ export const googleRedirect = async (req, res) => {
     `${process.env.FRONTEND_URL}?email=${userData.data.email}`
   );
 
+}
