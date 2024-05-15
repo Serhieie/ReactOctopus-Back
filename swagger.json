@@ -3,7 +3,7 @@
   "info": {
     "version": "2.0.2",
     "title": "ReactOctopus",
-    "description": "Showing off swagger-ui-express",
+    "description": "Documentation of ReactOctopus backend",
     "license": {
       "name": "MIT",
       "url": "https://opensource.org/licenses/MIT"
@@ -12,8 +12,8 @@
   "consumes": ["application/json", "multipart/formData"],
   "produces": ["application/json"],
   "servers": [
-    { "url": "http://localhost:3000" },
-     { "url": "https://reactoctopus-back.onrender.com" }
+     { "url": "https://reactoctopus-back.onrender.com" },
+       { "url": "http://localhost:3000" }
   ],
   "tags": [
     {
@@ -38,7 +38,7 @@
     },
     {
       "name": "Images",
-      "description": "Images endpoints. (тимчасові роути, якщо буде потрібно)"
+      "description": "Images endpoints. Available types (desctop, desctopx2, tablet, tabletx2, mobile, mobilex2)"
     }
   ],
 
@@ -159,38 +159,39 @@
         }
       }
     },
-    "/api/auth/update-profile": {
+        "/api/auth/update-profile": {
       "patch": {
-        "tags": ["Auth"],
-        "summary": "Update user profile,",
+        "tags": [
+          "Auth"
+        ],
+        "operationId": "uploadFile",
+        "summary": "Update user profile",
         "description": "Endpoint to update user profile information",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "description": "User profile data to update",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string"
-                },
-                "email": {
-                  "type": "string"
-                },
-                "password": {
-                  "type": "string"
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "avatar": {
+                    "type": "string",
+                    "format": "binary"
+                  }
                 }
               }
             }
           }
-        ],
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
+        },
         "responses": {
           "200": {
             "description": "User profile updated successfully",
@@ -213,6 +214,7 @@
         }
       }
     },
+
     "/api/auth/google": {
       "get": {
         "tags": ["Auth"],
@@ -226,126 +228,19 @@
         }
       }
     },
-    "/api/images/desctop": {
+    "/api/images/{type}": {
       "get": {
         "tags": ["Images"],
-        "summary": "Get desctop x1 images",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ImagesResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found: The requested resource could not be found on the server.",
-            "content": {}
+        "summary": "Get images",
+        "parameters": [{
+           "in": "path",
+          "name": "type",
+          "schema": {
+                 "type": "string",
+          "required": true,
+          "description": "Id of the Item"
           }
-        }
-      }
-    },
-    "/api/images/tablet": {
-      "get": {
-        "tags": ["Images"],
-        "summary": "Get tablet x1 images",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ImagesResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found: The requested resource could not be found on the server.",
-            "content": {}
-          }
-        }
-      }
-    },
-    "/api/images/mobile": {
-      "get": {
-        "tags": ["Images"],
-        "summary": "Get mobile x1 images",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ImagesResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found: The requested resource could not be found on the server.",
-            "content": {}
-          }
-        }
-      }
-    },
-    "/api/images/desctopx2": {
-      "get": {
-        "tags": ["Images"],
-        "summary": "Get desctop x2 images",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ImagesResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found: The requested resource could not be found on the server.",
-            "content": {}
-          }
-        }
-      }
-    },
-    "/api/images/tabletx2": {
-      "get": {
-        "tags": ["Images"],
-        "summary": "Get tablet x2 images",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ImagesResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found: The requested resource could not be found on the server.",
-            "content": {}
-          }
-        }
-      }
-    },
-    "/api/images/mobilex2": {
-      "get": {
-        "tags": ["Images"],
-        "summary": "Get mobile x2 images",
-        "parameters": [],
+        }],
         "responses": {
           "201": {
             "description": "Successful operation",
@@ -564,7 +459,15 @@
         "tags": ["Column"],
         "summary": "Get all columns",
         "parameters": [
-
+{
+           "in": "path",
+          "name": "boardId",
+          "schema": {
+                 "type": "string",
+          "required": true,
+          "description": "Id of parent board"
+          }
+        }
         ],
         "security": [{ "Bearer": [] }],
         "responses": {
@@ -969,6 +872,71 @@
           }
         }
       },
+      "UpdateInfoResponse": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          },
+           "theme": {
+            "type": "string",
+            "description": "Chosed theme",
+            "example": "dark"
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "User's password",
+            "example": "http://avatarpath.com/path"
+          }
+        },
+        "example": 
+{
+  "theme": "dark",
+  "name": "Andy Machine",
+  "email": "user@example.com",
+  "avatarURL": "http://avatarpath.com/path"
+}
+      },
+      "UpdateInfoRequest": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          },
+           "theme": {
+            "type": "string",
+            "description": "Chosed theme",
+            "example": "dark"
+          },
+          "avatarURL": {
+            "type": "file",
+            "description": "User's password"
+          }
+        },
+        "example": 
+{
+  "theme": "dark",
+  "name": "Andy Machine",
+  "email": "user@example.com",
+  "avatarURL": "http://avatarpath.com/path"
+}
+      },
       "CurrentRequest": {
         "type": "object",
         "properties": {}
@@ -1286,7 +1254,8 @@
       "GetAllBoardsResponse": {
         "type": "array",
         "items": {
-          "type": "object",
+          "result":{
+           "type": "object",
           "required": ["title", "background", "iconId", "owner", "_id", "columns"],
           "properties": {
             "title": {
@@ -1416,7 +1385,6 @@
             }
             }
             }
-            
           },
             "_id": {
               "type": "string",
@@ -1424,13 +1392,21 @@
               "example": "6631f3841c36049d76cf1ac3"
             }
           }
+      
+          },
+          "total": {
+            "type": "number",
+            "description": "Number of items in array",
+            "example": 1
+          }
         },
         "example": [
           {
-            "title": "Project Office",
-            "background": "https://example/images/nightSky.webp",
+          "result":{
             "_id": "6631f3841c36049d76cf1ac3",
+            "title": "Project Office",
             "iconId": "1",
+            "background": "https://example/images/nightSky.webp",
             "columns": [
               {
            "title":  "Column-1",
@@ -1447,7 +1423,8 @@
             "deadline": "2024-05-04T17:42:30.636+00:00",
             "columnId":  "6631f3841c36049d76cf1ac3",
             "owner": {
-                "_id": "6631f3841c36049d76cf1ac3"
+                "_id": "6631f3841c36049d76cf1ac3",
+                   "email": "example@ex.com"
             },
             "_id": "6631f3841c36049d76cf1ac3"
             },{
@@ -1457,7 +1434,8 @@
             "deadline": "2024-05-04T17:42:30.636+00:00",
             "columnId":  "6631f3841c36049d76cf1ac3",
             "owner": {
-                "_id": "6631f3841c36049d76cf1ac3"
+                "_id": "6631f3841c36049d76cf1ac3",
+                   "email": "example@ex.com"
             },
             "_id": "6631f3841c36049d76cf1ac3"
             },{
@@ -1467,7 +1445,8 @@
             "deadline": "2024-05-04T17:42:30.636+00:00",
             "columnId":  "6631f3841c36049d76cf1ac3",
             "owner": {
-                "_id": "6631f3841c36049d76cf1ac3"
+                "_id": "6631f3841c36049d76cf1ac3",
+                   "email": "example@ex.com"
             },
             "_id": "6631f3841c36049d76cf1ac3"
             }]
@@ -1476,7 +1455,8 @@
            "title":  "Column-2",
            "boardId": "6631f3841c36049d76cf1ac3",
             "owner": {
-               "_id": "6631f3841c36049d76cf1ac3"
+               "_id": "6631f3841c36049d76cf1ac3",
+                  "email": "example@ex.com"
             },
             
              "cards": [{
@@ -1486,7 +1466,8 @@
             "deadline": "2024-05-04T17:42:30.636+00:00",
             "columnId":  "6631f3841c36049d76cf1ac3",
             "owner": {
-                "_id": "6631f3841c36049d76cf1ac3"
+                "_id": "6631f3841c36049d76cf1ac3",
+                   "email": "example@ex.com"
             },
             "_id": "6631f3841c36049d76cf1ac3"
             },{
@@ -1496,7 +1477,8 @@
             "deadline": "2024-05-04T17:42:30.636+00:00",
             "columnId":  "6631f3841c36049d76cf1ac3",
             "owner": {
-                "_id": "6631f3841c36049d76cf1ac3"
+                "_id": "6631f3841c36049d76cf1ac3",
+                   "email": "example@ex.com"
             },
             "_id": "6631f3841c36049d76cf1ac3"
             },{
@@ -1506,16 +1488,20 @@
             "deadline": "2024-05-04T17:42:30.636+00:00",
             "columnId":  "6631f3841c36049d76cf1ac3",
             "owner": {
-                "_id": "6631f3841c36049d76cf1ac3"
+                "_id": "6631f3841c36049d76cf1ac3",
+                   "email": "example@ex.com"
             },
             "_id": "6631f3841c36049d76cf1ac3"
             }]
              }
             ],
             "owner": {
-              "_id": "6631f3141c36049126cf1ac"
+              "_id": "6631f3141c36049126cf1ac",
+              "email": "example@ex.com"
             }
-          }
+          },
+        "total": 1
+      }
         ]
       },
        "GetBoardByIdResponse": {
@@ -1659,10 +1645,14 @@
           
         },
         "example": {
+          "_id": "6631f3841c36049d76cf1ac3",
             "title": "Project Office",
+               "iconId": "1",
             "background": "https://example/images/nightSky.webp",
-            "_id": "6631f3841c36049d76cf1ac3",
-            "iconId": "1",
+            "owner": {
+              "_id": "6631f3141c36049126cf1ac",
+              "email": "example@ex.com"
+            },
             "columns": [
               {
            "title":  "Column-1",
@@ -1743,15 +1733,11 @@
             "_id": "6631f3841c36049d76cf1ac3"
             }]
              }
-            ],
-            "owner": {
-              "_id": "6631f3141c36049126cf1ac",
-              "email": "example@ex.com"
-            }
+            ]
           }
         
       },
-      "PostBoardResponse": {
+       "PostBoardResponse": {
         "type": "object",
         "required": ["title", "background", "iconId", "owner", "_id"],
         "properties": {
@@ -1772,39 +1758,37 @@
           },
           "columns": [],
           "owner": {
-            "type": "object",
+            "type": "string",
             "discription": "owner of board",
-            "example": {
-              "_id": {
-                "type": "string",
-                "description": "owner id",
-                "example": "6631f3841c36049d76cf1ac3"
-              },
-              "email": {
-                "type": "string",
-                "description": "owner email",
-                "format": "email"
-              }
-            }
-          },
+            "example": "6631f3841c36049d76cf1ac3"
+            },
           "_id": {
             "type": "string",
             "description": "board id",
             "example": "6631f3841c36049d76cf1ac3"
-          }
+          },
+            "createdAt": {
+              "type": "string",
+              "description": "Time created at",
+              "example": "2024-05-14T20:33:07.268Z"
+            },
+              "updatedAt": {
+                "type": "string",
+                "description": "Time updated at",
+                "example": "2024-05-14T20:33:07.268Z"
+            }
         },
         "example": {
           "title": "Project Office",
-          "background": "https://example/images/nightSky.webp",
-          "_id": "6631f3841c36049d76cf1ac3",
           "iconId": "1",
+          "background": "https://example/images/nightSky.webp",
+          "owner":  "6631f3141c36049126cf1ac",
           "columns": [],
-          "owner": {
-            "_id": "6631f3141c36049126cf1ac",
-            "email": "example@ex.com"
+          "_id": "6631f3841c36049d76cf1ac3",
+          "createdAt": "2024-05-14T20:33:07.268Z",
+          "updatedAt": "2024-05-14T20:33:07.268Z"
           }
-        }
-      },
+        },
       "PatchBoardResponse": {
         "type": "object",
         "required": [],
@@ -1839,6 +1823,16 @@
               }
             }
           },
+              "createdAt": {
+              "type": "string",
+              "description": "Time created at",
+              "example": "2024-05-14T20:33:07.268Z"
+            },
+              "updatedAt": {
+                "type": "string",
+                "description": "Time updated at",
+                "example": "2024-05-14T20:33:07.268Z"
+            },
           "_id": {
             "type": "string",
             "description": "board id",
@@ -1846,18 +1840,19 @@
           }
         },
         "example": {
-          "title": "Project Office",
-          "background": "https://example/images/nightSky.webp",
           "_id": "6631f3841c36049d76cf1ac3",
+          "title": "Project Office",
           "iconId": "1",
-          "columns": ["..."],
+          "background": "https://example/images/nightSky.webp",
           "owner": {
             "_id": "6631f3141c36049126cf1ac",
             "email": "example@ex.com"
-          }
+          },
+          "columns": ["..."],
+          "createdAt": "2024-05-14T20:23:24.388Z",
+          "updatedAt": "2024-05-14T21:06:15.288Z"
         }
       },
-
       "DeleteBoardResponse": {
         "type": "object",
         "required": [],
@@ -1877,7 +1872,14 @@
           "type": "object",
           "required": ["title", "owner", "_id", "boardId"],
           "properties": {
-            "title": {
+            "result": {
+              "type": "array",
+              "description": "result of request",
+              "items": {
+                "type": "object",
+                "description": "columns",
+                "properties": {
+                  "title": {
               "type": "string",
               "description": "Board Column Title",
               "example": "Title-1"
@@ -1965,36 +1967,49 @@
               "description": "board id",
               "example": "6631f3841c36049d76cf1ac3"
             }
+                }
+              }
+            },
+            "total": {
+              "type": "number",
+              "description": "number of items in array",
+              "example": 4
+            }
           }
         },
         "example": [
-          {
+          {"result": [
+               {
+                  "_id": "6631f3841c36049d76cf1ac3",
             "title": "Project Office",
-            "_id": "6631f3841c36049d76cf1ac3",
             "boardId": "6631f3841c36049d76cf1ac3",
-            "cards": ["..."],
             "owner": {
               "_id": "6631f3141c36049126cf1ac"
-            }
+            },
+            "cards": ["..."]
+            
           },
           {
-            "title": "Project Office",
             "_id": "6631f3841c36049d76cf1ac3",
+            "title": "Project Office",
             "boardId": "6631f3841c36049d76cf1ac3",
-                "cards": ["..."],
             "owner": {
               "_id": "6631f3141c36049126cf1ac"
-            }
+            },
+                "cards": ["..."]
+            
           },
           {
-            "title": "Project Office",
             "_id": "6631f3841c36049d76cf1ac3",
+            "title": "Project Office",
             "boardId": "6631f3841c36049d76cf1ac3",
-                "cards": ["..."],
             "owner": {
               "_id": "6631f3141c36049126cf1ac"
-            }
+            },
+                "cards": ["..."]
           }
+          ],"total": 3}
+      
         ]
       },
       "PostColumnResponse": {
@@ -2009,16 +2024,10 @@
               "example": "Title-1"
             },
             "owner": {
-              "type": "object",
+              "type": "string",
               "discription": "Board Id",
-              "example": {
-                "_id": {
-                  "type": "string",
-                  "description": "Board id",
-                  "example": "6631f3841c36049d76cf1ac3"
-                }
-              }
-            },
+              "example":  "6631f3841c36049d76cf1ac3"
+              },
             "boardId": {
               "type": "string",
               "description": "Parent board Id",
@@ -2028,17 +2037,28 @@
               "type": "string",
               "description": "board id",
               "example": "6631f3841c36049d76cf1ac3"
+            },
+              "createdAt": {
+              "type": "string",
+              "description": "Time created at",
+              "example": "2024-05-14T20:33:07.268Z"
+            },
+              "updatedAt": {
+                "type": "string",
+                "description": "Time updated at",
+                "example": "2024-05-14T20:33:07.268Z"
             }
           }
         },
         "example": {
-          "title": "Project Office",
-          "_id": "6631f3841c36049d76cf1ac3",
-          "cards": [],
-          "owner": {
-            "_id": "6631f3141c36049126cf1ac"
-          }
-        }
+  "title": "Project Office",
+  "boardId": "6643c89fc3513c56041a4035",
+  "owner": "6643c7f8afd695b09180fb82",
+  "cards": [],
+  "_id": "6643d37128500f1d7d87b0bc",
+  "createdAt": "2024-05-14T21:11:13.172Z",
+  "updatedAt": "2024-05-14T21:11:13.172Z"
+}
       },
       "PatchColumnResponse": {
         "type": "array",
@@ -2071,17 +2091,28 @@
               "type": "string",
               "description": "board id",
               "example": "6631f3841c36049d76cf1ac3"
+            },
+             "createdAt": {
+              "type": "string",
+              "description": "Time created at",
+              "example": "2024-05-14T20:33:07.268Z"
+            },
+              "updatedAt": {
+                "type": "string",
+                "description": "Time updated at",
+                "example": "2024-05-14T20:33:07.268Z"
             }
           }
         },
         "example": {
-          "title": "Project Office",
-          "_id": "6631f3841c36049d76cf1ac3",
-          "cards": ["..."],
-          "owner": {
-            "_id": "6631f3141c36049126cf1ac"
-          }
-        }
+  "_id": "6643d37128500f1d7d87b0bc",
+  "title": "Project Officeeeeeeeee",
+  "boardId": "6643c89fc3513c56041a4035",
+  "owner": "6643c7f8afd695b09180fb82",
+  "cards": [],
+  "createdAt": "2024-05-14T21:11:13.172Z",
+  "updatedAt": "2024-05-14T21:30:02.106Z"
+}
       },
       "DeleteColumnResponse": {
         "type": "object",
@@ -2101,7 +2132,13 @@
           "type": "object",
           "required": ["title", "owner", "_id", "columnId"],
           "properties": {
-            "title": {
+            "result": {
+              "type": "array",
+              "description": "array of cards",
+              "items":{
+                "type": "object",
+                "description": "card",
+                "properties":{"title": {
               "type": "string",
               "description": "Task title",
               "example": "Title-1"
@@ -2141,43 +2178,53 @@
               "type": "string",
               "description": "board id",
               "example": "6631f3841c36049d76cf1ac3"
+            }},
+            "total": {
+              "type": "number",
+              "description": "number of items in array", 
+              "example": 3
+            }
+              }
             }
           }
         },
         "example": [
           {
+            "result":[{
+            "_id": "6631f31411c3604119126cf1ac",
             "title": "The Watch Spot Design",
             "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
             "priority": "low",
             "deadline": "2024-05-04T17:42:30.636+00:00",
              "columnId":  "6631f3841c36049d76cf1ac3",
-            "_id": "6631f31411c3604119126cf1ac",
             "owner": {
               "_id": "6631f13141c316049126cf1ac"
             }
           },
           {
+            "_id": "66311f3141c31316049126cfffc",
             "title": "Research and Analysis",
             "description": "Conduct in-depth research and analysis on the project's topic, gather relevant data, and identify key insights to inform decision-making and project planning.",
             "priority": "medium",
             "deadline": "2024-05-05T17:42:30.636+00:00",
             "columnId":  "6631f3841c36049d76cf1ac3",
-            "_id": "66311f3141c31316049126cfffc",
             "owner": {
               "_id": "6631f13141c316049126cf1ac"
             }
           },
           {
+            "_id": "6631f3141c31312316049126cf34c",
             "title": "Concept Development",
             "description": "Brainstorm and develop creative concepts and ideas that align with the project's objectives, considering factors such as target audience, messaging, and visual representation.",
             "priority": "without",
             "deadline": "2024-05-06T17:42:30.636+00:00",
             "columnId":  "6631f3841c36049d76cf1ac3",
-            "_id": "6631f3141c31312316049126cf34c",
             "owner": {
               "_id": "6631f13141c316049126cf1ac"
             }
-          }
+          }],
+        "total": 3
+      }
         ]
       },
       "PostCardResponse": {
@@ -2209,13 +2256,7 @@
             "owner": {
               "type": "object",
               "discription": "User Id",
-              "example": {
-                "_id": {
-                  "type": "string",
-                  "description": "Board id",
-                  "example": "6631f3841c36049d76cf1ac3"
-                }
-              }
+              "example":  "6631f3841c36049d76cf1ac3"
             },"columnId": {
               "type": "string",
               "description": "Parent column Id",
@@ -2225,20 +2266,30 @@
               "type": "string",
               "description": "board id",
               "example": "6631f3841c36049d76cf1ac3"
+            },
+              "createdAt": {
+              "type": "string",
+              "description": "Time created at",
+              "example": "2024-05-14T20:33:07.268Z"
+            },
+              "updatedAt": {
+                "type": "string",
+                "description": "Time updated at",
+                "example": "2024-05-14T20:33:07.268Z"
             }
           }
         },
         "example": {
-          "title": "The Watch Spot Design",
-          "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
-          "priority": "low",
-          "deadline": "2024-05-04T17:42:30.636+00:00",
-                      "columnId":  "6631f3841c36049d76cf1ac3",
-          "_id": "6631f31411c3604119126cf1ac",
-          "owner": {
-            "_id": "6631f13141c316049126cf1ac"
-          }
-        }
+  "title": "The Watch Spot Design",
+  "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
+  "priority": "low",
+  "deadline": "2024-05-04T17:42:30.636+00:00",
+  "columnId": "6631f3841c36049d76cf1ac3",
+  "owner": "6643c7f8afd695b09180fb82",
+  "_id": "6643d8a9f364670ba1b93a6b",
+  "createdAt": "2024-05-14T21:33:29.664Z",
+  "updatedAt": "2024-05-14T21:33:29.664Z"
+}
       },
       "PatchCardResponse": {
         "type": "array",
@@ -2274,32 +2325,35 @@
             "owner": {
               "type": "object",
               "discription": "User Id",
-              "example": {
-                "_id": {
-                  "type": "string",
-                  "description": "Board id",
-                  "example": "6631f3841c36049d76cf1ac3"
-                }
-              }
+              "example": "6631f3841c36049d76cf1ac3"
             },
             "_id": {
               "type": "string",
               "description": "board id",
               "example": "6631f3841c36049d76cf1ac3"
+            },"createdAt": {
+              "type": "string",
+              "description": "Time created at",
+              "example": "2024-05-14T20:33:07.268Z"
+            },
+              "updatedAt": {
+                "type": "string",
+                "description": "Time updated at",
+                "example": "2024-05-14T20:33:07.268Z"
             }
           }
         },
         "example": {
-          "title": "The Watch Spot Design",
-          "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
-          "priority": "low",
-          "deadline": "2024-05-04T17:42:30.636+00:00",
-             "columnId":  "6631f3841c36049d76cf1ac3",
-          "_id": "6631f31411c3604119126cf1ac",
-          "owner": {
-            "_id": "6631f13141c316049126cf1ac"
-          }
-        }
+  "_id": "6643d8a9f364670ba1b93a6b",
+  "title": "The Wat",
+  "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern",
+  "priority": "low",
+  "deadline": "2024-05-04T17:42:30.636+00:00",
+  "columnId": "6631f3841c36049d76cf1ac3",
+  "owner": "6643c7f8afd695b09180fb82",
+  "createdAt": "2024-05-14T21:33:29.664Z",
+  "updatedAt": "2024-05-14T21:37:52.847Z"
+}
       },
       "DeleteCardResponse": {
         "type": "object",

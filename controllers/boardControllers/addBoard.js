@@ -5,7 +5,7 @@ export const addBoard = async (req, res) => {
 
   const result = await createBoard({ ...req.body, owner });
 
-  res.json({
-    result,
-  });
+  res.json(
+    result
+  );
 };

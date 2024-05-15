@@ -25,8 +25,6 @@ export const getBoardbyId = (filter) =>
 
 export const countBoards = (filter) => Board.countDocuments(filter);
 
-// export const getBoardById = (filter) => Board.findOne(filter);
-
 export const updateBoardbyFilter = (filter, data) =>
   Board.findOneAndUpdate(filter, data).populate({
         path: "columns", 
@@ -35,8 +33,8 @@ export const updateBoardbyFilter = (filter, data) =>
           path: "cards", 
           model: "card",
         },
-      }).populate("owner", "email");;
+      }).populate("owner", "email");
 
 export const removeBoard = (filter) => Board.findOneAndDelete(filter);
 
-export const createBoard = (data) => Board.create(data);
+export const createBoard = (data) => Board.create(data) ;
