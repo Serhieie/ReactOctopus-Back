@@ -208,8 +208,7 @@ if (!user) {
   
   await updateUser(newUser._id, { token });
   
-    return res.redirect(
-    `${process.env.FRONTEND_URL}auth/google/?token=${token}`
+           return res.redirect(`${process.env.FRONTEND_URL}auth/google/?token=${token}`
 );
 } else {
     if(!user.googleId){
@@ -220,8 +219,7 @@ if (!user) {
     });
       await updateUser(user._id, { token, googleId: isValidGoogleId });
 
-    return res.redirect(
-    `${process.env.FRONTEND_URL}auth/google/?token=${token}`
+          return res.redirect(`${process.env.FRONTEND_URL}auth/google/?token=${token}`
       );
     } else {
       const isValidGoogleId = await compareHash(id, user.googleId);
@@ -234,9 +232,7 @@ if (!user) {
         expiresIn: EXPIRES_TIME,
       });
       await updateUser(user._id, { token });
-      return res.redirect(`${process.env.FRONTEND_URL}auth/google/?token=${token}`
-        
-    // `${process.env.FRONTEND_URL}auth/google/?token=${token}`
+            return res.redirect(`${process.env.FRONTEND_URL}auth/google/?token=${token}`
       );
     }
 }
