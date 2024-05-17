@@ -1,5 +1,5 @@
 import ctrlWrapper from "../../helpers/ctrlWrapper.js";
-
+import {changeColumnIndexController} from "../columnControllers/changeColumnIndex.js"
 import { addColumn } from "./addColumn.js";
 import { getColumns } from "./getColumns.js";
 import { updateColumn } from "./updateColumn.js";
@@ -10,4 +10,5 @@ export default {
   getColumns: ctrlWrapper(getColumns),
   updateColumn: ctrlWrapper(updateColumn),
   deleteColumn: ctrlWrapper(deleteColumn),
+  changeColumnIndexController:ctrlWrapper(changeColumnIndexController)
 };

@@ -18,4 +18,6 @@ export const updateCardSchema = Joi.object({
   deadline: Joi.string(),
   columnId: Joi.string(),
   destinationColumnId: Joi.string(),
+  sourceIndex:Joi.number(),
+  destinationIndex:Joi.number(),
 });

@@ -7,4 +7,6 @@ export const createColumnSchema = Joi.object({
 
 export const updateColumnSchema = Joi.object({
   title: Joi.string(),
+         boardId: Joi.string(),
+        destinationIndex: Joi.number(),
 });

@@ -1,5 +1,7 @@
 import Board from "../models/board.js";
 import Column from "../models/column.js";
+import httpError from "../helpers/httpError.js";
+
 
 export const getAllColumns = (filter = {}) =>
   Column.find(filter, "-createdAt -updatedAt")
@@ -33,4 +35,38 @@ export const createColumn = async (req) => {
   board.columns.push(columnId);
   await board.save(columnId);
   return column;
+};
+
+
+export const changeColumnIndex = async (req) => {
+    const { destinationIndex, boardId } = req.body;
+    const { id: columnId } = req.params;
+    const removedSource = await Board.findOneAndUpdate(
+      { _id: boardId },
+      { $pull: { columns: columnId } },
+      { new: true }
+    )
+
+    if (!removedSource) {
+         throw httpError(404,"Column not found")
+    }
+    const updatedColumns = [...removedSource.columns];
+  updatedColumns.splice(destinationIndex, 0, columnId);
+
+    const updatedBoard = await Board.findOneAndUpdate(
+      { _id: boardId },
+      { columns: updatedColumns },
+      { new: true }
+    ) .select("-createdAt -updatedAt")
+    .populate({
+      path: "columns",
+      model: "column",
+      populate: {
+        path: "cards",
+        model: "card",
+      },
+    })
+    .populate("owner", "email");
+
+    return updatedBoard;
 };

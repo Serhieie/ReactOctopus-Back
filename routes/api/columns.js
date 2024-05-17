@@ -24,6 +24,13 @@ columnsRouter.post(
 );
 
 columnsRouter.patch(
+  "/changeIndex/:id",
+  isValidId,
+  validateBody(updateColumnSchema),
+  columnsCtrl.changeColumnIndexController
+);
+
+columnsRouter.patch(
   "/patch/:id",
   isValidId,
   validateBody(updateColumnSchema),
