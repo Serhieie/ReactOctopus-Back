@@ -19,7 +19,7 @@ export const getBoardbyId = async (filter) =>{
 
   const newActive = await Board.findByIdAndUpdate(
     { owner: filter.owner, _id: filter._id },
-    { active: filter.active }, 
+    { active: true }, 
     { new: true }
   ) .select("-createdAt -updatedAt")
     .populate({

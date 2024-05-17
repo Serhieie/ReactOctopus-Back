@@ -16,7 +16,7 @@ const boardsRouter = express.Router();
 boardsRouter.use(autenticate);
 
 boardsRouter.get("/", boardsCtrl.getBoards);
-boardsRouter.patch("/:id",validateBody(setActiveBoardSchema), boardsCtrl.getBoardById);
+boardsRouter.patch("/:id", boardsCtrl.getBoardById);
 
 
 boardsRouter.post("/post", validateBody(createBoardSchema), boardsCtrl.addBoard);

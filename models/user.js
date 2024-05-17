@@ -25,6 +25,10 @@ const userSchema = new Schema(
       required: [true, "Email is required"],
       unique: true,
     },
+    googleId: {
+      type: String,
+      required: [false, "Google authorization"],
+    },
     token: {
       type: String,
       default: null,
