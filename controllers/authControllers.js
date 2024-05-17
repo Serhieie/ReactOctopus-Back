@@ -209,7 +209,7 @@ if (!user) {
   await updateUser(newUser._id, { token });
   
     return res.redirect(
-    `http://localhost:5173/ReactOctopus/auth/google/?token=${token}`
+    `https://serhieie.github.io/ReactOctopus/auth/google/?token=${token}`
 );
 } else {
     if(!user.googleId){
@@ -221,7 +221,7 @@ if (!user) {
       await updateUser(user._id, { token, googleId: isValidGoogleId });
 
     return res.redirect(
-    `http://localhost:5173/ReactOctopus/auth/google/?token=${token}`
+    `https://serhieie.github.io/ReactOctopus/auth/google/?token=${token}`
       );
     } else {
       const isValidGoogleId = await compareHash(id, user.googleId);
@@ -234,7 +234,7 @@ if (!user) {
         expiresIn: EXPIRES_TIME,
       });
       await updateUser(user._id, { token });
-      return res.redirect(`http://localhost:5173/ReactOctopus/auth/google/?token=${token}`
+      return res.redirect(`https://serhieie.github.io/ReactOctopus/auth/google/?token=${token}`
         
     // `${process.env.FRONTEND_URL}auth/google/?token=${token}`
       );
