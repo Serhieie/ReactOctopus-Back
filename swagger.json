@@ -32,6 +32,10 @@
       "name": "Card",
       "description": "Card endpoints"
     },
+     {
+      "name": "Drag&Drop",
+      "description": "Routes for changing position"
+    },
     {
       "name": "NeedHelp",
       "description": "Need help endpoint"
@@ -159,7 +163,7 @@
         }
       }
     },
-        "/api/auth/update-profile": {
+    "/api/auth/update-profile": {
       "patch": {
         "tags": [
           "Auth"
@@ -214,7 +218,6 @@
         }
       }
     },
-
     "/api/auth/google": {
       "get": {
         "tags": ["Auth"],
@@ -259,7 +262,6 @@
         }
       }
     },
-
     "/api/boards": {
       "get": {
         "tags": ["Board"],
@@ -286,7 +288,7 @@
         }
       }
     },
-        "/api/boards/{boardId}": {
+    "/api/boards/{boardId}": {
       "patch": {
         "tags": ["Board"],
         "summary": "Get board",
@@ -581,6 +583,58 @@
         }
       }
     },
+     "/api/columns/changeIndex/{columnId}": {
+      "patch": {
+        "tags": ["Drag&Drop"],
+        "summary": "Update column on the server",
+        "parameters": [{
+           "in": "path",
+          "name": "columnId",
+          "schema": {
+                 "type": "string",
+          "required": true,
+          "description": "Id of the Item"
+          }
+        }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Update column object at the server",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/changeIndexColumnRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/changeIndexColumnResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The server cannot process the request (invalid request body).",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized: Access to the requested resource is unauthorized.",
+            "content": {}
+          },
+          "404": {
+            "description": "Not Found: The requested resource could not be found on the server.",
+            "content": {}
+          }
+        }
+      }
+    },
     "/api/columns/delete/{columnId}": {
       "delete": {
         "tags": ["Column"],
@@ -724,6 +778,112 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PatchCardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The server cannot process the request (invalid request body).",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized: Access to the requested resource is unauthorized.",
+            "content": {}
+          },
+          "404": {
+            "description": "Not Found: The requested resource could not be found on the server.",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/cards/changeIndex/{cardId}": {
+      "patch": {
+        "tags": ["Drag&Drop"],
+        "summary": "Update card on the server",
+        "parameters": [
+          {
+           "in": "path",
+          "name": "cardId",
+          "schema": {
+                 "type": "string",
+          "required": true,
+          "description": "Id of the Item"
+          }
+        }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Update card object at the server",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeIndexCardRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChangeIndexCardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The server cannot process the request (invalid request body).",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized: Access to the requested resource is unauthorized.",
+            "content": {}
+          },
+          "404": {
+            "description": "Not Found: The requested resource could not be found on the server.",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/cards/move/{cardId}": {
+      "patch": {
+        "tags": ["Drag&Drop"],
+        "summary": "Update card on the server",
+        "parameters": [
+          {
+           "in": "path",
+          "name": "cardId",
+          "schema": {
+                 "type": "string",
+          "required": true,
+          "description": "Id of the Item"
+          }
+        }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Update card object at the server",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MoveCardRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MoveCardResponse"
                 }
               }
             }
@@ -1040,6 +1200,26 @@
           "title": "Project Office"
         }
       },
+       "changeIndexColumnRequest": {
+        "type": "object",
+        "required": ["destinationIndex", "boardId" ],
+        "properties": {
+           "destinationIndex":{
+            "type": "number",
+            "description": "Destination index",
+            "example": 0
+           }, 
+           "boardId": {
+            "type": "string",
+            "description": "Destination index",
+            "example": "6631f3841c36049d76cf1ac3"
+           }
+        },
+        "example": {
+          "destinationIndex": 1,
+          "boardId": "6631f3841c36049d76cf1ac3"
+        }
+      },
       "PostCardRequest": {
         "type": "object",
         "required": ["title", "description", "priority", "deadline"],
@@ -1114,6 +1294,46 @@
           "priority": "low",
           "columnId": "6631f3841c36049d76cf1ac3",
           "deadline": "2024-05-04T17:42:30.636+00:00"
+        }
+      },
+       "ChangeIndexCardRequest": {
+        "type": "object",
+        "required": ["destinationIndex", "destinationColumnId" ],
+        "properties": {
+           "destinationIndex":{
+            "type": "number",
+            "description": "Destination index",
+            "example": 0
+           }, 
+           "destinationColumnId": {
+            "type": "string",
+            "description": "Destination index",
+            "example": "6631f3841c36049d76cf1ac3"
+           }
+        },
+        "example": {
+          "destinationIndex": 1,
+          "destinationColumnId": "6631f3841c36049d76cf1ac3"
+        }
+      },
+      "MoveCardRequest": {
+        "type": "object",
+        "required": ["destinationIndex", "destinationColumnId" ],
+        "properties": {
+           "destinationIndex":{
+            "type": "number",
+            "description": "Destination index",
+            "example": 0
+           }, 
+           "destinationColumnId": {
+            "type": "string",
+            "description": "Destination index",
+            "example": "6631f3841c36049d76cf1ac3"
+           }
+        },
+        "example": {
+          "destinationIndex": 1,
+          "destinationColumnId": "6631f3841c36049d76cf1ac3"
         }
       },
       "NeedHelpRequest": {
@@ -2144,6 +2364,244 @@
   "updatedAt": "2024-05-14T21:30:02.106Z"
 }
       },
+      "changeIndexColumnResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["title", "background", "iconId", "owner", "_id", "columns"],
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "User boards",
+              "example": "Neon Light Project"
+            },
+            "background": {
+              "type": "string",
+              "description": "Background image url",
+              "example": "https://example/images/sakura.webp"
+            },
+            "iconId": {
+              "type": "string",
+              "description": "Board icon id",
+              "example": "2"
+            },
+            "active": {
+            "type": "boolean",
+            "description": "active board",
+            "example": true
+          },
+            "owner": {
+              "type": "object",
+              "discription": "owner of board",
+              "example": {
+                "_id": {
+                  "type": "string",
+                  "description": "owner id",
+                  "example": "6631f3841c36049d76cf1ac3"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "owner id",
+                  "format": "email"
+                }
+              }
+            },
+            "columns": {
+            "type": "array",
+            "required": ["title", "background", "iconId", "owner", "_id", "cards"],
+            "items": {
+                 "type": "object",
+                 "properties":{
+                  "title": {
+              "type": "string",
+              "description": "Board Column Title",
+              "example": "Column-1"
+            },"boardId": {
+              "type": "string",
+              "description": "Parent board Id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },
+            "owner": {
+              "type": "object",
+              "discription": "Board Id",
+              "example": {
+                "_id": {
+                  "type": "string",
+                  "description": "Board id",
+                  "example": "6631f3841c36049d76cf1ac3"
+                }
+              }
+            },
+            
+             "cards": {
+              "type": "array",
+              "description": "Array of cards",
+               "items": {
+                  "type" : "object",
+                  "description": "card",
+                  "items" : {
+            "title": {
+              "type": "string",
+              "description": "Task title",
+              "example": "Title-1"
+            },
+            "description": {
+              "type": "string",
+              "description": "Task description",
+              "example": "Description-1"
+            },
+            "priority": {
+              "type": "string",
+              "description": "Level of priority",
+              "example": "medium"
+            },
+            "deadline": {
+              "type": "string",
+              "description": "Task dealine",
+              "example": "2024-05-04T17:42:30.636+00:00"
+            },
+            "columnId": {
+              "type": "string",
+              "description": "Parent column Id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },
+            "owner": {
+              "type": "object",
+              "discription": "User Id",
+              "example": {
+                "_id": {
+                  "type": "string",
+                  "description": "Board id",
+                  "example": "6631f3841c36049d76cf1ac3"
+                }
+              }
+            },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
+            }
+
+                  }
+               },
+               "example": [{
+            "title": "Column-1",
+            "description": "Description-1",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId": "6631f3841c36049d76cf1ac3",
+            "owner":  {
+                "_id": "6631f3841c36049d76cf1ac3"
+              }
+          }]
+            },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
+            }
+            }
+            }
+            
+          },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
+            }
+        },
+        "example": {
+          "_id": "6631f3841c36049d76cf1ac3",
+            "title": "Project Office",
+              "iconId": "1",
+            "background": "https://example/images/nightSky.webp",
+            "owner": {
+              "_id": "6631f3141c36049126cf1ac",
+              "email": "example@ex.com"
+            },
+             "active": true,
+            "columns": [
+              {
+           "title":  "Column-1",
+           "boardId": "6631f3841c36049d76cf1ac3",
+            "owner": {
+               "_id": "6631f3841c36049d76cf1ac3",
+               "email": "example@ex.com"
+            },
+             "cards": [{
+            "title": "Title-1",
+            "description": "Description-1",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+                "_id": "6631f3841c36049d76cf1ac3"
+            },
+            "_id": "6631f3841c36049d76cf1ac3"
+            },{
+            "title": "Title-2",
+            "description": "Description-2",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+                "_id": "6631f3841c36049d76cf1ac3"
+            },
+            "_id": "6631f3841c36049d76cf1ac3"
+            },{
+            "title": "Title-3",
+            "description": "Description-3",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+                "_id": "6631f3841c36049d76cf1ac3"
+            },
+            "_id": "6631f3841c36049d76cf1ac3"
+            }]
+             },
+              {
+           "title":  "Column-2",
+           "boardId": "6631f3841c36049d76cf1ac3",
+            "owner": {
+               "_id": "6631f3841c36049d76cf1ac3"
+            },
+            
+             "cards": [{
+            "title": "Title-4",
+            "description": "Description-4",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+                "_id": "6631f3841c36049d76cf1ac3"
+            },
+            "_id": "6631f3841c36049d76cf1ac3"
+            },{
+            "title": "Title-5",
+            "description": "Description-5",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+                "_id": "6631f3841c36049d76cf1ac3"
+            },
+            "_id": "6631f3841c36049d76cf1ac3"
+            },{
+            "title": "Title-6",
+            "description": "Description-6",
+            "priority": "medium",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+                "_id": "6631f3841c36049d76cf1ac3"
+            },
+            "_id": "6631f3841c36049d76cf1ac3"
+            }]
+             }
+            ]
+          }}
+      },
       "DeleteColumnResponse": {
         "type": "object",
         "required": [],
@@ -2385,6 +2843,380 @@
   "updatedAt": "2024-05-14T21:37:52.847Z"
 }
       },
+      "ChangeIndexCardResponse": {
+        "type": "object",
+        "required": ["title", "owner", "_id", "boardId", "cards", "createdAt", "updatedAt"],
+        "properties": {
+            "title": {
+              "type": "string",
+              "description": "Board Column Title",
+              "example": "Title-1"
+            },
+            "boardId": {
+              "type": "string",
+              "description": "Parent board Id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },
+            "owner": {
+              "type": "object",
+              "discription": "Board Id",
+              "example": {
+                "_id": {
+                  "type": "string",
+                  "description": "Board id",
+                  "example": "6631f3841c36049d76cf1ac3"
+                }
+            },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },
+             "createdAt": {
+              "type": "string",
+              "description": "Time created at",
+              "example": "2024-05-14T20:33:07.268Z"
+            },
+              "updatedAt": {
+                "type": "string",
+                "description": "Time updated at",
+                "example": "2024-05-14T20:33:07.268Z"
+            }
+          }
+        },
+        "example": {
+  "_id": "6643d37128500f1d7d87b0bc",
+  "title": "Project Office",
+  "boardId": "6643c89fc3513c56041a4035",
+  "owner": "6643c7f8afd695b09180fb82",
+  "cards": [{
+            "_id": "6631f31411c3604119126cf1ac",
+            "title": "The Watch Spot Design",
+            "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
+            "priority": "low",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+             "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+              "_id": "6631f13141c316049126cf1ac"
+            }
+          },
+          {
+            "_id": "66311f3141c31316049126cfffc",
+            "title": "Research and Analysis",
+            "description": "Conduct in-depth research and analysis on the project's topic, gather relevant data, and identify key insights to inform decision-making and project planning.",
+            "priority": "medium",
+            "deadline": "2024-05-05T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+              "_id": "6631f13141c316049126cf1ac"
+            }
+          },
+          {
+            "_id": "6631f3141c31312316049126cf34c",
+            "title": "Concept Development",
+            "description": "Brainstorm and develop creative concepts and ideas that align with the project's objectives, considering factors such as target audience, messaging, and visual representation.",
+            "priority": "without",
+            "deadline": "2024-05-06T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+              "_id": "6631f13141c316049126cf1ac"
+            }
+          }],
+  "createdAt": "2024-05-14T21:11:13.172Z",
+  "updatedAt": "2024-05-14T21:30:02.106Z"
+}
+      },
+      "MoveCardResponse": {
+        "type": "object",
+        "required": ["sourceColumn", "destinationColumn"],
+        "properties": {
+            "sourceColumn": {
+              "type": "object",
+              "properties": {
+                "title": {
+              "type": "string",
+              "description": "Board Column Title",
+              "example": "Title-1"
+            },
+            "boardId": {
+              "type": "string",
+              "description": "Parent board Id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },
+            "cards": {
+              "type": "array",
+              "items":{
+                "type": "object",
+                "properties": {
+            "title": {
+              "type": "string",
+              "description": "Task title",
+              "example": "Title-1"
+            },
+            "description": {
+              "type": "string",
+              "description": "Task description",
+              "example": "Description-1"
+            },
+            "priority": {
+              "type": "string",
+              "description": "Level of priority",
+              "example": "medium"
+            },
+            "deadline": {
+              "type": "string",
+              "description": "Task dealine",
+              "example": "2024-05-04T17:42:30.636+00:00"
+            },
+                "columnId": {
+              "type": "string",
+              "description": "Parent column Id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },
+            "owner": {
+              "type": "object",
+              "discription": "User Id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },"createdAt": {
+              "type": "string",
+              "description": "Time created at",
+              "example": "2024-05-14T20:33:07.268Z"
+            },
+              "updatedAt": {
+                "type": "string",
+                "description": "Time updated at",
+                "example": "2024-05-14T20:33:07.268Z"
+            }
+          }
+              }
+            },
+            "owner": {
+              "type": "object",
+              "discription": "Board Id",
+              "example": {
+                "_id": {
+                  "type": "string",
+                  "description": "Board id",
+                  "example": "6631f3841c36049d76cf1ac3"
+                }
+            },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },
+             "createdAt": {
+              "type": "string",
+              "description": "Time created at",
+              "example": "2024-05-14T20:33:07.268Z"
+            },
+              "updatedAt": {
+                "type": "string",
+                "description": "Time updated at",
+                "example": "2024-05-14T20:33:07.268Z"
+            }
+          },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },"createdAt": {
+              "type": "string",
+              "description": "Time created at",
+              "example": "2024-05-14T20:33:07.268Z"
+            },
+              "updatedAt": {
+                "type": "string",
+                "description": "Time updated at",
+                "example": "2024-05-14T20:33:07.268Z"
+            }
+              }
+            },
+            "destinationColumn":{
+              "title": {
+              "type": "string",
+              "description": "Board Column Title",
+              "example": "Title-1"
+            },
+            "boardId": {
+              "type": "string",
+              "description": "Parent board Id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },
+            "cards": {
+              "type": "array",
+              "items":{
+                "type": "object",
+                "properties": {
+            "title": {
+              "type": "string",
+              "description": "Task title",
+              "example": "Title-1"
+            },
+            "description": {
+              "type": "string",
+              "description": "Task description",
+              "example": "Description-1"
+            },
+            "priority": {
+              "type": "string",
+              "description": "Level of priority",
+              "example": "medium"
+            },
+            "deadline": {
+              "type": "string",
+              "description": "Task dealine",
+              "example": "2024-05-04T17:42:30.636+00:00"
+            },
+                "columnId": {
+              "type": "string",
+              "description": "Parent column Id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },
+            "owner": {
+              "type": "object",
+              "discription": "User Id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },"createdAt": {
+              "type": "string",
+              "description": "Time created at",
+              "example": "2024-05-14T20:33:07.268Z"
+            },
+              "updatedAt": {
+                "type": "string",
+                "description": "Time updated at",
+                "example": "2024-05-14T20:33:07.268Z"
+            }
+          }
+              }
+            },
+            "owner": {
+              "type": "object",
+              "discription": "Board Id",
+              "example": {
+                "_id": {
+                  "type": "string",
+                  "description": "Board id",
+                  "example": "6631f3841c36049d76cf1ac3"
+                }
+            },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },
+             "createdAt": {
+              "type": "string",
+              "description": "Time created at",
+              "example": "2024-05-14T20:33:07.268Z"
+            },
+              "updatedAt": {
+                "type": "string",
+                "description": "Time updated at",
+                "example": "2024-05-14T20:33:07.268Z"
+            }
+          },
+            "_id": {
+              "type": "string",
+              "description": "board id",
+              "example": "6631f3841c36049d76cf1ac3"
+            },"createdAt": {
+              "type": "string",
+              "description": "Time created at",
+              "example": "2024-05-14T20:33:07.268Z"
+            },
+              "updatedAt": {
+                "type": "string",
+                "description": "Time updated at",
+                "example": "2024-05-14T20:33:07.268Z"
+            }
+            }
+        },
+        "example": {
+          "sourceColumn": {
+  "_id": "6643d37128500f1d7d87b0bc",
+  "title": "Project Office",
+  "boardId": "6643c89fc3513c56041a4035",
+  "owner": "6643c7f8afd695b09180fb82",
+  "cards": [
+          {
+            "_id": "66311f3141c31316049126cfffc",
+            "title": "Research and Analysis",
+            "description": "Conduct in-depth research and analysis on the project's topic, gather relevant data, and identify key insights to inform decision-making and project planning.",
+            "priority": "medium",
+            "deadline": "2024-05-05T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+              "_id": "6631f13141c316049126cf1ac"
+            }
+          },
+          {
+            "_id": "6631f3141c31312316049126cf34c",
+            "title": "Concept Development",
+            "description": "Brainstorm and develop creative concepts and ideas that align with the project's objectives, considering factors such as target audience, messaging, and visual representation.",
+            "priority": "without",
+            "deadline": "2024-05-06T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+              "_id": "6631f13141c316049126cf1ac"
+            }
+          }],
+  "createdAt": "2024-05-14T21:11:13.172Z",
+  "updatedAt": "2024-05-14T21:30:02.106Z"
+},
+          "destinationColumn":{
+  "_id": "6643d37128500f1d7d87b0bc",
+  "title": "Project Office",
+  "boardId": "6643c89fc3513c56041a4035",
+  "owner": "6643c7f8afd695b09180fb82",
+  "cards": [{
+            "_id": "6631f31411c3604119126cf1ac",
+            "title": "The Watch Spot Design",
+            "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance. Your design should be unique, innovative, and reflective of the latest trends in watch design.",
+            "priority": "low",
+            "deadline": "2024-05-04T17:42:30.636+00:00",
+             "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+              "_id": "6631f13141c316049126cf1ac"
+            }
+          },
+          {
+            "_id": "66311f3141c31316049126cfffc",
+            "title": "Research and Analysis",
+            "description": "Conduct in-depth research and analysis on the project's topic, gather relevant data, and identify key insights to inform decision-making and project planning.",
+            "priority": "medium",
+            "deadline": "2024-05-05T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+              "_id": "6631f13141c316049126cf1ac"
+            }
+          },
+          {
+            "_id": "6631f3141c31312316049126cf34c",
+            "title": "Concept Development",
+            "description": "Brainstorm and develop creative concepts and ideas that align with the project's objectives, considering factors such as target audience, messaging, and visual representation.",
+            "priority": "without",
+            "deadline": "2024-05-06T17:42:30.636+00:00",
+            "columnId":  "6631f3841c36049d76cf1ac3",
+            "owner": {
+              "_id": "6631f13141c316049126cf1ac"
+            }
+          }],
+  "createdAt": "2024-05-14T21:11:13.172Z",
+  "updatedAt": "2024-05-14T21:30:02.106Z"
+}
+        }
+      },
       "DeleteCardResponse": {
         "type": "object",
         "required": [],
@@ -2407,4 +3239,3 @@
     }
     }
   }
-

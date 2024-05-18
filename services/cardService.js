@@ -57,9 +57,8 @@ export const moveCard = async (req) => {
 
     destinationColumn.cards = updatedCards;
   await destinationColumn.save();
-   const updatedDestinationColumn = await Column.findById(destinationColumnId).populate("cards");
-   
-
+  const updatedDestinationColumn = await Column.findById(destinationColumnId).populate("cards");
+  
     return { sourceColumn, destinationColumn: updatedDestinationColumn };
 };
 
