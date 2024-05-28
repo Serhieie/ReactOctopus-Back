@@ -1,25 +1,24 @@
 import express from "express";
 import boardsCtrl from "../../controllers/boardControllers/index.js";
-import {
-  isValidId,
-  autenticate,
-  validateBody,
-} from "../../middlewares/index.js";
+import { isValidId, validateBody } from "../../middlewares/index.js";
 import {
   createBoardSchema,
   updateBoardSchema,
-  setActiveBoardSchema
 } from "../../schemas/boardsSchemas.js";
+import { validateToken } from "../../middlewares/validateToken.js";
 
 const boardsRouter = express.Router();
 
-boardsRouter.use(autenticate);
+boardsRouter.use(validateToken);
 
 boardsRouter.get("/", boardsCtrl.getBoards);
 boardsRouter.patch("/:id", boardsCtrl.getBoardById);
 
-
-boardsRouter.post("/post", validateBody(createBoardSchema), boardsCtrl.addBoard);
+boardsRouter.post(
+  "/post",
+  validateBody(createBoardSchema),
+  boardsCtrl.addBoard
+);
 
 boardsRouter.patch(
   "/patch/:id",
@@ -29,6 +28,5 @@ boardsRouter.patch(
 );
 
 boardsRouter.delete("/delete/:id", isValidId, boardsCtrl.deleteBoard);
-
 
 export default boardsRouter;

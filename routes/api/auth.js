@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  authRefreshTokenSchema,
   authUserLoginSchema,
   authUserRegisterSchema,
   authUserUpdateSchema,
@@ -14,6 +15,7 @@ import {
   wakeUp,
   googleAuth,
   googleRedirect,
+  refresh,
 } from "../../controllers/authControllers.js";
 import validateBody from "../../middlewares/validateBody.js";
 import { validateToken } from "../../middlewares/validateToken.js";
@@ -34,6 +36,12 @@ authRouter.post(
 );
 
 authRouter.post("/logout", validateToken, ctrlWrapper(logout));
+
+authRouter.post(
+  "/refresh",
+  validateBody(authRefreshTokenSchema),
+  ctrlWrapper(refresh)
+);
 
 authRouter.get("/current", validateToken, ctrlWrapper(current));
 

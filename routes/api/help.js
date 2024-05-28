@@ -1,13 +1,12 @@
-import helpControllers from '../../controllers/helpControllers.js';
-import { needHelpSchema } from '../../models/needhelp.js';
-import validateBody from '../../middlewares/validateBody.js';
-import express from 'express';
-import autenticate from '../../middlewares/autenticate.js';
+import helpControllers from "../../controllers/helpControllers.js";
+import { needHelpSchema } from "../../models/needhelp.js";
+import validateBody from "../../middlewares/validateBody.js";
+import express from "express";
 
 const router = express.Router();
 
 router.post(
-  '/needhelp',
+  "/needhelp",
   validateBody(needHelpSchema),
   helpControllers.sendNeedHelp
 );

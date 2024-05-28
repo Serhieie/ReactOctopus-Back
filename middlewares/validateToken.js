@@ -3,28 +3,38 @@ import "dotenv/config";
 import httpError from "../helpers/httpError.js";
 import { findUserById } from "../services/authServise.js";
 
-const SECRET_KEY = process.env.SECRET_KEY;
+const { ACCESS_SECRET_KEY } = process.env;
 
 export const validateToken = async (req, res, next) => {
   const authString = req.headers.authorization;
   if (!authString) {
-    return next(httpError(401, "Authorization headre not found"));
+    return next(httpError(401, "Authorization header not found"));
   }
   try {
-    const [Bearer, token] = authString.split(" ");
-    if (Bearer !== "Bearer") {
-      return next(httpError(401, "Not authorized"));
+    const [bearer, token] = authString.split(" ");
+    if (bearer !== "Bearer") {
+      return next(httpError(401, "Incorrect authorization type"));
     }
-    const { id } = jwt.verify(token, SECRET_KEY);
+    const { id } = jwt.verify(token, ACCESS_SECRET_KEY);
 
     const user = await findUserById(id);
 
-    if (id !== user.id || token !== user.token) {
+    if (!user) {
+      return next(httpError(401, "User not found"));
+    }
+
+    if (id !== user.id || token !== user.accessToken) {
       return next(httpError(401, "Not authorized"));
     }
     req.user = user;
+    next();
   } catch (error) {
-    next(httpError(401, "Not authorized"));
+    if (error.name === "TokenExpiredError") {
+      return next(httpError(401, "Authorized token has expired"));
+    } else if (error.name === "JsonWebTokenError") {
+      return next(httpError(401, "Invalid token"));
+    } else {
+      return next(httpError(500, "Internal server error"));
+    }
   }
-  next();
 };

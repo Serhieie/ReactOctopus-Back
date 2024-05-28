@@ -1,24 +1,20 @@
 import express from "express";
 import columnsCtrl from "../../controllers/columnControllers/index.js";
-import {
-  isValidId,
-  autenticate,
-  validateBody,
-} from "../../middlewares/index.js";
+import { isValidId, validateBody } from "../../middlewares/index.js";
 import {
   createColumnSchema,
   updateColumnSchema,
 } from "../../schemas/columnSchemas.js";
+import { validateToken } from "../../middlewares/validateToken.js";
 
 const columnsRouter = express.Router();
 
-columnsRouter.use(autenticate);
-
+columnsRouter.use(validateToken);
 
 columnsRouter.get("/:boardId", columnsCtrl.getColumns);
 
 columnsRouter.post(
-   "/post",
+  "/post",
   validateBody(createColumnSchema),
   columnsCtrl.addColumn
 );
@@ -37,12 +33,6 @@ columnsRouter.patch(
   columnsCtrl.updateColumn
 );
 
-columnsRouter.delete(
-   "/delete/:id",
-  isValidId,
-  columnsCtrl.deleteColumn
-);
-
-
+columnsRouter.delete("/delete/:id", isValidId, columnsCtrl.deleteColumn);
 
 export default columnsRouter;

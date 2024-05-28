@@ -9,24 +9,15 @@ import {
   createCardSchema,
   updateCardSchema,
 } from "../../schemas/cardsSchemas.js";
+import { validateToken } from "../../middlewares/validateToken.js";
 
 const cardsRouter = express.Router();
 
-cardsRouter.use(autenticate);
+cardsRouter.use(validateToken);
 
+cardsRouter.get("/:columnId", autenticate, isValidId, cardsCtrl.getCards);
 
-cardsRouter.get(
-    "/:columnId",
-    autenticate,
-  isValidId,
-  cardsCtrl.getCards
-);
-
-cardsRouter.post(
-  "/post",
-  validateBody(createCardSchema),
-  cardsCtrl.addCard
-);
+cardsRouter.post("/post", validateBody(createCardSchema), cardsCtrl.addCard);
 
 cardsRouter.patch(
   "/patch/:id",
@@ -49,10 +40,6 @@ cardsRouter.patch(
   cardsCtrl.changeIndexController
 );
 
-cardsRouter.delete(
-  "/delete/:id",
-  isValidId,
-  cardsCtrl.deleteCard
-);
+cardsRouter.delete("/delete/:id", isValidId, cardsCtrl.deleteCard);
 
 export default cardsRouter;
